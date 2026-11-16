@@ -12,7 +12,7 @@
             <label for="search-panel-q" class="sr-only">{{ __('Search stories') }}</label>
             <input id="search-panel-q" x-ref="q" name="s" type="search" autocomplete="off" placeholder="{{ __('Search stories, sections and writers') }}" class="flex-1 min-w-0 py-5 text-lg font-medium bg-transparent outline-none placeholder:text-muted">
             <button type="submit" class="btn py-2.5 px-4 text-sm">{{ __('Search') }}</button>
-            <button type="button" class="chip min-h-0 py-1.5 px-2.5 text-xs" @click="closeSearch" aria-label="{{ __('Close search') }}">Esc</button>
+            <button type="button" class="chip min-h-0 py-1.5 px-2.5 text-xs" @click="closeSearch" aria-label="{{ __('Close search (Esc)') }}">Esc</button>
         </form>
         <p class="px-5 py-3.5 bg-surface meta">{{ __('Press Enter to see every result') }}</p>
     </div>

@@ -83,10 +83,10 @@
 @section('before')
     @if ($topStories !== [])
         {{-- Top stories: ranked, no marquee --}}
-        <div class="border-b border-rule">
+        <section class="border-b border-rule" aria-labelledby="top-stories-label">
             <div class="wrap flex items-center gap-x-8 overflow-x-auto py-3.5 [scrollbar-width:none]">
                 <p id="top-stories-label" class="shrink-0 kicker text-ink">{{ __('Top stories') }}</p>
-                <ol class="flex gap-x-8" aria-labelledby="top-stories-label">
+                <ol class="flex gap-x-8">
                     @foreach ($topStories as $item)
                         <li class="story shrink-0 flex items-baseline gap-2.5 max-w-[19rem]">
                             <span class="rank text-[1.375rem]" aria-hidden="true">{{ $loop->iteration }}</span>
@@ -95,7 +95,7 @@
                     @endforeach
                 </ol>
             </div>
-        </div>
+        </section>
     @endif
 @endsection
 

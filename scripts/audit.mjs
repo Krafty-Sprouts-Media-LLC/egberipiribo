@@ -58,7 +58,7 @@ for (const pair of pairs) {
         await page.evaluate(axeSource);
         const result = await page.evaluate(async () => {
             const axe = await window.axe.run(document, { resultTypes: ['violations'] });
-            return axe.violations.map((v) => ({ id: v.id, impact: v.impact, nodes: v.nodes.length, help: v.help, target: v.nodes[0]?.target?.join(' ') }));
+            return axe.violations.map((v) => ({ id: v.id, impact: v.impact, nodes: v.nodes.length, help: v.help, target: v.nodes[0]?.target?.join(' '), html: (v.nodes[0]?.html ?? '').slice(0, 200) }));
         });
         const layout = await page.evaluate(() => ({
             h1: document.querySelectorAll('h1').length,
@@ -79,7 +79,7 @@ for (const row of report) {
     const flag = row.violations.length || row.h1 !== 1 || row.overflow > 0 ? 'FAIL' : 'ok  ';
     console.log(`${flag} ${row.page} @${row.width}: status ${row.status}, h1 ${row.h1}, overflow ${row.overflow}px, axe ${row.violations.length}, console errors ${row.consoleErrors.length}`);
     for (const v of row.violations) {
-        console.log(`       - ${v.id} (${v.impact}, ${v.nodes}): ${v.help} [${v.target}]`);
+        console.log(`       - ${v.id} (${v.impact}, ${v.nodes}): ${v.help} [${v.target}] ${v.html}`);
     }
 }
 process.exit(failed ? 1 : 0);

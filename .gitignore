@@ -3,3 +3,4 @@ public/hot
 vendor/
 .phpunit.cache/
 seed/.state.json
+docs/snapshots/
