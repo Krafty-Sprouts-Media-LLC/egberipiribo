@@ -101,7 +101,7 @@
     @endif
 
     @if ($rest !== [])
-        <section class="pt-12 pb-16" aria-labelledby="listing-title" x-data="layoutToggle">
+        <section class="pt-12 pb-16" aria-labelledby="listing-title" x-data="layoutToggle" data-columns="3">
             <div class="flex flex-wrap items-center justify-between gap-x-6 gap-y-4 border-t border-ink pt-5">
                 <h2 id="listing-title" class="hed hed-lg">{{ __('All stories in :title', ['title' => $title]) }}</h2>
                 @if ($showToggle)

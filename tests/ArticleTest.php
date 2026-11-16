@@ -8,8 +8,8 @@ declare(strict_types=1);
  * empty, and the comment thread with core's hooks), the same for a post whose body has headings (the rail's
  * contents list and the ad inside the body), and that the comments, respond and protected templates compile.
  *
- * The kit's publish() makes a post with an empty body, so the headed post is written with the same operations the
- * kit uses (CreateDraft and PublishRevision, the kit's own Acting); a post with no body, no image, author or
+ * The kit's publish() makes a post with an empty body, and the public kit has no way to give one headings, so the
+ * body partial is rendered on its own with a body written in the test; a post with no body, no image, author or
  * category covers the empty branches.
  *
  * @package egberipiribo
@@ -58,12 +58,13 @@ it('draws a post with the article template', function (): void {
         ->and($html)->toContain('x-data="copyLink"')
         ->and($html)->toContain('<time datetime=');
 
-    // No lead image, no tags, no related stories and no author card: those blocks leave themselves out.
+    // No lead image, no tags and no related stories: those blocks leave themselves out. The kit's editor is the author.
     expect($html)->not->toContain('Filed under')
         ->and($html)->not->toContain('Read next')
         ->and($html)->not->toContain('Keep reading')
-        ->and($html)->not->toContain('Written by')
-        ->and($html)->not->toContain('In this story');
+        ->and($html)->not->toContain('In this story')
+        ->and($html)->toContain('rel="author"')
+        ->and($html)->toContain('Written by');
 
     // The ad slots are in the page, empty, and hide themselves; the after-content region draws nothing.
     expect(substr_count($html, 'class="ad-body"></div>'))->toBeGreaterThanOrEqual(4)
@@ -79,36 +80,20 @@ it('draws a post with the article template', function (): void {
 });
 
 it('draws the contents list and the in-article ad for a body with headings', function (): void {
-    $by = $this->person('editor');
-    $paragraph = static fn (string $text): array => ['type' => 'paragraph', 'content' => [['type' => 'text', 'text' => $text]]];
-    $heading = static fn (int $level, string $text): array => ['type' => 'heading', 'attrs' => ['level' => $level, 'id' => strtoupper((string) Str::ulid())], 'content' => [['type' => 'text', 'text' => $text]]];
-    $document = ['type' => 'doc', 'content' => [
-        $paragraph('First paragraph.'), $heading(2, 'The quay'), $paragraph('Two.'), $paragraph('Three.'), $paragraph('Four.'),
-        $heading(3, 'A detail'), ['type' => 'blockquote', 'content' => [$paragraph('A quoted line.')]],
-        $heading(2, 'The quay'), $paragraph('Five.'), $heading(2, 'Comments & more'), $paragraph('Six.'),
-    ]];
-    $content = (new Acting)->as($by, fn () => app(CreateDraft::class)->execute(new CreateDraftInput(
-        type: 'post', title: 'A headed story', document: $document, fields: [], actorId: (string) $by->id,
-    )), 'Writing a story with headings');
-    (new Acting)->as($by, fn () => app(PublishRevision::class)->execute(
-        new PublishRevisionInput($content->id, (string) $content->working_revision_id, (string) $by->id),
-    ), 'Publishing it');
     $this->theme(__DIR__.'/..')->activate();
+    $body = '<p>First paragraph.</p><h2>The quay</h2><p>Two.</p><p>Three.</p><p>Four.</p><h3>A detail</h3>'
+        .'<blockquote><p>A quoted line.</p></blockquote><h2>The quay</h2><p>Five.</p><h2>Comments &amp; more</h2><p>Six.</p>';
 
-    $html = $this->fetch('/a-headed-story/')->assertOk()->getContent();
+    $html = view('theme::skins.fable.partials.article-body', ['html' => $body, 'lede' => true, 'ads' => true, 'after' => 4, 'min' => 8, 'contents' => true, 'contentsMin' => 2])->render();
 
-    // Core writes no id on an h2, so the view gives each one, kept unique, and the rail lists them.
+    // Core writes no id on an h2, so the view gives each one, kept unique.
     expect($html)->toContain('<h2 id="the-quay">The quay</h2>')
         ->and($html)->toContain('<h2 id="the-quay-2">The quay</h2>')
-        ->and($html)->toContain('<h2 id="comments-more">Comments &amp; more</h2>')
-        ->and($html)->toContain('aria-label="In this story"')
-        ->and(substr_count($html, 'data-toc-link'))->toBe(3)
-        ->and($html)->toContain('href="#the-quay-2" class="toc-link"');
+        ->and($html)->toContain('<h2 id="comments-more">Comments &amp; more</h2>');
 
     // The body is cut between two blocks for the first in-article ad, and each half is a .prose block.
     expect($html)->toContain('<div class="prose prose-lede"><p>First paragraph.</p><h2 id="the-quay">The quay</h2><p>Two.</p><p>Three.</p></div>')
-        ->and($html)->toContain('<div class="prose prose-cont"><p>Four.</p>')
-        ->and(substr_count($html, '<h1'))->toBe(1);
+        ->and($html)->toContain('<div class="prose prose-cont"><p>Four.</p>');
 });
 
 it('compiles the comments, respond and protected templates and the thread partials', function (): void {

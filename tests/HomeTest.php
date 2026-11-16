@@ -49,7 +49,7 @@ it('draws one published story as the cover story, with the strip, and nothing it
         // The grid, "Also today" and the pagination have no stories to draw, so they are absent.
         ->and($html)->not->toContain('id="grid-title"')
         ->and($html)->not->toContain('aria-label="Also today"')
-        ->and($html)->not->toContain('aria-label="Pagination"')
+        ->and($html)->not->toContain('aria-label="Pages"')
         // A bare post has no picture and no author: the headline block stands alone, and the byline has no "by".
         ->and($html)->not->toContain('sm:-mt-24')
         ->and(homeInlineScripts($html))->toBe([]);
@@ -129,7 +129,7 @@ it('draws a numbered page with its title and the grid only', function (): void {
         ->and($html)->not->toContain('aria-label="Also today"')
         ->and($html)->not->toContain('Top stories')
         ->and($html)->not->toContain('region-long-read')
-        ->and($html)->toContain('aria-label="Pagination"')
+        ->and($html)->toContain('aria-label="Pages"')
         ->and(homeInlineScripts($html))->toBe([]);
 });
 

@@ -226,11 +226,17 @@ function layoutToggle(Alpine) {
             this.view = 'list';
         },
 
-        /** The listing's classes: four columns of cards, or one row each. */
+        /**
+         * The listing's classes: a grid of cards (four columns on the front page, three where a section sets
+         * data-columns="3" on its x-data element), or one row each.
+         */
         get listClass() {
-            return this.isGrid
-                ? 'grid sm:grid-cols-2 xl:grid-cols-4 gap-x-6 gap-y-6 sm:gap-y-10'
-                : 'grid gap-y-6 sm:gap-y-0';
+            if (!this.isGrid) {
+                return 'grid gap-y-6 sm:gap-y-0';
+            }
+            return this.$el.dataset.columns === '3'
+                ? 'grid sm:grid-cols-2 xl:grid-cols-3 gap-x-6 gap-y-6 sm:gap-y-10'
+                : 'grid sm:grid-cols-2 xl:grid-cols-4 gap-x-6 gap-y-6 sm:gap-y-10';
         },
 
         /** Each card's class in the list view, which the drawing calls a card row. */
