@@ -6,12 +6,36 @@ skin, **Fable**, built from its nine drawings. The Strata and Threads skins and 
 
 ## Status in one paragraph
 
-The theme is built, committed (nothing pushed) and passes `php artisan teme:theme:check egberipiribo` and its own 19 tests. It was run
-live on the shared dev site, in two short turns with the lock, after the temecms.com theme session agreed: Fable was made the active theme,
-audited in a real browser (axe-core, sideways scroll, one `h1`, console errors) on six pages at 1280 and 375 pixels with the demo content,
-and then `temecms` was put back and the lock released each time. **All six pages pass at both widths.** The first live run found a 12 px
-sideways overflow at 375 on a static page (core's wide-picture margins spilling past the phone's edge); it is fixed in
-`assets/css/skins/fable-article.css` and re-verified. The site is back on the temecms theme; how to look at Fable again is at the end.
+The theme is built, committed (nothing pushed) and passes `php artisan teme:theme:check egberipiribo` and its own tests (58 pass, 1 gated snapshot test skipped). It was run
+live on the shared dev site, in short turns with the lock after the temecms.com theme session agreed: Fable was made the active theme, audited in a real browser (axe-core, sideways
+scroll, one `h1`, console errors) on six pages at 1280 and 375 pixels with the demo content, and then `temecms` was put back and the lock released each time. **All six pages
+pass at both widths, with the first 128 settings declared and every default as before.** A second audit of ten pages with settings changed (pattern, share placements and
+labels, blocks switched off) passes too, on kit-rendered pages. The site is back on the temecms theme; how to look at Fable again is at the end.
+
+## The first settings (built)
+
+The owner approved building a first set from `OPTIONS.md`: **128 theme settings** (116 switches and selects of `boolean` type, 10 `select`, 1 `text`, 1 `color`), declared in
+`teme-theme.json` by `scripts/build-settings.mjs` from `docs/options.json`, each with a "Area: what it controls" label so Settings, Design sorts related ones together:
+
+| Group | Settings |
+|---|---|
+| The skin and the shared ones (`skin`, ads master, newsletter, updated date, comments, reading time, tags, author card) | 9 |
+| Home page blocks (top stories, cover, also today, ads, long read, grid, sections, most read, title, counts) | 20 |
+| Article, page and comments blocks | 37 |
+| Archive, author, search, 404 and error blocks (and the search panel and its "/" key) | 34 |
+| Share: master, ten networks, placement, style, label | 14 |
+| Pattern: type, strength, density, accent, colour, layout, style and six "apply to" switches | 13 |
+| Footer newsletter band | 1 |
+
+By fieldset: site 35, content 41, latest 20, archive 32. Each is read once at the top of its template; `scripts/check-settings.mjs` proves every declared setting is read and every
+template falls back to the manifest default. **Defaults reproduce the drawings**; three moved today's page and are recorded in DECISIONS.md 33: Pinterest share is off (the
+drawing has Facebook, X, email and copy), the "updated" rule is one day (Teme's own), and the inline "Related" card (in the drawing, never built) is off.
+Not built (still proposals): the 208 other rows in OPTIONS.md, the home-order selects, and everything marked "waits".
+**Tests**: each setting has a test that the default renders as before and that switching it changes the page, through `fableSettings()` in `tests/Support/settings.php`, the one
+place tests call Teme's own Operations (the public kit cannot set a theme setting: FINDINGS 25). Blocks a bare kit post cannot produce are listed in each test file's header;
+their switches are proven by the read and the rendered partial, not by a full page.
+**Not verified**: that Settings, Design lists and saves them (it needs an administrator sign-in); the pattern under a strict page policy (it is an inline style attribute, which
+fails safe); filled regions with a setting changed.
 
 ## What works
 
@@ -31,7 +55,7 @@ sideways overflow at 375 on a static page (core's wide-picture margins spilling 
 - **Accessibility**: one `h1` per page, landmarks, skip link (core's), visible focus, no sideways scroll, labels that contain their visible text.
 - **Words**: every printed word goes through `__()`; translations for de, es, fr, hi, it, ja, pt_BR (123 sentences each).
 - **Structure for later**: each presentational choice is read in one place at the top of its template as `$themeSettings['key'] ?? <default>`;
-  `OPTIONS.md` proposes 336 settings, per skin (Fable 222, shared 9 plus the `skin` choice, Strata 47 and Threads 57 for later), every one with a default that reproduces the drawing; none is built.
+  `OPTIONS.md` lists 336 settings per skin (Fable 222, shared 9 plus the `skin` choice, Strata 47 and Threads 57 for later); **128 are built** (see above), 158 remain proposals and 50 wait on a Teme feature.
 
 ## What does not work yet, and why
 
@@ -63,21 +87,22 @@ categories, and the kit and seed cannot make portraits or comments); the author,
 | Fable partials | 26, plus 19 icon views, 1 card override |
 | Blade files in all | 71 |
 | Stylesheets / scripts | 4 skin CSS files, 1 fonts file, 1 entry; 1 skin script, 1 entry (776 lines of CSS and JS in the skin folders) |
-| Built size | CSS 11.1 KB of 15 KB, JS 24.1 KB of 5 KB (compressed) |
-| Manifest | 12 regions (6 for ads), 4 menus, 6 fonts, 9 image contexts |
-| Tests | 6 files: 19 pass (238 assertions), 1 gated snapshot test skipped by default |
+| Built size | CSS 11.8 KB of 15 KB, JS 24.2 KB of 5 KB (compressed) |
+| Manifest | 12 regions (6 for ads), 4 menus, 6 fonts, 9 image contexts, **128 settings** |
+| Tests | 13 files: 58 pass (1,456 assertions), 1 gated snapshot test skipped by default |
 | `teme:theme:check` | passes, 1 warning (JS budget) |
 | FEATURES.md rows | 343: 33 same, 132 different, 124 later, 54 can't yet |
 | FINDINGS.md | 24 entries (docs missing or wrong, and walls) |
-| DECISIONS.md | 28 entries |
+| DECISIONS.md | 36 entries |
 | Translations | 7 languages × 123 sentences |
-| Commits | 17 (with this one), nothing pushed |
+| Commits | 31, nothing pushed |
 
 ## Screenshots
 
-In `docs/screenshots/`, taken at 1280 and 375 pixels by `scripts/audit.mjs` **on the live dev site** with Fable active and the seeded demo content (pictures are
-generated colour fields, not photographs). The site's name, tagline and the static page's words belong to the temecms theme's site ("Teme", "Made to create."): this
-theme drew them. Home is the posts page `/blog/`, because the site's front page is a static page; the "Page" row is that static page.
+In `docs/screenshots/`, taken at 1280 and 375 pixels by `scripts/audit.mjs` **on the live dev site** with Fable active and the seeded demo content (pictures are generated colour fields,
+not photographs); the six default pages are the live ones. The site's name, tagline and the static page's words belong to the temecms theme's site ("Teme", "Made to create."): this theme
+drew them. Home is the posts page `/blog/`, because the site's front page is a static page; the "Page" row is that static page. Screenshots named `v-*` show a setting changed (pattern on,
+floating or labelled share, blocks switched off) and come from kit-rendered pages with bare posts: they show layout and what the setting does, not a filled-in site.
 
 | Page | 1280 | 375 |
 |---|---|---|
@@ -88,10 +113,7 @@ theme drew them. Home is the posts page `/blog/`, because the site's front page 
 | Search | ![](docs/screenshots/search-1280.png) | ![](docs/screenshots/search-375.png) |
 | 404 | ![](docs/screenshots/notfound-1280.png) | ![](docs/screenshots/notfound-375.png) |
 
-The audit result for those pages is `docs/audit.json`: every page one `h1`, 0 px sideways overflow, 0 axe violations (the 404 page's one console line is the browser
-noting the 404 status). Author, error and index pages and the three comment pages are covered by their tests but not by screenshots, because the demo site has no
-authors with pages or comments. An earlier layout-only audit on kit-rendered snapshots (`scripts/serve-snapshots.mjs`, `tests/SnapshotTest.php`) remains for when the shared
-site is busy.
+The audit results are `docs/audit.json` (live, defaults) and `docs/audit-variants.json` (ten pages with settings changed): every page one `h1`, 0 px sideways overflow, 0 axe violations (the 404 page's one console line is the browser noting the 404 status). Author, error and index pages and the three comment pages are covered by their tests but not by screenshots, because the demo site has no authors with pages or comments. The snapshot tooling (`scripts/serve-snapshots.mjs`, `tests/SnapshotTest.php`) remains for when the shared site is busy.
 
 ## How to see it on teme-dev
 

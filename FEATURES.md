@@ -463,7 +463,58 @@ All **later**; none has Blade. Demos are standalone HTML (Tailwind and Alpine fr
 
 ## Fable (the skin this release ships)
 
-(filled in by the lead from the page reports)
+Built from the nine drawings in `skins/fable/` (home, article, page, archive, author, search, 404, pattern-sample, pattern-sample-2; not `v2`, `v3` or `reskin`). Every Fable page is in `views/skins/fable/`; the choices each makes are listed in `OPTIONS.md`.
+
+| # | Feature (drawing) | Status | In Teme |
+|---|---|---|---|
+| E1 | Colour rail: wordmark, tagline, search, the ONE nav, newsletter button, social icons | **same in Teme** | `partials/rail`; wordmark is the site name, tagline from `$site->tagline`; the rail colour is the site's accent (Settings, Design recolours it). |
+| E2 | Rail nav: sections with topics that open, current section highlighted | **different in Teme** | Drawn from the `primary` menu's tree (an editor builds it); `railSection` component, section links are real pages. |
+| E3 | Live story counts beside each section | **can't yet** | Teme gives no counts to a template (no term counts). Dropped. |
+| E4 | "All stories" link | **same in Teme** | Links to `$site->url`, current on the front page. |
+| E5 | Small-screen header with menu button and search button | **same in Teme** | `partials/mobile-header`; the search button is a link to the search page without the script. |
+| E6 | Search panel with live results and top stories | **different in Teme** | A plain GET form to `/?s=`; results are the search page. Live results need a JSON endpoint a theme cannot have (can't yet). `/` opens the panel. |
+| E7 | Skip link | **same in Teme** | Core's `<x-teme::document>` writes it. |
+| E8 | Back-to-top button | **same in Teme** | `fableShell` component. |
+| E9 | Footer: newsletter band, company links, network links, copyright | **different in Teme** | Two menus (`footer`, `network`); the band holds the `newsletter` region and hides while empty. |
+| E10 | Newsletter sign-up that "subscribes" | **can't yet** | No socket lets a theme post to a mailing service; an editor pastes a provider's embed into the `newsletter` region (Custom HTML card). |
+| E11 | Social icons (Instagram, X, Pinterest, RSS) | **different in Teme** | The `social` menu; the icon is chosen from each item's address. |
+| E12 | Home: edition header with date, title, story count and section filter chip | **different in Teme** | `h1` "Today on :site", count of stories on the page; no date (no request-time date in Teme) and no in-place filter (sections are real pages). |
+| E13 | Home: "Top stories" ranked strip | **different in Teme** | Lead, pinned and newest stories in order; not by reads. |
+| E14 | Home: cover story with the headline over the picture | **same in Teme** | `$page->lead`, image context `cover`; no image handled. |
+| E15 | Home: "Also today" three stories | **different in Teme** | `$page->featured` (pinned), else the newest three; the region `home-also-today` can replace them. |
+| E16 | Home: "The long read" brand-colour block | **different in Teme** | Region `home-long-read` (a Featured posts card), styled by a wrapper class. |
+| E17 | Home: story grid, Newest / Quick reads sort, grid or list view, "Show more" | **different in Teme** | Feed from `$page->feed`, real pagination; grid/list toggle kept (`layoutToggle`, remembered on the device); the sort and "Show more" are dropped (no sort for a template). |
+| E18 | Home: "From the sections" four digests with "See all" | **different in Teme** | Region `home-sections` (up to four Featured posts cards by category); "See all" cannot be drawn (the card gives no term address). |
+| E19 | Home: "Most read this week" ranked list | **can't yet** | Teme counts no views, so there is no real popularity. Region `home-most-read` draws an editor's chosen list with CSS-counted ranks instead. |
+| E20 | Home: empty state | **same in Teme** | "No stories yet" with a note. |
+| E21 | Ads: leaderboard, in-feed, rectangle (home, archive) | **different in Teme** | Regions `ad-leaderboard`, `ad-in-feed`, `ad-rectangle`, Custom HTML card only; draw nothing while empty; no placeholder. |
+| E22 | Pattern samples: solid areas with a repeated icon tile; colour swatch panel | **different in Teme** | `.patterned` and the tile builder (`home-pattern`), choices read once (`pattern`, `pattern_strength`, `pattern_density`, `pattern_accent`), default off; the swatch panel is a demo control, not part of the theme. Built as 13 settings: where it applies (rail, phone header, footer, long read, section headers, 404) is each its own switch, the first four as the samples show and the last two as a brand-colour strip carrying the tile. |
+| E23 | Article: reading progress bar | **same in Teme** | CSS scroll timeline, with a scripted fallback. |
+| E24 | Article: breadcrumb | **same in Teme** | `$page->breadcrumbs` (manifest `breadcrumbs: true`); kicker above the title when there is no trail. |
+| E25 | Article: headline, standfirst deck, byline with initials, dates, reading time | **same in Teme** | `ArticleView`; no author photo and no "Reviewed by" (no data). |
+| E26 | Article: share row (copy link, Facebook, X, Pinterest, email) | **same in Teme** | Plain links built from the address (Facebook, X, email and copy link, as the drawing; Pinterest, LinkedIn, WhatsApp, Telegram, Reddit and the phone's share sheet are settings, off by default); the copy and share-sheet buttons need the script. |
+| E27 | Article: hero image with caption and credit | **same in Teme** | `$page->lead` when it is the featured image. |
+| E28 | Article: rail "In this story" contents with scroll spy | **different in Teme** | Core writes `h2` without ids, so the template gives each one (finding 15) and builds the list. |
+| E29 | Article: body styles (lede, pull quote, numbered steps, takeaways box) | **different in Teme** | Core's markup is styled to match (first paragraph, blockquote, ordered list); the drawing's `.takeaways`, `ol.steps` and `.lede` classes cannot come from Tiptap content. |
+| E30 | Article: in-article ads, half-page sticky ad | **different in Teme** | Regions `ad-in-article`, `ad-in-article-2`, `ad-half-page`; the first is placed inside the body between two blocks. |
+| E31 | Article: "Read next" and related stories | **different in Teme** | `$page->related` (up to three). |
+| E32 | Article: tags, author card with bio | **same in Teme** | `$page->tags`, `$page->authors`; no author photo or social links. |
+| E33 | Article: comments with form | **different in Teme** | Core's form and thread data, laid out in Fable's look; core's script finds the `data-teme-*` hooks. |
+| E34 | Comments page, reply page, password page | **different in Teme** | `comments`, `respond`, `protected` templates in Fable's look (not in the drawings; core needs them). |
+| E35 | Page: breadcrumb, title, deck, body, contents | **same in Teme** | `page` template; adds "In this section" for child pages. |
+| E36 | Archive: section header, leaderboard, lead story, grid/list, in-feed ad, pagination | **same in Teme** | `archive` template for categories, tags and dates; sort and "Show more" dropped; story count dropped (no total). |
+| E37 | Archive: topic chips | **same in Teme** | A term's children from `$page->subject->children`. |
+| E38 | Author: profile, stories by the author | **different in Teme** | Name, bio and portrait from the subject; role, email, social links and facts panel dropped (Person has only name, url, bio). |
+| E39 | Search: header, form, results, facets, empty states | **different in Teme** | Server-rendered with core's snippets; the section facets are dropped (no facets in Teme). |
+| E40 | 404 with search and suggestions | **different in Teme** | Search form, home link and the primary menu's sections as chips; "latest stories" cannot be drawn (a not-found page gets no listing). |
+| E41 | Other errors (403, 429, 500) | **same in Teme** | `error` template in the 404's look. |
+| E42 | Fonts: Bricolage Grotesque, Literata (Google Fonts in the drawing) | **different in Teme** | Self-hosted from Fontsource, Latin and Latin Extended, listed in the manifest `fonts`. |
+| E43 | Icons: Phosphor icon font from a CDN | **different in Teme** | Inline SVG views (`views/icons`), 19 icons. |
+| E44 | Tailwind from a CDN, Alpine from a CDN | **different in Teme** | Tailwind 4 and Alpine's CSP build, bundled by the theme's Vite build. |
+| E45 | Dark mode | **later** | The drawings have none; no `tokens_dark`. |
+| E46 | Unsplash pictures and fake stories | **different in Teme** | Every picture is `<x-teme::image>` from Teme's media; nothing from outside. |
+
+**Section E totals:** same in Teme 17 · different in Teme 25 · later 1 · can't yet 3 (46 rows)
 
 ---
 

@@ -74,7 +74,7 @@ for (const pair of pairs) {
 }
 
 await browser.close();
-writeFileSync(resolve(root, 'docs/audit.json'), JSON.stringify(report, null, 2));
+writeFileSync(resolve(root, process.env.AUDIT_JSON ?? 'docs/audit.json'), JSON.stringify(report, null, 2));
 for (const row of report) {
     const flag = row.violations.length || row.h1 !== 1 || row.overflow > 0 ? 'FAIL' : 'ok  ';
     console.log(`${flag} ${row.page} @${row.width}: status ${row.status}, h1 ${row.h1}, overflow ${row.overflow}px, axe ${row.violations.length}, console errors ${row.consoleErrors.length}`);
