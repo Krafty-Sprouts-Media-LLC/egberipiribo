@@ -174,3 +174,9 @@
   /* A region's own markup, restyled for the footer's dark ground. */
   .newsletter-slot a { color: inherit; }
 }
+
+@layer teme.theme.components {
+  /* An advertisement slot is shown only while its region holds something. */
+  .ad-slot:not(:has(.ad-body > *)) { display: none; }
+  .ad-slot .ad-body { display: grid; place-items: center; }
+}
