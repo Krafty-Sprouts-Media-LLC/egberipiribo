@@ -124,3 +124,15 @@ choice that could have gone another way is written here. Newest at the bottom of
 28. **Taking turns on the dev site.** The temecms session's messages could be read only when its long turns ended, so the lock
     file and its work in progress were the effective signals. Switching the active theme waits until its files have been quiet
     for six minutes and the lock is free.
+
+## The options proposal (second version)
+
+29. **OPTIONS.md is generated, per skin.** The owner found the first version (about 55 settings, Fable only) too thin. It is now
+    `docs/options.json` (the data) and `scripts/build-options.mjs` (writes `OPTIONS.md`, validates every row against Teme's key,
+    type, fieldset, select-default and `visible_when` rules, and computes the totals). `skin` is the first setting; every skin's
+    keys carry its prefix and `visible_when: {"skin": …}`; Fable's blocks each have a switch; Strata and Threads are listed from the
+    WordPress theme's own options so the per-skin structure is proved. Defaults reproduce the drawings; the 46 keys the templates
+    already read are marked "read now" (checked against the views by script); the rest need one read line each.
+30. **No ad code or embed in a setting.** The WordPress theme kept ad code and a newsletter embed in text options. Those rows are
+    dropped (the brief: ad plugins and the Custom HTML card fill the ad regions, never the theme); only on/off switches remain.
+    The shared `show_ads` is the one master switch for every skin.

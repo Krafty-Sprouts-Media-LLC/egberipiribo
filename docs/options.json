@@ -1,0 +1,5989 @@
+{
+  "intro": "The Fable drawings and the WordPress theme's built skins give the administrator of a magazine site a long list of choices. This document lists them as proposed Teme theme settings, **per skin and section by section**.\n\nEvery setting is read in one place, at the top of the template named under \"Read in\", as `$themeSettings['key'] ?? <the drawing's default>`. With no settings declared yet the default always applies, so Fable draws exactly as the drawings do. Adopting a setting means adding it to `teme-theme.json` (in the order the tables give) and, for a row marked *new*, one read line at the top of that template. **No markup changes.**\n\nThe data behind this file is `docs/options.json`; `node scripts/build-options.mjs` writes this file from it and checks every row against Teme's rules, so the totals below are computed, not typed.",
+  "howToRead": "## How to read the tables\n\n- **Key**: 2 to 41 lower-case letters, digits and underscores, never starting `nav_` (Teme's rule). Every skin's keys carry its prefix (`fable_`, `strata_`, `threads_`) because all settings share one flat list.\n- **Type**: what Teme stores today: `select`, `boolean`, `text` or `color`. There is no number, image, URL or list type, so a count is a `select` of a few steps.\n- **Default**: what the drawing (or, for Strata and Threads, the WordPress theme) does now.\n- **Read in**: the template or partial that reads the key (a skin's own file name).\n- **Visible when**: Teme's `visible_when`, which names only **earlier** keys. Every setting of a skin carries `skin` = that skin, so an administrator sees only the chosen skin's settings; a sub-option shows only while its block's switch is on.\n- **Fieldset**: one of Teme's four (`site`, `latest`, `content`, `archive`). Teme has no sub-groups, so the \"Read in\" and heading groups here are documentation only.\n- **Status**: *read now* (the Fable template already reads exactly this key), *new* (a proposal that needs its one read line), or **waits** on a Teme feature, with its issue where one exists: number, image and list of links **#373**; per-skin tokens (colours, fonts, a second accent) **#370 and #371**. A \"waits\" row with no number waits on data Teme does not give a template yet (a request-time date, counts, view counts, sort), which is recorded in FINDINGS.md item 20.\n\nA setting that waits is still listed with the form it will take, so the template can already read it.",
+  "skinNote": "### How skins and settings fit together\n\n1. **`skin` is the first setting.** Every other setting of a skin is `visible_when: {\"skin\": \"<that skin>\"}`. Strata and Threads therefore get their own sets later, without touching Fable's.\n2. **Templates already dispatch on it.** Each file in `views/templates` is `@include('theme::skins.'.($themeSettings['skin'] ?? 'fable').'.<page>')`, so adding `skin` to the manifest switches the template set with no template change.\n3. **The colours and fonts do not switch yet.** Manifest tokens are static (FINDINGS 1 and 6; #370 and #371), so a second skin cannot bring its own tokens, fonts or second accent. The interim is CSS keyed on `[data-skin]` (the layout already writes `data-skin=\"fable\"` on its wrapper).\n4. **Manifest order**: `skin`, then the shared settings, then Fable's, then Strata's, then Threads's. The tables below are in that order; each `visible_when` names only keys that come before it.\n\n**Settings every skin shares** (below) carry no skin condition when every skin uses them, or `skin` = a list when only some do.",
+  "fableNote": "Every block of every Fable page has its own switch; every presentational choice has its own select, text or boolean. A block's sub-options appear only while its switch is on.\n\n**The home page's order.** Teme allows a template to place its main blocks in any order a setting names, so a select per position (or one named preset) can reorder the blocks inside `main`. A `select` cannot stop an administrator choosing the same block twice and Teme has no list or drag-and-drop setting, so a preset is the safer form; both are listed. The Top stories strip sits in the layout's `before` section (outside `main`) and the ads sit with their blocks, so they do not move. See the \"Home: order\" rows.\n\n**Fieldsets.** Fable's settings spread over Teme's four fieldsets only; the crowded `site` fieldset is the cost of having no sub-groups (FINDINGS 24).",
+  "strataNote": "Read from the WordPress theme's own options (app/Skins.php, app/strata-setup.php, the Customizer code and the skin's templates in resources/views/skins/strata). Strata is **not built** in this release; the rows prove the per-skin structure: every key starts `strata_` and is shown only while `skin` = `strata`.",
+  "threadsNote": "Read from the WordPress theme's own options (app/Skins.php, app/threads-setup.php, the Customizer code and the skin's templates in resources/views/skins/threads). Threads is **not built** in this release; every key starts `threads_` and is shown only while `skin` = `threads`.",
+  "closing": "## What cannot be a setting yet\n\n- **A free number** (items per page, columns, how many of a block): #373; the selects of fixed steps stand in.\n- **An image** (a logo, a default picture, a fallback portrait): #373.\n- **A list of links** (social networks, \"our network\", footer columns): #373; menus carry the lists today (`social`, `footer`, `network`).\n- **Per-skin tokens** (colours, fonts, a second accent): #370 and #371.\n- **A request-time date** (the date line), **section counts**, **view counts** (\"most read\"), **sorts**: Teme gives a template none of these (FINDINGS 20).\n- **Setting groups** and a **category or story picker**: neither exists; regions with Featured posts cards carry the pickers (edited in the admin, not under Design).\n\n## Adopting the proposal\n\n1. The owner marks what to adopt in `docs/options.json` (delete a row, change a default or a label), then `node scripts/build-options.mjs` rewrites this file and re-checks it.\n2. For each adopted row: add the entry to `teme-theme.json`; for a *new* row add the one read line to the template named under \"Read in\". The kit cannot set a theme setting in a test (FINDINGS 20), so each template is tested by its rendered output with the default.\n3. Adopt in batches by fieldset; the defaults reproduce the drawings, so any batch can ship alone.",
+  "rows": [
+    {
+      "skin": "shared",
+      "group": "The skin",
+      "template": "views/templates/* (every dispatcher)",
+      "key": "skin",
+      "type": "select",
+      "options": [
+        "fable",
+        "strata",
+        "threads"
+      ],
+      "default": "fable",
+      "fieldset": "site",
+      "visibleWhen": {},
+      "why": "Chooses the skin once more than one ships (strata and threads are added to the options by the update that builds them). Today there is one option, so the setting is not shown. Strata and Threads are listed as options for the structure; only fable exists in this release.",
+      "readNow": true,
+      "waits": null
+    },
+    {
+      "skin": "shared",
+      "group": "Ads",
+      "template": "components/ad-slot",
+      "key": "show_ads",
+      "type": "boolean",
+      "default": true,
+      "fieldset": "site",
+      "visibleWhen": {},
+      "why": "Master switch that hides every ad region at once without emptying them. Used by Fable, Strata and Threads. WordPress has no master switch, only the three per-placement switches below.",
+      "readNow": true,
+      "waits": null
+    },
+    {
+      "skin": "shared",
+      "group": "Newsletter",
+      "template": "skins/strata/footer, skins/threads/home, skins/threads/subscribe",
+      "key": "show_newsletter",
+      "type": "boolean",
+      "default": true,
+      "fieldset": "site",
+      "visibleWhen": {},
+      "why": "Turns the newsletter band on or off (Strata footer, Threads home band and Subscribe page). WordPress: egberipiribo_newsletter_enabled, default off; the drawings show the band so it defaults on.",
+      "readNow": false,
+      "waits": null
+    },
+    {
+      "skin": "shared",
+      "group": "Social",
+      "template": "skins/strata/social-icons, skins/threads/footer",
+      "key": "social_networks",
+      "type": "text",
+      "default": "",
+      "fieldset": "site",
+      "visibleWhen": {},
+      "why": "The site social accounts (WordPress: nine egberipiribo_social_* URLs for Facebook, Instagram, X, Threads, YouTube, TikTok, Flipboard, LinkedIn, Pinterest; icons render only for the filled ones; RSS is automatic). Used by Strata rail and Threads connect column.",
+      "readNow": false,
+      "waits": {
+        "feature": "list of links",
+        "issue": "#373",
+        "note": "One list of network and URL pairs; the icon registry (nine platforms) stays in the theme."
+      }
+    },
+    {
+      "skin": "shared",
+      "group": "Dates",
+      "template": "skins/strata/single, skins/threads/single",
+      "key": "show_updated_date",
+      "type": "boolean",
+      "default": true,
+      "fieldset": "site",
+      "visibleWhen": {},
+      "why": "Prints \"Updated <date>\" in place of the publish date once a post was edited well after publishing (WordPress: post_display_date(), always on). Strata and Threads singles.",
+      "readNow": false,
+      "waits": null
+    },
+    {
+      "skin": "shared",
+      "group": "Dates",
+      "template": "skins/strata/single, skins/threads/single",
+      "key": "updated_after_days",
+      "type": "select",
+      "options": [
+        "7",
+        "14",
+        "30"
+      ],
+      "default": "7",
+      "fieldset": "site",
+      "visibleWhen": {
+        "show_updated_date": true
+      },
+      "why": "How long after publishing an edit counts as an update (the WordPress rule is a fixed seven days, App\\post_display_date()).",
+      "readNow": false,
+      "waits": null
+    },
+    {
+      "skin": "shared",
+      "group": "Comments",
+      "template": "skins/strata/comments, skins/threads/comments",
+      "key": "show_comments",
+      "type": "boolean",
+      "default": true,
+      "fieldset": "content",
+      "visibleWhen": {},
+      "why": "Shows or hides the comment list and form on posts. Used by Fable, Strata and Threads (WordPress shows them whenever the post allows comments).",
+      "readNow": true,
+      "waits": null
+    },
+    {
+      "skin": "shared",
+      "group": "Article: byline and footer",
+      "template": "skins/strata/single, skins/threads/single",
+      "key": "show_reading_time",
+      "type": "boolean",
+      "default": true,
+      "fieldset": "content",
+      "visibleWhen": {},
+      "why": "The \"N min read\" figure (Strata byline and cards, Threads kicker, lead and rows). WordPress always prints it.",
+      "readNow": true,
+      "waits": null
+    },
+    {
+      "skin": "shared",
+      "group": "Article: byline and footer",
+      "template": "skins/strata/single, skins/threads/single",
+      "key": "show_tags",
+      "type": "boolean",
+      "default": true,
+      "fieldset": "content",
+      "visibleWhen": {},
+      "why": "The tag chips under a post. Strata and Threads (WordPress: egberipiribo_strata_tags_enabled and egberipiribo_single_tags_enabled, both default on).",
+      "readNow": true,
+      "waits": null
+    },
+    {
+      "skin": "shared",
+      "group": "Article: byline and footer",
+      "template": "skins/strata/single, skins/threads/single",
+      "key": "show_author_card",
+      "type": "boolean",
+      "default": true,
+      "fieldset": "content",
+      "visibleWhen": {},
+      "why": "The author bio box under a post. Strata and Threads (WordPress: egberipiribo_strata_author_box_enabled and egberipiribo_single_author_bio_enabled, both default on).",
+      "readNow": true,
+      "waits": null
+    },
+    {
+      "skin": "fable",
+      "group": "Ads: master switch",
+      "template": "partials/ad",
+      "key": "fable_ad_label",
+      "type": "text",
+      "default": "Advertisement",
+      "fieldset": "site",
+      "visibleWhen": {
+        "skin": "fable",
+        "show_ads": true
+      },
+      "why": "The small word over every slot (a publisher may need \"Sponsored\" or \"Advertising\" by local rules).",
+      "readNow": false,
+      "waits": null
+    },
+    {
+      "skin": "fable",
+      "group": "Newsletter band",
+      "template": "partials/footer",
+      "key": "fable_footer_newsletter",
+      "type": "boolean",
+      "default": true,
+      "fieldset": "site",
+      "visibleWhen": {
+        "skin": "fable"
+      },
+      "why": "The dark sign-up band above the footer (the drawing has it on every page); off removes the band and the rail and menu buttons that point to it.",
+      "readNow": false,
+      "waits": null
+    },
+    {
+      "skin": "fable",
+      "group": "Newsletter band",
+      "template": "partials/footer",
+      "key": "fable_newsletter_where",
+      "type": "select",
+      "options": [
+        "every_page",
+        "home_only"
+      ],
+      "optionLabels": {
+        "every_page": "On every page",
+        "home_only": "Home page only"
+      },
+      "default": "every_page",
+      "fieldset": "site",
+      "visibleWhen": {
+        "skin": "fable",
+        "fable_footer_newsletter": true
+      },
+      "why": "A magazine may want the sign-up band only on the front page; the footer reads $isFront once.",
+      "readNow": false,
+      "waits": null
+    },
+    {
+      "skin": "fable",
+      "group": "Newsletter band",
+      "template": "partials/footer",
+      "key": "footer_newsletter_heading",
+      "type": "text",
+      "default": "Never miss a story.",
+      "fieldset": "site",
+      "visibleWhen": {
+        "skin": "fable",
+        "fable_footer_newsletter": true
+      },
+      "why": "The band's headline (the drawing: \"Seven sections. One email. Sundays.\").",
+      "readNow": true,
+      "waits": null
+    },
+    {
+      "skin": "fable",
+      "group": "Newsletter band",
+      "template": "partials/footer",
+      "key": "footer_newsletter_text",
+      "type": "text",
+      "default": "The best stories of the week, picked by an editor and sent once. You can leave in one click.",
+      "fieldset": "site",
+      "visibleWhen": {
+        "skin": "fable",
+        "fable_footer_newsletter": true
+      },
+      "why": "The line under the headline; the sign-up form itself is the `newsletter` region.",
+      "readNow": true,
+      "waits": null
+    },
+    {
+      "skin": "fable",
+      "group": "Header (small screens)",
+      "template": "partials/mobile-header",
+      "key": "fable_header_sticky",
+      "type": "boolean",
+      "default": true,
+      "fieldset": "site",
+      "visibleWhen": {
+        "skin": "fable"
+      },
+      "why": "The small-screen header stays at the top while reading (the drawing's sticky bar); off lets it scroll away.",
+      "readNow": false,
+      "waits": null
+    },
+    {
+      "skin": "fable",
+      "group": "Header (small screens)",
+      "template": "partials/mobile-header",
+      "key": "fable_header_search",
+      "type": "boolean",
+      "default": true,
+      "fieldset": "site",
+      "visibleWhen": {
+        "skin": "fable"
+      },
+      "why": "The search button in the small-screen header (the drawing has it).",
+      "readNow": false,
+      "waits": null
+    },
+    {
+      "skin": "fable",
+      "group": "Header (small screens)",
+      "template": "partials/mobile-header",
+      "key": "fable_phone_menu_newsletter",
+      "type": "boolean",
+      "default": true,
+      "fieldset": "site",
+      "visibleWhen": {
+        "skin": "fable",
+        "fable_footer_newsletter": true
+      },
+      "why": "The newsletter button at the foot of the small-screen menu.",
+      "readNow": false,
+      "waits": null
+    },
+    {
+      "skin": "fable",
+      "group": "Header (small screens)",
+      "template": "home",
+      "key": "fable_header_date_line",
+      "type": "boolean",
+      "default": true,
+      "fieldset": "site",
+      "visibleWhen": {
+        "skin": "fable"
+      },
+      "why": "Today's date above the home page title, as the drawing prints it (\"Saturday 14 November\").",
+      "readNow": false,
+      "waits": {
+        "feature": "request-time date",
+        "issue": null,
+        "note": "The date needs the reader's request time; a cached page cannot know it. Today the line is left out."
+      }
+    },
+    {
+      "skin": "fable",
+      "group": "Header (small screens)",
+      "template": "home",
+      "key": "fable_date_line_format",
+      "type": "select",
+      "options": [
+        "weekday_day_month",
+        "weekday_day_month_year",
+        "day_month_year"
+      ],
+      "optionLabels": {
+        "weekday_day_month": "Saturday 14 November",
+        "weekday_day_month_year": "Saturday 14 November 2026",
+        "day_month_year": "14 November 2026"
+      },
+      "default": "weekday_day_month",
+      "fieldset": "site",
+      "visibleWhen": {
+        "skin": "fable",
+        "fable_header_date_line": true
+      },
+      "why": "How the date line reads: the drawing prints weekday, day and month.",
+      "readNow": false,
+      "waits": {
+        "feature": "request-time date",
+        "issue": null,
+        "note": "Same wall as the date line; only the choice of words is storable."
+      }
+    },
+    {
+      "skin": "fable",
+      "group": "Rail",
+      "template": "layout",
+      "key": "fable_rail_show",
+      "type": "boolean",
+      "default": true,
+      "fieldset": "site",
+      "visibleWhen": {
+        "skin": "fable"
+      },
+      "why": "The fixed left rail on wide screens; off shows the small-screen header on every width (the \"In this story\" list lives in the rail and goes with it).",
+      "readNow": false,
+      "waits": null
+    },
+    {
+      "skin": "fable",
+      "group": "Rail",
+      "template": "layout",
+      "key": "fable_rail_tablet",
+      "type": "select",
+      "options": [
+        "open",
+        "collapsed"
+      ],
+      "optionLabels": {
+        "open": "Rail from 1024px (drawing)",
+        "collapsed": "Rail from 1280px; tablets use the menu button"
+      },
+      "default": "open",
+      "fieldset": "site",
+      "visibleWhen": {
+        "skin": "fable",
+        "fable_rail_show": true
+      },
+      "why": "On tablets the rail can start collapsed behind the menu button (rail from 1024px, the drawing) or only from 1280px.",
+      "readNow": false,
+      "waits": null
+    },
+    {
+      "skin": "fable",
+      "group": "Rail",
+      "template": "partials/wordmark",
+      "key": "fable_wordmark_text",
+      "type": "text",
+      "default": "",
+      "fieldset": "site",
+      "visibleWhen": {
+        "skin": "fable"
+      },
+      "why": "The wordmark text in the rail and header; empty uses the site name (the drawing: \"Fable\").",
+      "readNow": false,
+      "waits": null
+    },
+    {
+      "skin": "fable",
+      "group": "Rail",
+      "template": "partials/rail",
+      "key": "fable_rail_tagline",
+      "type": "boolean",
+      "default": true,
+      "fieldset": "site",
+      "visibleWhen": {
+        "skin": "fable",
+        "fable_rail_show": true
+      },
+      "why": "The tagline under the wordmark (the drawing shows it); some sites have a tagline too long for the rail.",
+      "readNow": false,
+      "waits": null
+    },
+    {
+      "skin": "fable",
+      "group": "Rail",
+      "template": "partials/rail",
+      "key": "fable_rail_tagline_text",
+      "type": "text",
+      "default": "",
+      "fieldset": "site",
+      "visibleWhen": {
+        "skin": "fable",
+        "fable_rail_show": true,
+        "fable_rail_tagline": true
+      },
+      "why": "A shorter line just for the rail (Strata has a rail tagline setting); empty uses the site tagline.",
+      "readNow": false,
+      "waits": null
+    },
+    {
+      "skin": "fable",
+      "group": "Rail",
+      "template": "partials/rail",
+      "key": "fable_rail_search",
+      "type": "boolean",
+      "default": true,
+      "fieldset": "site",
+      "visibleWhen": {
+        "skin": "fable",
+        "fable_rail_show": true
+      },
+      "why": "The search field in the rail (the drawing's \"Search /\" button).",
+      "readNow": false,
+      "waits": null
+    },
+    {
+      "skin": "fable",
+      "group": "Rail",
+      "template": "partials/nav-sections",
+      "key": "fable_rail_all_stories",
+      "type": "boolean",
+      "default": true,
+      "fieldset": "site",
+      "visibleWhen": {
+        "skin": "fable"
+      },
+      "why": "The \"All stories\" entry at the top of the sections list (rail and small-screen menu).",
+      "readNow": false,
+      "waits": null
+    },
+    {
+      "skin": "fable",
+      "group": "Rail",
+      "template": "partials/nav-sections",
+      "key": "fable_rail_topics_open",
+      "type": "select",
+      "options": [
+        "current",
+        "all",
+        "none"
+      ],
+      "optionLabels": {
+        "current": "Only the current section",
+        "all": "All sections",
+        "none": "None, readers open them"
+      },
+      "default": "current",
+      "fieldset": "site",
+      "visibleWhen": {
+        "skin": "fable"
+      },
+      "why": "Which sections show their topics at first: only the one the reader is in (as built), all of them, or none.",
+      "readNow": false,
+      "waits": null
+    },
+    {
+      "skin": "fable",
+      "group": "Rail",
+      "template": "partials/rail",
+      "key": "fable_rail_newsletter",
+      "type": "boolean",
+      "default": true,
+      "fieldset": "site",
+      "visibleWhen": {
+        "skin": "fable",
+        "fable_rail_show": true,
+        "fable_footer_newsletter": true
+      },
+      "why": "The white \"newsletter\" button under the nav in the rail.",
+      "readNow": false,
+      "waits": null
+    },
+    {
+      "skin": "fable",
+      "group": "Rail",
+      "template": "partials/rail",
+      "key": "fable_newsletter_button_label",
+      "type": "text",
+      "default": "Get our newsletter",
+      "fieldset": "site",
+      "visibleWhen": {
+        "skin": "fable"
+      },
+      "why": "The words on the rail and menu button (the drawing: \"Get the Sunday letter\").",
+      "readNow": false,
+      "waits": null
+    },
+    {
+      "skin": "fable",
+      "group": "Rail",
+      "template": "partials/rail",
+      "key": "fable_rail_social",
+      "type": "boolean",
+      "default": true,
+      "fieldset": "site",
+      "visibleWhen": {
+        "skin": "fable",
+        "fable_rail_show": true
+      },
+      "why": "The social icon row at the foot of the rail (from the `social` menu).",
+      "readNow": false,
+      "waits": null
+    },
+    {
+      "skin": "fable",
+      "group": "Search",
+      "template": "partials/search-panel",
+      "key": "fable_search_panel",
+      "type": "boolean",
+      "default": true,
+      "fieldset": "site",
+      "visibleWhen": {
+        "skin": "fable"
+      },
+      "why": "The search overlay opened by the search buttons or \"/\" (the drawing); off makes the buttons plain links to the search page.",
+      "readNow": false,
+      "waits": null
+    },
+    {
+      "skin": "fable",
+      "group": "Search",
+      "template": "partials/rail",
+      "key": "fable_search_shortcut",
+      "type": "boolean",
+      "default": true,
+      "fieldset": "site",
+      "visibleWhen": {
+        "skin": "fable",
+        "fable_search_panel": true
+      },
+      "why": "The \"/\" key hint in the rail search button and the keyboard shortcut itself.",
+      "readNow": false,
+      "waits": null
+    },
+    {
+      "skin": "fable",
+      "group": "Search",
+      "template": "partials/listing-search-form",
+      "key": "search_placeholder",
+      "type": "text",
+      "default": "Search stories, sections and writers",
+      "fieldset": "site",
+      "visibleWhen": {
+        "skin": "fable"
+      },
+      "why": "The words in every empty search field; a site that is not stories-and-writers wants its own.",
+      "readNow": true,
+      "waits": null
+    },
+    {
+      "skin": "fable",
+      "group": "Cards",
+      "template": "partials/card",
+      "key": "fable_card_image",
+      "type": "boolean",
+      "default": true,
+      "fieldset": "site",
+      "visibleWhen": {
+        "skin": "fable"
+      },
+      "why": "Pictures on story cards (the drawing always has them); off gives text-only cards.",
+      "readNow": false,
+      "waits": null
+    },
+    {
+      "skin": "fable",
+      "group": "Cards",
+      "template": "partials/card",
+      "key": "fable_card_image_ratio",
+      "type": "select",
+      "options": [
+        "3:2",
+        "4:3",
+        "16:10",
+        "1:1"
+      ],
+      "default": "3:2",
+      "fieldset": "site",
+      "visibleWhen": {
+        "skin": "fable",
+        "fable_card_image": true
+      },
+      "why": "The picture shape on cards: 3:2 from 640px (the drawing); 4:3, 16:10 and 1:1 are the shapes the drawings use elsewhere.",
+      "readNow": false,
+      "waits": null
+    },
+    {
+      "skin": "fable",
+      "group": "Cards",
+      "template": "partials/card",
+      "key": "fable_card_order",
+      "type": "select",
+      "options": [
+        "image_first",
+        "text_first"
+      ],
+      "optionLabels": {
+        "image_first": "Image first",
+        "text_first": "Text first"
+      },
+      "default": "image_first",
+      "fieldset": "site",
+      "visibleWhen": {
+        "skin": "fable",
+        "fable_card_image": true
+      },
+      "why": "Picture above the words (the drawing) or the words first.",
+      "readNow": false,
+      "waits": null
+    },
+    {
+      "skin": "fable",
+      "group": "Cards",
+      "template": "partials/card",
+      "key": "fable_card_kicker",
+      "type": "boolean",
+      "default": true,
+      "fieldset": "site",
+      "visibleWhen": {
+        "skin": "fable"
+      },
+      "why": "The section name above each card headline.",
+      "readNow": false,
+      "waits": null
+    },
+    {
+      "skin": "fable",
+      "group": "Cards",
+      "template": "partials/card",
+      "key": "fable_card_standfirst",
+      "type": "boolean",
+      "default": true,
+      "fieldset": "site",
+      "visibleWhen": {
+        "skin": "fable"
+      },
+      "why": "The standfirst under the headline (the drawing shows it in the list layout and in search results only).",
+      "readNow": false,
+      "waits": null
+    },
+    {
+      "skin": "fable",
+      "group": "Cards",
+      "template": "partials/card",
+      "key": "fable_card_author",
+      "type": "boolean",
+      "default": true,
+      "fieldset": "site",
+      "visibleWhen": {
+        "skin": "fable"
+      },
+      "why": "The author name in the card byline.",
+      "readNow": false,
+      "waits": null
+    },
+    {
+      "skin": "fable",
+      "group": "Cards",
+      "template": "partials/card",
+      "key": "fable_card_date",
+      "type": "boolean",
+      "default": true,
+      "fieldset": "site",
+      "visibleWhen": {
+        "skin": "fable"
+      },
+      "why": "The date in the card byline.",
+      "readNow": false,
+      "waits": null
+    },
+    {
+      "skin": "fable",
+      "group": "Cards",
+      "template": "partials/card",
+      "key": "fable_card_headline_size",
+      "type": "select",
+      "options": [
+        "compact",
+        "regular",
+        "large"
+      ],
+      "optionLabels": {
+        "compact": "1.0625rem",
+        "regular": "1.125rem (drawing)",
+        "large": "1.375rem"
+      },
+      "default": "regular",
+      "fieldset": "site",
+      "visibleWhen": {
+        "skin": "fable"
+      },
+      "why": "Card headline size: compact is the phone size, regular the drawing's 1.125rem, large the \"hed-md\" size.",
+      "readNow": false,
+      "waits": null
+    },
+    {
+      "skin": "fable",
+      "group": "Cards",
+      "template": "partials/card",
+      "key": "fable_card_reading_time",
+      "type": "boolean",
+      "default": true,
+      "fieldset": "site",
+      "visibleWhen": {
+        "skin": "fable"
+      },
+      "why": "Minutes to read in the card byline (the drawing's cover story, long read and Also today print it).",
+      "readNow": false,
+      "waits": {
+        "feature": "reading time on a listing item",
+        "issue": null,
+        "note": "Teme's ListingItem has no readingMinutes (only the article has), so cards cannot show it yet."
+      }
+    },
+    {
+      "skin": "fable",
+      "group": "Dates and reading time",
+      "template": "partials/card",
+      "key": "fable_date_style_cards",
+      "type": "select",
+      "options": [
+        "relative",
+        "absolute"
+      ],
+      "optionLabels": {
+        "relative": "3 days ago",
+        "absolute": "14 November 2026"
+      },
+      "default": "relative",
+      "fieldset": "site",
+      "visibleWhen": {
+        "skin": "fable"
+      },
+      "why": "Card dates read \"3 days ago\" (the drawing's grid) or as a full date (as built today).",
+      "readNow": false,
+      "waits": {
+        "feature": "request-time date",
+        "issue": null,
+        "note": "Only `relative` waits (it needs the reader's request time); `absolute` is storable and is what the theme draws today."
+      }
+    },
+    {
+      "skin": "fable",
+      "group": "Dates and reading time",
+      "template": "partials/article-byline",
+      "key": "fable_article_date_format",
+      "type": "select",
+      "options": [
+        "with_time",
+        "words"
+      ],
+      "optionLabels": {
+        "with_time": "14 November 2026, 9:12 am",
+        "words": "14 November 2026"
+      },
+      "default": "with_time",
+      "fieldset": "site",
+      "visibleWhen": {
+        "skin": "fable"
+      },
+      "why": "The article byline date with the time of day (the drawing: \"14 November 2026, 9:12 am\") or the date alone.",
+      "readNow": false,
+      "waits": null
+    },
+    {
+      "skin": "fable",
+      "group": "Dates and reading time",
+      "template": "partials/article-byline",
+      "key": "fable_reading_time_wording",
+      "type": "text",
+      "default": ":count min read",
+      "fieldset": "site",
+      "visibleWhen": {
+        "skin": "fable"
+      },
+      "why": "How the reading time is worded; :count is the minutes (\"14 min read\" in the drawing).",
+      "readNow": false,
+      "waits": null
+    },
+    {
+      "skin": "fable",
+      "group": "Share",
+      "template": "partials/article-share",
+      "key": "show_share",
+      "type": "boolean",
+      "default": true,
+      "fieldset": "site",
+      "visibleWhen": {
+        "skin": "fable"
+      },
+      "why": "The share buttons on articles, at the byline and after the tags.",
+      "readNow": true,
+      "waits": null
+    },
+    {
+      "skin": "fable",
+      "group": "Share",
+      "template": "partials/article-share",
+      "key": "fable_share_facebook",
+      "type": "boolean",
+      "default": true,
+      "fieldset": "site",
+      "visibleWhen": {
+        "skin": "fable",
+        "show_share": true
+      },
+      "why": "A Facebook button (in the drawing).",
+      "readNow": false,
+      "waits": null
+    },
+    {
+      "skin": "fable",
+      "group": "Share",
+      "template": "partials/article-share",
+      "key": "fable_share_x",
+      "type": "boolean",
+      "default": true,
+      "fieldset": "site",
+      "visibleWhen": {
+        "skin": "fable",
+        "show_share": true
+      },
+      "why": "An X button (in the drawing).",
+      "readNow": false,
+      "waits": null
+    },
+    {
+      "skin": "fable",
+      "group": "Share",
+      "template": "partials/article-share",
+      "key": "fable_share_email",
+      "type": "boolean",
+      "default": true,
+      "fieldset": "site",
+      "visibleWhen": {
+        "skin": "fable",
+        "show_share": true
+      },
+      "why": "A share-by-email button (in the drawing).",
+      "readNow": false,
+      "waits": null
+    },
+    {
+      "skin": "fable",
+      "group": "Share",
+      "template": "partials/article-share",
+      "key": "fable_share_copy",
+      "type": "boolean",
+      "default": true,
+      "fieldset": "site",
+      "visibleWhen": {
+        "skin": "fable",
+        "show_share": true
+      },
+      "why": "The copy-link button (in the drawing).",
+      "readNow": false,
+      "waits": null
+    },
+    {
+      "skin": "fable",
+      "group": "Share",
+      "template": "partials/article-share",
+      "key": "fable_share_pinterest",
+      "type": "boolean",
+      "default": false,
+      "fieldset": "site",
+      "visibleWhen": {
+        "skin": "fable",
+        "show_share": true
+      },
+      "why": "A Pinterest button; the template draws it today but the drawing has none, so the default is off.",
+      "readNow": false,
+      "waits": null
+    },
+    {
+      "skin": "fable",
+      "group": "Share",
+      "template": "partials/article-share",
+      "key": "fable_share_linkedin",
+      "type": "boolean",
+      "default": false,
+      "fieldset": "site",
+      "visibleWhen": {
+        "skin": "fable",
+        "show_share": true
+      },
+      "why": "A LinkedIn button for a business or news audience.",
+      "readNow": false,
+      "waits": null
+    },
+    {
+      "skin": "fable",
+      "group": "Share",
+      "template": "partials/article-share",
+      "key": "fable_share_whatsapp",
+      "type": "boolean",
+      "default": false,
+      "fieldset": "site",
+      "visibleWhen": {
+        "skin": "fable",
+        "show_share": true
+      },
+      "why": "A WhatsApp button, the main way stories travel on phones in many countries.",
+      "readNow": false,
+      "waits": null
+    },
+    {
+      "skin": "fable",
+      "group": "Share",
+      "template": "partials/article-share",
+      "key": "fable_share_telegram",
+      "type": "boolean",
+      "default": false,
+      "fieldset": "site",
+      "visibleWhen": {
+        "skin": "fable",
+        "show_share": true
+      },
+      "why": "A Telegram button.",
+      "readNow": false,
+      "waits": null
+    },
+    {
+      "skin": "fable",
+      "group": "Share",
+      "template": "partials/article-share",
+      "key": "fable_share_reddit",
+      "type": "boolean",
+      "default": false,
+      "fieldset": "site",
+      "visibleWhen": {
+        "skin": "fable",
+        "show_share": true
+      },
+      "why": "A Reddit button.",
+      "readNow": false,
+      "waits": null
+    },
+    {
+      "skin": "fable",
+      "group": "Share",
+      "template": "partials/article-share",
+      "key": "fable_share_native",
+      "type": "boolean",
+      "default": false,
+      "fieldset": "site",
+      "visibleWhen": {
+        "skin": "fable",
+        "show_share": true
+      },
+      "why": "The phone's own share sheet (navigator.share), shown only on devices that offer it.",
+      "readNow": false,
+      "waits": null
+    },
+    {
+      "skin": "fable",
+      "group": "Share",
+      "template": "partials/article-share",
+      "key": "fable_share_placement",
+      "type": "select",
+      "options": [
+        "top",
+        "bottom",
+        "both",
+        "floating"
+      ],
+      "optionLabels": {
+        "top": "At the byline",
+        "bottom": "After the tags",
+        "both": "Both (drawing)",
+        "floating": "Floating rail"
+      },
+      "default": "both",
+      "fieldset": "site",
+      "visibleWhen": {
+        "skin": "fable",
+        "show_share": true
+      },
+      "why": "Where the buttons sit: at the byline (top), after the tags (bottom), both (the drawing) or a floating rail down the side.",
+      "readNow": false,
+      "waits": null
+    },
+    {
+      "skin": "fable",
+      "group": "Share",
+      "template": "partials/article-share",
+      "key": "fable_share_style",
+      "type": "select",
+      "options": [
+        "icons",
+        "labels"
+      ],
+      "optionLabels": {
+        "icons": "Icons only",
+        "labels": "Icons with labels"
+      },
+      "default": "icons",
+      "fieldset": "site",
+      "visibleWhen": {
+        "skin": "fable",
+        "show_share": true
+      },
+      "why": "Round icon buttons only (the drawing) or icons with their network name.",
+      "readNow": false,
+      "waits": null
+    },
+    {
+      "skin": "fable",
+      "group": "Share",
+      "template": "partials/article-share",
+      "key": "fable_share_label",
+      "type": "text",
+      "default": "Share this story",
+      "fieldset": "site",
+      "visibleWhen": {
+        "skin": "fable",
+        "show_share": true
+      },
+      "why": "The line before the bottom row of buttons.",
+      "readNow": false,
+      "waits": null
+    },
+    {
+      "skin": "fable",
+      "group": "Patterns",
+      "template": "home",
+      "key": "pattern",
+      "type": "select",
+      "options": [
+        "none",
+        "sections",
+        "pets",
+        "home",
+        "food"
+      ],
+      "default": "none",
+      "fieldset": "site",
+      "visibleWhen": {
+        "skin": "fable"
+      },
+      "why": "The icon pattern laid over the brand-colour areas (the pattern samples); off keeps every area solid, as the seven main drawings are.",
+      "readNow": true,
+      "waits": null
+    },
+    {
+      "skin": "fable",
+      "group": "Patterns",
+      "template": "partials/home-pattern",
+      "key": "pattern_strength",
+      "type": "select",
+      "options": [
+        "subtle",
+        "medium",
+        "bold"
+      ],
+      "default": "subtle",
+      "fieldset": "site",
+      "visibleWhen": {
+        "skin": "fable",
+        "pattern": [
+          "sections",
+          "pets",
+          "home",
+          "food"
+        ]
+      },
+      "why": "How visible the icons are.",
+      "readNow": true,
+      "waits": null
+    },
+    {
+      "skin": "fable",
+      "group": "Patterns",
+      "template": "partials/home-pattern",
+      "key": "pattern_density",
+      "type": "select",
+      "options": [
+        "sparse",
+        "regular",
+        "dense"
+      ],
+      "default": "regular",
+      "fieldset": "site",
+      "visibleWhen": {
+        "skin": "fable",
+        "pattern": [
+          "sections",
+          "pets",
+          "home",
+          "food"
+        ]
+      },
+      "why": "How tightly the icons repeat (the samples: open, even, tight).",
+      "readNow": true,
+      "waits": null
+    },
+    {
+      "skin": "fable",
+      "group": "Patterns",
+      "template": "partials/home-pattern",
+      "key": "pattern_accent",
+      "type": "color",
+      "default": "",
+      "fieldset": "site",
+      "visibleWhen": {
+        "skin": "fable",
+        "pattern": [
+          "sections",
+          "pets",
+          "home",
+          "food"
+        ]
+      },
+      "why": "One icon in seven takes this colour (pattern sample 2 uses #ffd23f); empty keeps every icon white.",
+      "readNow": true,
+      "waits": null
+    },
+    {
+      "skin": "fable",
+      "group": "Patterns",
+      "template": "partials/home-pattern",
+      "key": "fable_pattern_colour",
+      "type": "select",
+      "options": [
+        "mixed",
+        "accent",
+        "white"
+      ],
+      "optionLabels": {
+        "mixed": "White + accent",
+        "accent": "All accent",
+        "white": "All white"
+      },
+      "default": "mixed",
+      "fieldset": "site",
+      "visibleWhen": {
+        "skin": "fable",
+        "pattern": [
+          "sections",
+          "pets",
+          "home",
+          "food"
+        ]
+      },
+      "why": "Icon colour as in sample 2: white with one accent icon, all accent, or all white.",
+      "readNow": false,
+      "waits": null
+    },
+    {
+      "skin": "fable",
+      "group": "Patterns",
+      "template": "partials/home-pattern",
+      "key": "fable_pattern_layout",
+      "type": "select",
+      "options": [
+        "scatter",
+        "grid",
+        "dots"
+      ],
+      "optionLabels": {
+        "scatter": "Scattered",
+        "grid": "Straight",
+        "dots": "With dots"
+      },
+      "default": "scatter",
+      "fieldset": "site",
+      "visibleWhen": {
+        "skin": "fable",
+        "pattern": [
+          "sections",
+          "pets",
+          "home",
+          "food"
+        ]
+      },
+      "why": "Scattered and turned icons, straight rows, or straight rows with dots between (sample 2).",
+      "readNow": false,
+      "waits": null
+    },
+    {
+      "skin": "fable",
+      "group": "Patterns",
+      "template": "partials/home-pattern",
+      "key": "fable_pattern_style",
+      "type": "select",
+      "options": [
+        "regular",
+        "fill"
+      ],
+      "optionLabels": {
+        "regular": "Outline",
+        "fill": "Solid"
+      },
+      "default": "regular",
+      "fieldset": "site",
+      "visibleWhen": {
+        "skin": "fable",
+        "pattern": [
+          "sections",
+          "pets",
+          "home",
+          "food"
+        ]
+      },
+      "why": "Outline or solid icons (the samples' icon style).",
+      "readNow": false,
+      "waits": null
+    },
+    {
+      "skin": "fable",
+      "group": "Patterns",
+      "template": "partials/rail",
+      "key": "fable_pattern_rail",
+      "type": "boolean",
+      "default": true,
+      "fieldset": "site",
+      "visibleWhen": {
+        "skin": "fable",
+        "pattern": [
+          "sections",
+          "pets",
+          "home",
+          "food"
+        ]
+      },
+      "why": "The pattern on the rail (both samples do).",
+      "readNow": false,
+      "waits": null
+    },
+    {
+      "skin": "fable",
+      "group": "Patterns",
+      "template": "partials/mobile-header",
+      "key": "fable_pattern_phone_header",
+      "type": "boolean",
+      "default": true,
+      "fieldset": "site",
+      "visibleWhen": {
+        "skin": "fable",
+        "pattern": [
+          "sections",
+          "pets",
+          "home",
+          "food"
+        ]
+      },
+      "why": "The pattern on the small-screen header (both samples do).",
+      "readNow": false,
+      "waits": null
+    },
+    {
+      "skin": "fable",
+      "group": "Patterns",
+      "template": "partials/footer",
+      "key": "fable_pattern_footer",
+      "type": "boolean",
+      "default": true,
+      "fieldset": "site",
+      "visibleWhen": {
+        "skin": "fable",
+        "pattern": [
+          "sections",
+          "pets",
+          "home",
+          "food"
+        ]
+      },
+      "why": "The pattern on the footer (both samples do).",
+      "readNow": false,
+      "waits": null
+    },
+    {
+      "skin": "fable",
+      "group": "Patterns",
+      "template": "home",
+      "key": "fable_pattern_long_read",
+      "type": "boolean",
+      "default": true,
+      "fieldset": "site",
+      "visibleWhen": {
+        "skin": "fable",
+        "pattern": [
+          "sections",
+          "pets",
+          "home",
+          "food"
+        ]
+      },
+      "why": "The pattern on the home page's long read (built today whenever `pattern` is on; this adds only the off switch).",
+      "readNow": false,
+      "waits": null
+    },
+    {
+      "skin": "fable",
+      "group": "Patterns",
+      "template": "home",
+      "key": "fable_pattern_sections",
+      "type": "boolean",
+      "default": false,
+      "fieldset": "site",
+      "visibleWhen": {
+        "skin": "fable",
+        "pattern": [
+          "sections",
+          "pets",
+          "home",
+          "food"
+        ]
+      },
+      "why": "The pattern on section headings; not in the samples, so off.",
+      "readNow": false,
+      "waits": null
+    },
+    {
+      "skin": "fable",
+      "group": "Patterns",
+      "template": "notfound",
+      "key": "fable_pattern_404",
+      "type": "boolean",
+      "default": false,
+      "fieldset": "site",
+      "visibleWhen": {
+        "skin": "fable",
+        "pattern": [
+          "sections",
+          "pets",
+          "home",
+          "food"
+        ]
+      },
+      "why": "The pattern behind the big 404 number; not in the samples, so off.",
+      "readNow": false,
+      "waits": null
+    },
+    {
+      "skin": "fable",
+      "group": "Colour and dark mode",
+      "template": "layout",
+      "key": "fable_accent_use",
+      "type": "select",
+      "options": [
+        "everywhere",
+        "rail_only"
+      ],
+      "optionLabels": {
+        "everywhere": "Rail, kickers, links (drawing)",
+        "rail_only": "Rail and footer only"
+      },
+      "default": "everywhere",
+      "fieldset": "site",
+      "visibleWhen": {
+        "skin": "fable"
+      },
+      "why": "Where the brand colour appears: rail, kickers, links and the 404 number (the drawing) or only the rail and footer with ink elsewhere.",
+      "readNow": false,
+      "waits": null
+    },
+    {
+      "skin": "fable",
+      "group": "Colour and dark mode",
+      "template": "layout",
+      "key": "fable_accent_second",
+      "type": "color",
+      "default": "#ffd23f",
+      "fieldset": "site",
+      "visibleWhen": {
+        "skin": "fable"
+      },
+      "why": "The second colour of pattern sample 2, free for highlights (the pattern already has `pattern_accent`).",
+      "readNow": false,
+      "waits": {
+        "feature": "per-skin tokens",
+        "issue": "#370/#371",
+        "note": "A second site colour token for the skin; until then only the pattern accent is storable."
+      }
+    },
+    {
+      "skin": "fable",
+      "group": "Colour and dark mode",
+      "template": "layout",
+      "key": "fable_dark_mode",
+      "type": "select",
+      "options": [
+        "light",
+        "system",
+        "dark",
+        "toggle"
+      ],
+      "optionLabels": {
+        "light": "Always light",
+        "system": "Follow the reader's system",
+        "dark": "Always dark",
+        "toggle": "Reader's toggle"
+      },
+      "default": "light",
+      "fieldset": "site",
+      "visibleWhen": {
+        "skin": "fable"
+      },
+      "why": "Follow the reader's system, always light, always dark or a reader's toggle; the drawings are light only, so `light` is the default and the others need a dark design first.",
+      "readNow": false,
+      "waits": null
+    },
+    {
+      "skin": "fable",
+      "group": "Colour and dark mode",
+      "template": "layout",
+      "key": "fable_dark_background",
+      "type": "color",
+      "default": "",
+      "fieldset": "site",
+      "visibleWhen": {
+        "skin": "fable",
+        "fable_dark_mode": [
+          "system",
+          "dark",
+          "toggle"
+        ]
+      },
+      "why": "The page colour in dark mode.",
+      "readNow": false,
+      "waits": {
+        "feature": "dark tokens designed",
+        "issue": null,
+        "note": "Fable's drawings have no dark tokens; once a dark palette is designed this stores its page colour."
+      }
+    },
+    {
+      "skin": "fable",
+      "group": "Colour and dark mode",
+      "template": "layout",
+      "key": "fable_dark_text",
+      "type": "color",
+      "default": "",
+      "fieldset": "site",
+      "visibleWhen": {
+        "skin": "fable",
+        "fable_dark_mode": [
+          "system",
+          "dark",
+          "toggle"
+        ]
+      },
+      "why": "The text colour in dark mode.",
+      "readNow": false,
+      "waits": {
+        "feature": "dark tokens designed",
+        "issue": null,
+        "note": "Same wall: needs the dark palette designed first."
+      }
+    },
+    {
+      "skin": "fable",
+      "group": "Colour and dark mode",
+      "template": "layout",
+      "key": "fable_dark_rail",
+      "type": "color",
+      "default": "",
+      "fieldset": "site",
+      "visibleWhen": {
+        "skin": "fable",
+        "fable_dark_mode": [
+          "system",
+          "dark",
+          "toggle"
+        ]
+      },
+      "why": "The rail colour in dark mode.",
+      "readNow": false,
+      "waits": {
+        "feature": "dark tokens designed",
+        "issue": null,
+        "note": "Same wall: needs the dark palette designed first."
+      }
+    },
+    {
+      "skin": "fable",
+      "group": "Page chrome",
+      "template": "layout",
+      "key": "fable_back_to_top",
+      "type": "boolean",
+      "default": true,
+      "fieldset": "site",
+      "visibleWhen": {
+        "skin": "fable"
+      },
+      "why": "The floating back-to-top button (the drawing has it); some editors dislike it.",
+      "readNow": false,
+      "waits": null
+    },
+    {
+      "skin": "fable",
+      "group": "Page chrome",
+      "template": "partials/pagination",
+      "key": "fable_pagination_links",
+      "type": "select",
+      "options": [
+        "numbered",
+        "prev_next"
+      ],
+      "optionLabels": {
+        "numbered": "Numbered pages",
+        "prev_next": "Previous and Next only"
+      },
+      "default": "numbered",
+      "fieldset": "site",
+      "visibleWhen": {
+        "skin": "fable"
+      },
+      "why": "Numbered page links (the archive drawing) or only Previous and Next.",
+      "readNow": false,
+      "waits": null
+    },
+    {
+      "skin": "fable",
+      "group": "Page chrome",
+      "template": "partials/pagination",
+      "key": "fable_pagination_style",
+      "type": "select",
+      "options": [
+        "pages",
+        "show_more"
+      ],
+      "optionLabels": {
+        "pages": "Pages",
+        "show_more": "Show more button"
+      },
+      "default": "pages",
+      "fieldset": "site",
+      "visibleWhen": {
+        "skin": "fable"
+      },
+      "why": "Real pages (as built) or the home drawing's \"Show more stories\" button.",
+      "readNow": false,
+      "waits": {
+        "feature": "load more (next page of items without a page load)",
+        "issue": null,
+        "note": "Only `show_more` waits; Teme gives a template one page of items, not a way to ask for the next."
+      }
+    },
+    {
+      "skin": "fable",
+      "group": "Footer",
+      "template": "partials/footer",
+      "key": "fable_footer_brand",
+      "type": "boolean",
+      "default": true,
+      "fieldset": "site",
+      "visibleWhen": {
+        "skin": "fable"
+      },
+      "why": "The first footer column: wordmark and blurb.",
+      "readNow": false,
+      "waits": null
+    },
+    {
+      "skin": "fable",
+      "group": "Footer",
+      "template": "partials/footer",
+      "key": "footer_blurb",
+      "type": "text",
+      "default": "",
+      "fieldset": "site",
+      "visibleWhen": {
+        "skin": "fable",
+        "fable_footer_brand": true
+      },
+      "why": "The \"about\" line under the footer wordmark; empty uses the site tagline.",
+      "readNow": true,
+      "waits": null
+    },
+    {
+      "skin": "fable",
+      "group": "Footer",
+      "template": "partials/footer",
+      "key": "fable_footer_company",
+      "type": "boolean",
+      "default": true,
+      "fieldset": "site",
+      "visibleWhen": {
+        "skin": "fable"
+      },
+      "why": "The \"Company\" menu column (the `footer` menu).",
+      "readNow": false,
+      "waits": null
+    },
+    {
+      "skin": "fable",
+      "group": "Footer",
+      "template": "partials/footer",
+      "key": "fable_footer_company_heading",
+      "type": "text",
+      "default": "Company",
+      "fieldset": "site",
+      "visibleWhen": {
+        "skin": "fable",
+        "fable_footer_company": true
+      },
+      "why": "The Company column heading.",
+      "readNow": false,
+      "waits": null
+    },
+    {
+      "skin": "fable",
+      "group": "Footer",
+      "template": "partials/footer",
+      "key": "fable_footer_network",
+      "type": "boolean",
+      "default": true,
+      "fieldset": "site",
+      "visibleWhen": {
+        "skin": "fable"
+      },
+      "why": "The \"Our network\" menu column (the `network` menu).",
+      "readNow": false,
+      "waits": null
+    },
+    {
+      "skin": "fable",
+      "group": "Footer",
+      "template": "partials/footer",
+      "key": "fable_footer_network_heading",
+      "type": "text",
+      "default": "Our network",
+      "fieldset": "site",
+      "visibleWhen": {
+        "skin": "fable",
+        "fable_footer_network": true
+      },
+      "why": "The network column heading.",
+      "readNow": false,
+      "waits": null
+    },
+    {
+      "skin": "fable",
+      "group": "Footer",
+      "template": "partials/footer",
+      "key": "fable_footer_copyright",
+      "type": "boolean",
+      "default": true,
+      "fieldset": "site",
+      "visibleWhen": {
+        "skin": "fable"
+      },
+      "why": "The copyright line at the very bottom.",
+      "readNow": false,
+      "waits": null
+    },
+    {
+      "skin": "fable",
+      "group": "Footer",
+      "template": "partials/footer",
+      "key": "fable_footer_copyright_text",
+      "type": "text",
+      "default": "© {{year}} {{site}}. All rights reserved.",
+      "fieldset": "site",
+      "visibleWhen": {
+        "skin": "fable",
+        "fable_footer_copyright": true
+      },
+      "why": "The line's words; {{year}} and {{site}} fill in (as in the Strata footer setting).",
+      "readNow": false,
+      "waits": null
+    },
+    {
+      "skin": "fable",
+      "group": "Footer",
+      "template": "partials/footer",
+      "key": "fable_footer_maker",
+      "type": "text",
+      "default": "",
+      "fieldset": "site",
+      "visibleWhen": {
+        "skin": "fable"
+      },
+      "why": "An optional maker or credit line beside the copyright, such as \"Site by ...\"; empty draws nothing.",
+      "readNow": false,
+      "waits": null
+    },
+    {
+      "skin": "fable",
+      "group": "Home: block order",
+      "template": "home",
+      "key": "fable_home_order",
+      "type": "select",
+      "options": [
+        "drawing",
+        "grid_early",
+        "sections_early",
+        "custom"
+      ],
+      "optionLabels": {
+        "drawing": "Drawing: cover, also today, leaderboard, long read, grid, sections, most read",
+        "grid_early": "Grid early: cover, also today, leaderboard, grid, long read, sections, most read",
+        "sections_early": "Sections early: cover, also today, leaderboard, sections, long read, grid, most read",
+        "custom": "Custom: choose each slot"
+      },
+      "default": "drawing",
+      "fieldset": "latest",
+      "visibleWhen": {
+        "skin": "fable"
+      },
+      "why": "The order of the blocks inside <main>: cover story, Also today, leaderboard, long read, story grid, From the sections, Most read. The Top stories strip (the layout's `before` section) and the title cannot move; \"custom\" uses the seven slots below.",
+      "readNow": false,
+      "waits": null
+    },
+    {
+      "skin": "fable",
+      "group": "Home: block order",
+      "template": "home",
+      "key": "fable_home_slot_1",
+      "type": "select",
+      "options": [
+        "cover",
+        "also_today",
+        "leaderboard",
+        "long_read",
+        "grid",
+        "sections",
+        "most_read",
+        "none"
+      ],
+      "optionLabels": {
+        "cover": "Cover story",
+        "also_today": "Also today",
+        "leaderboard": "Leaderboard ad",
+        "long_read": "The long read",
+        "grid": "Story grid",
+        "sections": "From the sections",
+        "most_read": "Most read (with its ad)",
+        "none": "Nothing"
+      },
+      "default": "cover",
+      "fieldset": "latest",
+      "visibleWhen": {
+        "skin": "fable",
+        "fable_home_order": "custom"
+      },
+      "why": "Slot 1 of 7 for the \"custom\" order; a select cannot forbid duplicates, so the template draws a block at its first slot and ignores repeats, and a block in no slot is not drawn.",
+      "readNow": false,
+      "waits": null
+    },
+    {
+      "skin": "fable",
+      "group": "Home: block order",
+      "template": "home",
+      "key": "fable_home_slot_2",
+      "type": "select",
+      "options": [
+        "cover",
+        "also_today",
+        "leaderboard",
+        "long_read",
+        "grid",
+        "sections",
+        "most_read",
+        "none"
+      ],
+      "optionLabels": {
+        "cover": "Cover story",
+        "also_today": "Also today",
+        "leaderboard": "Leaderboard ad",
+        "long_read": "The long read",
+        "grid": "Story grid",
+        "sections": "From the sections",
+        "most_read": "Most read (with its ad)",
+        "none": "Nothing"
+      },
+      "default": "also_today",
+      "fieldset": "latest",
+      "visibleWhen": {
+        "skin": "fable",
+        "fable_home_order": "custom"
+      },
+      "why": "Slot 2 of 7 for the \"custom\" order.",
+      "readNow": false,
+      "waits": null
+    },
+    {
+      "skin": "fable",
+      "group": "Home: block order",
+      "template": "home",
+      "key": "fable_home_slot_3",
+      "type": "select",
+      "options": [
+        "cover",
+        "also_today",
+        "leaderboard",
+        "long_read",
+        "grid",
+        "sections",
+        "most_read",
+        "none"
+      ],
+      "optionLabels": {
+        "cover": "Cover story",
+        "also_today": "Also today",
+        "leaderboard": "Leaderboard ad",
+        "long_read": "The long read",
+        "grid": "Story grid",
+        "sections": "From the sections",
+        "most_read": "Most read (with its ad)",
+        "none": "Nothing"
+      },
+      "default": "leaderboard",
+      "fieldset": "latest",
+      "visibleWhen": {
+        "skin": "fable",
+        "fable_home_order": "custom"
+      },
+      "why": "Slot 3 of 7 for the \"custom\" order.",
+      "readNow": false,
+      "waits": null
+    },
+    {
+      "skin": "fable",
+      "group": "Home: block order",
+      "template": "home",
+      "key": "fable_home_slot_4",
+      "type": "select",
+      "options": [
+        "cover",
+        "also_today",
+        "leaderboard",
+        "long_read",
+        "grid",
+        "sections",
+        "most_read",
+        "none"
+      ],
+      "optionLabels": {
+        "cover": "Cover story",
+        "also_today": "Also today",
+        "leaderboard": "Leaderboard ad",
+        "long_read": "The long read",
+        "grid": "Story grid",
+        "sections": "From the sections",
+        "most_read": "Most read (with its ad)",
+        "none": "Nothing"
+      },
+      "default": "long_read",
+      "fieldset": "latest",
+      "visibleWhen": {
+        "skin": "fable",
+        "fable_home_order": "custom"
+      },
+      "why": "Slot 4 of 7 for the \"custom\" order.",
+      "readNow": false,
+      "waits": null
+    },
+    {
+      "skin": "fable",
+      "group": "Home: block order",
+      "template": "home",
+      "key": "fable_home_slot_5",
+      "type": "select",
+      "options": [
+        "cover",
+        "also_today",
+        "leaderboard",
+        "long_read",
+        "grid",
+        "sections",
+        "most_read",
+        "none"
+      ],
+      "optionLabels": {
+        "cover": "Cover story",
+        "also_today": "Also today",
+        "leaderboard": "Leaderboard ad",
+        "long_read": "The long read",
+        "grid": "Story grid",
+        "sections": "From the sections",
+        "most_read": "Most read (with its ad)",
+        "none": "Nothing"
+      },
+      "default": "grid",
+      "fieldset": "latest",
+      "visibleWhen": {
+        "skin": "fable",
+        "fable_home_order": "custom"
+      },
+      "why": "Slot 5 of 7 for the \"custom\" order.",
+      "readNow": false,
+      "waits": null
+    },
+    {
+      "skin": "fable",
+      "group": "Home: block order",
+      "template": "home",
+      "key": "fable_home_slot_6",
+      "type": "select",
+      "options": [
+        "cover",
+        "also_today",
+        "leaderboard",
+        "long_read",
+        "grid",
+        "sections",
+        "most_read",
+        "none"
+      ],
+      "optionLabels": {
+        "cover": "Cover story",
+        "also_today": "Also today",
+        "leaderboard": "Leaderboard ad",
+        "long_read": "The long read",
+        "grid": "Story grid",
+        "sections": "From the sections",
+        "most_read": "Most read (with its ad)",
+        "none": "Nothing"
+      },
+      "default": "sections",
+      "fieldset": "latest",
+      "visibleWhen": {
+        "skin": "fable",
+        "fable_home_order": "custom"
+      },
+      "why": "Slot 6 of 7 for the \"custom\" order.",
+      "readNow": false,
+      "waits": null
+    },
+    {
+      "skin": "fable",
+      "group": "Home: block order",
+      "template": "home",
+      "key": "fable_home_slot_7",
+      "type": "select",
+      "options": [
+        "cover",
+        "also_today",
+        "leaderboard",
+        "long_read",
+        "grid",
+        "sections",
+        "most_read",
+        "none"
+      ],
+      "optionLabels": {
+        "cover": "Cover story",
+        "also_today": "Also today",
+        "leaderboard": "Leaderboard ad",
+        "long_read": "The long read",
+        "grid": "Story grid",
+        "sections": "From the sections",
+        "most_read": "Most read (with its ad)",
+        "none": "Nothing"
+      },
+      "default": "most_read",
+      "fieldset": "latest",
+      "visibleWhen": {
+        "skin": "fable",
+        "fable_home_order": "custom"
+      },
+      "why": "Slot 7 of 7 for the \"custom\" order.",
+      "readNow": false,
+      "waits": null
+    },
+    {
+      "skin": "fable",
+      "group": "Home: block order",
+      "template": "home",
+      "key": "fable_home_top_stories_position",
+      "type": "select",
+      "options": [
+        "above_page",
+        "below_title"
+      ],
+      "optionLabels": {
+        "above_page": "Above the page (the only place)",
+        "below_title": "Below the title (not possible)"
+      },
+      "default": "above_page",
+      "fieldset": "latest",
+      "visibleWhen": {
+        "skin": "fable"
+      },
+      "why": "The Top stories strip can only sit above <main> (the layout's `before` section); it cannot be moved below it.",
+      "readNow": false,
+      "waits": {
+        "feature": "a movable block between the layout's `before` and `main` sections",
+        "issue": null,
+        "note": "Teme gives a page a fixed `before` and `main`; a full-width strip drawn in `main` would be a new design. Only `above_page` is possible."
+      }
+    },
+    {
+      "skin": "fable",
+      "group": "Home: block order",
+      "template": "home",
+      "key": "fable_home_order_list",
+      "type": "text",
+      "default": "",
+      "fieldset": "latest",
+      "visibleWhen": {
+        "skin": "fable"
+      },
+      "why": "The real answer: an ordered, drag-and-drop list of the blocks, with no duplicates possible.",
+      "readNow": false,
+      "waits": {
+        "feature": "list",
+        "issue": "#373",
+        "note": "An ordered list setting of block names; until then the preset and the seven slots above stand in."
+      }
+    },
+    {
+      "skin": "fable",
+      "group": "Home: title",
+      "template": "home",
+      "key": "front_title",
+      "type": "text",
+      "default": "Today on :site",
+      "fieldset": "latest",
+      "visibleWhen": {
+        "skin": "fable"
+      },
+      "why": "The home page's one h1; :site is the site's name.",
+      "readNow": true,
+      "waits": null
+    },
+    {
+      "skin": "fable",
+      "group": "Home: title",
+      "template": "home",
+      "key": "posts_title",
+      "type": "text",
+      "default": "Latest stories",
+      "fieldset": "latest",
+      "visibleWhen": {
+        "skin": "fable"
+      },
+      "why": "The title of a posts page that has none of its own.",
+      "readNow": true,
+      "waits": null
+    },
+    {
+      "skin": "fable",
+      "group": "Home: title",
+      "template": "home",
+      "key": "fable_home_title_visible",
+      "type": "boolean",
+      "default": true,
+      "fieldset": "latest",
+      "visibleWhen": {
+        "skin": "fable"
+      },
+      "why": "Show the h1 on the page; off keeps it for assistive technology and search engines but hides it (a page must keep one h1).",
+      "readNow": false,
+      "waits": null
+    },
+    {
+      "skin": "fable",
+      "group": "Home: title",
+      "template": "home",
+      "key": "show_story_count",
+      "type": "boolean",
+      "default": true,
+      "fieldset": "latest",
+      "visibleWhen": {
+        "skin": "fable"
+      },
+      "why": "\"N stories on this page\" beside the title.",
+      "readNow": true,
+      "waits": null
+    },
+    {
+      "skin": "fable",
+      "group": "Home: top stories strip",
+      "template": "home",
+      "key": "fable_home_top_stories",
+      "type": "boolean",
+      "default": true,
+      "fieldset": "latest",
+      "visibleWhen": {
+        "skin": "fable"
+      },
+      "why": "The ranked \"Top stories\" strip above the page (the drawing's first band).",
+      "readNow": false,
+      "waits": null
+    },
+    {
+      "skin": "fable",
+      "group": "Home: top stories strip",
+      "template": "home",
+      "key": "top_stories_count",
+      "type": "select",
+      "options": [
+        "3",
+        "4",
+        "5",
+        "6"
+      ],
+      "default": "4",
+      "fieldset": "latest",
+      "visibleWhen": {
+        "skin": "fable",
+        "fable_home_top_stories": true
+      },
+      "why": "How many stories the strip lists.",
+      "readNow": true,
+      "waits": null
+    },
+    {
+      "skin": "fable",
+      "group": "Home: top stories strip",
+      "template": "home",
+      "key": "fable_home_top_stories_label",
+      "type": "text",
+      "default": "Top stories",
+      "fieldset": "latest",
+      "visibleWhen": {
+        "skin": "fable",
+        "fable_home_top_stories": true
+      },
+      "why": "The strip's label.",
+      "readNow": false,
+      "waits": null
+    },
+    {
+      "skin": "fable",
+      "group": "Home: top stories strip",
+      "template": "home",
+      "key": "fable_home_top_stories_rank",
+      "type": "boolean",
+      "default": true,
+      "fieldset": "latest",
+      "visibleWhen": {
+        "skin": "fable",
+        "fable_home_top_stories": true
+      },
+      "why": "The big rank numbers before each headline (1, 2, 3...).",
+      "readNow": false,
+      "waits": null
+    },
+    {
+      "skin": "fable",
+      "group": "Home: cover story",
+      "template": "home",
+      "key": "fable_home_cover",
+      "type": "boolean",
+      "default": true,
+      "fieldset": "latest",
+      "visibleWhen": {
+        "skin": "fable"
+      },
+      "why": "The cover story (the lead) with its picture and overlapping headline card.",
+      "readNow": false,
+      "waits": null
+    },
+    {
+      "skin": "fable",
+      "group": "Home: cover story",
+      "template": "home",
+      "key": "fable_home_cover_kicker",
+      "type": "boolean",
+      "default": true,
+      "fieldset": "latest",
+      "visibleWhen": {
+        "skin": "fable",
+        "fable_home_cover": true
+      },
+      "why": "The section name above the cover headline.",
+      "readNow": false,
+      "waits": null
+    },
+    {
+      "skin": "fable",
+      "group": "Home: cover story",
+      "template": "home",
+      "key": "fable_home_cover_standfirst",
+      "type": "boolean",
+      "default": true,
+      "fieldset": "latest",
+      "visibleWhen": {
+        "skin": "fable",
+        "fable_home_cover": true
+      },
+      "why": "The standfirst under the cover headline.",
+      "readNow": false,
+      "waits": null
+    },
+    {
+      "skin": "fable",
+      "group": "Home: cover story",
+      "template": "home",
+      "key": "fable_home_cover_byline",
+      "type": "boolean",
+      "default": true,
+      "fieldset": "latest",
+      "visibleWhen": {
+        "skin": "fable",
+        "fable_home_cover": true
+      },
+      "why": "The byline under the cover story.",
+      "readNow": false,
+      "waits": null
+    },
+    {
+      "skin": "fable",
+      "group": "Home: cover story",
+      "template": "home",
+      "key": "fable_home_cover_layout",
+      "type": "select",
+      "options": [
+        "overlap",
+        "stacked"
+      ],
+      "optionLabels": {
+        "overlap": "Overlapping card",
+        "stacked": "Below the picture"
+      },
+      "default": "overlap",
+      "fieldset": "latest",
+      "visibleWhen": {
+        "skin": "fable",
+        "fable_home_cover": true
+      },
+      "why": "The headline card overlaps the bottom of the picture (the drawing) or sits plainly below it (as the no-picture variant does).",
+      "readNow": false,
+      "waits": null
+    },
+    {
+      "skin": "fable",
+      "group": "Home: cover story",
+      "template": "home",
+      "key": "fable_home_cover_ratio",
+      "type": "select",
+      "options": [
+        "wide",
+        "standard"
+      ],
+      "optionLabels": {
+        "wide": "21:10 wide",
+        "standard": "4:3"
+      },
+      "default": "wide",
+      "fieldset": "latest",
+      "visibleWhen": {
+        "skin": "fable",
+        "fable_home_cover": true
+      },
+      "why": "Picture shape: 21:10 from 640px (the drawing) or 4:3 at every width.",
+      "readNow": false,
+      "waits": null
+    },
+    {
+      "skin": "fable",
+      "group": "Home: Also today",
+      "template": "home",
+      "key": "fable_home_also_today",
+      "type": "boolean",
+      "default": true,
+      "fieldset": "latest",
+      "visibleWhen": {
+        "skin": "fable"
+      },
+      "why": "The \"Also today\" row of small stories under the cover.",
+      "readNow": false,
+      "waits": null
+    },
+    {
+      "skin": "fable",
+      "group": "Home: Also today",
+      "template": "home",
+      "key": "also_today_count",
+      "type": "select",
+      "options": [
+        "3",
+        "6"
+      ],
+      "default": "3",
+      "fieldset": "latest",
+      "visibleWhen": {
+        "skin": "fable",
+        "fable_home_also_today": true
+      },
+      "why": "How many of the newest stories fill it when none are pinned (rows of three).",
+      "readNow": true,
+      "waits": null
+    },
+    {
+      "skin": "fable",
+      "group": "Home: Also today",
+      "template": "home",
+      "key": "fable_home_also_today_kicker",
+      "type": "boolean",
+      "default": true,
+      "fieldset": "latest",
+      "visibleWhen": {
+        "skin": "fable",
+        "fable_home_also_today": true
+      },
+      "why": "The section name above each small headline.",
+      "readNow": false,
+      "waits": null
+    },
+    {
+      "skin": "fable",
+      "group": "Home: Also today",
+      "template": "home",
+      "key": "fable_home_also_today_thumb",
+      "type": "boolean",
+      "default": true,
+      "fieldset": "latest",
+      "visibleWhen": {
+        "skin": "fable",
+        "fable_home_also_today": true
+      },
+      "why": "The small square picture beside each headline.",
+      "readNow": false,
+      "waits": null
+    },
+    {
+      "skin": "fable",
+      "group": "Home: ad spots",
+      "template": "home",
+      "key": "fable_home_ad_leaderboard",
+      "type": "boolean",
+      "default": true,
+      "fieldset": "latest",
+      "visibleWhen": {
+        "skin": "fable",
+        "show_ads": true
+      },
+      "why": "The 728 x 90 leaderboard under Also today (region `ad-leaderboard`).",
+      "readNow": false,
+      "waits": null
+    },
+    {
+      "skin": "fable",
+      "group": "Home: ad spots",
+      "template": "home",
+      "key": "fable_home_ad_in_feed",
+      "type": "boolean",
+      "default": true,
+      "fieldset": "latest",
+      "visibleWhen": {
+        "skin": "fable",
+        "show_ads": true
+      },
+      "why": "The wide advertisement inside the story grid (region `ad-in-feed`).",
+      "readNow": false,
+      "waits": null
+    },
+    {
+      "skin": "fable",
+      "group": "Home: ad spots",
+      "template": "home",
+      "key": "feed_ad_after",
+      "type": "select",
+      "options": [
+        "4",
+        "8",
+        "12"
+      ],
+      "default": "4",
+      "fieldset": "latest",
+      "visibleWhen": {
+        "skin": "fable",
+        "fable_home_ad_in_feed": true,
+        "show_ads": true
+      },
+      "why": "The in-feed ad sits after this many stories.",
+      "readNow": true,
+      "waits": null
+    },
+    {
+      "skin": "fable",
+      "group": "Home: ad spots",
+      "template": "home",
+      "key": "fable_home_ad_rectangle",
+      "type": "boolean",
+      "default": true,
+      "fieldset": "latest",
+      "visibleWhen": {
+        "skin": "fable",
+        "show_ads": true
+      },
+      "why": "The 336 x 280 rectangle beside Most read (region `ad-rectangle`).",
+      "readNow": false,
+      "waits": null
+    },
+    {
+      "skin": "fable",
+      "group": "Home: the long read",
+      "template": "home",
+      "key": "fable_home_long_read",
+      "type": "boolean",
+      "default": true,
+      "fieldset": "latest",
+      "visibleWhen": {
+        "skin": "fable"
+      },
+      "why": "The brand-colour \"long read\" block (region `home-long-read`; its story and heading are the editor's).",
+      "readNow": false,
+      "waits": null
+    },
+    {
+      "skin": "fable",
+      "group": "Home: story grid",
+      "template": "home",
+      "key": "fable_home_grid",
+      "type": "boolean",
+      "default": true,
+      "fieldset": "latest",
+      "visibleWhen": {
+        "skin": "fable"
+      },
+      "why": "The \"More to explore\" grid of stories with its pages.",
+      "readNow": false,
+      "waits": null
+    },
+    {
+      "skin": "fable",
+      "group": "Home: story grid",
+      "template": "home",
+      "key": "grid_title",
+      "type": "text",
+      "default": "More to explore",
+      "fieldset": "latest",
+      "visibleWhen": {
+        "skin": "fable",
+        "fable_home_grid": true
+      },
+      "why": "The heading above the grid.",
+      "readNow": true,
+      "waits": null
+    },
+    {
+      "skin": "fable",
+      "group": "Home: story grid",
+      "template": "home",
+      "key": "show_layout_toggle",
+      "type": "boolean",
+      "default": true,
+      "fieldset": "latest",
+      "visibleWhen": {
+        "skin": "fable",
+        "fable_home_grid": true
+      },
+      "why": "The reader's grid / list buttons above the grid.",
+      "readNow": true,
+      "waits": null
+    },
+    {
+      "skin": "fable",
+      "group": "Home: story grid",
+      "template": "home",
+      "key": "fable_home_grid_layout",
+      "type": "select",
+      "options": [
+        "grid",
+        "list"
+      ],
+      "optionLabels": {
+        "grid": "Grid",
+        "list": "List"
+      },
+      "default": "grid",
+      "fieldset": "latest",
+      "visibleWhen": {
+        "skin": "fable",
+        "fable_home_grid": true
+      },
+      "why": "The layout a reader sees first (the drawing: grid); their own choice is kept on their device.",
+      "readNow": false,
+      "waits": null
+    },
+    {
+      "skin": "fable",
+      "group": "Home: story grid",
+      "template": "home",
+      "key": "fable_home_grid_columns",
+      "type": "select",
+      "options": [
+        "3",
+        "4"
+      ],
+      "default": "4",
+      "fieldset": "latest",
+      "visibleWhen": {
+        "skin": "fable",
+        "fable_home_grid": true
+      },
+      "why": "Columns of the grid on wide screens (the drawing: 4).",
+      "readNow": false,
+      "waits": null
+    },
+    {
+      "skin": "fable",
+      "group": "Home: story grid",
+      "template": "home",
+      "key": "fable_home_sort_toggle",
+      "type": "boolean",
+      "default": true,
+      "fieldset": "latest",
+      "visibleWhen": {
+        "skin": "fable",
+        "fable_home_grid": true
+      },
+      "why": "The \"Newest / Quick reads\" switch above the grid (the drawing).",
+      "readNow": false,
+      "waits": {
+        "feature": "sort",
+        "issue": null,
+        "note": "A listing has one order, newest first; Teme offers no sort and no reading time on items."
+      }
+    },
+    {
+      "skin": "fable",
+      "group": "Home: From the sections",
+      "template": "home",
+      "key": "fable_home_sections",
+      "type": "boolean",
+      "default": true,
+      "fieldset": "latest",
+      "visibleWhen": {
+        "skin": "fable"
+      },
+      "why": "The \"From the sections\" band of up to four section lists (region `home-sections`).",
+      "readNow": false,
+      "waits": null
+    },
+    {
+      "skin": "fable",
+      "group": "Home: Most read",
+      "template": "home",
+      "key": "fable_home_most_read",
+      "type": "boolean",
+      "default": true,
+      "fieldset": "latest",
+      "visibleWhen": {
+        "skin": "fable"
+      },
+      "why": "The \"Most read\" ranked list beside its advertisement (region `home-most-read`).",
+      "readNow": false,
+      "waits": null
+    },
+    {
+      "skin": "fable",
+      "group": "Home: Most read",
+      "template": "home",
+      "key": "fable_home_most_read_source",
+      "type": "select",
+      "options": [
+        "editor_list",
+        "views"
+      ],
+      "optionLabels": {
+        "editor_list": "Editor's list",
+        "views": "Most read by views"
+      },
+      "default": "editor_list",
+      "fieldset": "latest",
+      "visibleWhen": {
+        "skin": "fable",
+        "fable_home_most_read": true
+      },
+      "why": "An editor's hand-picked list (as built) or the stories read most this week (the drawing).",
+      "readNow": false,
+      "waits": {
+        "feature": "counts",
+        "issue": null,
+        "note": "Teme keeps no per-story view counts; only `editor_list` is storable."
+      }
+    },
+    {
+      "skin": "fable",
+      "group": "Home: Most read",
+      "template": "home",
+      "key": "fable_home_most_read_rank",
+      "type": "boolean",
+      "default": true,
+      "fieldset": "latest",
+      "visibleWhen": {
+        "skin": "fable",
+        "fable_home_most_read": true
+      },
+      "why": "The ranking numbers beside each story.",
+      "readNow": false,
+      "waits": null
+    },
+    {
+      "skin": "fable",
+      "group": "Article: top",
+      "template": "article",
+      "key": "show_reading_progress",
+      "type": "boolean",
+      "default": true,
+      "fieldset": "content",
+      "visibleWhen": {
+        "skin": "fable"
+      },
+      "why": "The thin reading bar across the top.",
+      "readNow": true,
+      "waits": null
+    },
+    {
+      "skin": "fable",
+      "group": "Article: top",
+      "template": "article",
+      "key": "fable_article_breadcrumb",
+      "type": "boolean",
+      "default": true,
+      "fieldset": "content",
+      "visibleWhen": {
+        "skin": "fable"
+      },
+      "why": "The breadcrumb above the headline (Strata has the same switch).",
+      "readNow": false,
+      "waits": null
+    },
+    {
+      "skin": "fable",
+      "group": "Article: top",
+      "template": "article",
+      "key": "fable_article_kicker",
+      "type": "boolean",
+      "default": true,
+      "fieldset": "content",
+      "visibleWhen": {
+        "skin": "fable"
+      },
+      "why": "The section name above the headline when there is no breadcrumb.",
+      "readNow": false,
+      "waits": null
+    },
+    {
+      "skin": "fable",
+      "group": "Article: top",
+      "template": "article",
+      "key": "fable_article_standfirst",
+      "type": "boolean",
+      "default": true,
+      "fieldset": "content",
+      "visibleWhen": {
+        "skin": "fable"
+      },
+      "why": "The standfirst (deck) under the headline.",
+      "readNow": false,
+      "waits": null
+    },
+    {
+      "skin": "fable",
+      "group": "Article: byline",
+      "template": "partials/article-byline",
+      "key": "fable_byline_avatar",
+      "type": "boolean",
+      "default": true,
+      "fieldset": "content",
+      "visibleWhen": {
+        "skin": "fable"
+      },
+      "why": "The author's initials circle beside the byline.",
+      "readNow": false,
+      "waits": null
+    },
+    {
+      "skin": "fable",
+      "group": "Article: byline",
+      "template": "partials/article-byline",
+      "key": "fable_byline_authors",
+      "type": "boolean",
+      "default": true,
+      "fieldset": "content",
+      "visibleWhen": {
+        "skin": "fable"
+      },
+      "why": "\"By\" and the author names.",
+      "readNow": false,
+      "waits": null
+    },
+    {
+      "skin": "fable",
+      "group": "Article: byline",
+      "template": "partials/article-byline",
+      "key": "fable_byline_role",
+      "type": "boolean",
+      "default": true,
+      "fieldset": "content",
+      "visibleWhen": {
+        "skin": "fable",
+        "fable_byline_authors": true
+      },
+      "why": "The author's role after the name (\"animals editor\" in the drawing).",
+      "readNow": false,
+      "waits": {
+        "feature": "author role",
+        "issue": null,
+        "note": "Teme's Person has a name, url and bio but no role or job title."
+      }
+    },
+    {
+      "skin": "fable",
+      "group": "Article: byline",
+      "template": "partials/article-byline",
+      "key": "fable_byline_date",
+      "type": "boolean",
+      "default": true,
+      "fieldset": "content",
+      "visibleWhen": {
+        "skin": "fable"
+      },
+      "why": "The publication date in the byline.",
+      "readNow": false,
+      "waits": null
+    },
+    {
+      "skin": "fable",
+      "group": "Article: byline",
+      "template": "partials/article-byline",
+      "key": "fable_article_show_updated",
+      "type": "boolean",
+      "default": true,
+      "fieldset": "content",
+      "visibleWhen": {
+        "skin": "fable"
+      },
+      "why": "The \"Updated\" date in the byline, when the article was revised at least a day later.",
+      "readNow": false,
+      "waits": null
+    },
+    {
+      "skin": "fable",
+      "group": "Article: hero",
+      "template": "article",
+      "key": "fable_article_hero",
+      "type": "boolean",
+      "default": true,
+      "fieldset": "content",
+      "visibleWhen": {
+        "skin": "fable"
+      },
+      "why": "The large picture under the byline.",
+      "readNow": false,
+      "waits": null
+    },
+    {
+      "skin": "fable",
+      "group": "Article: hero",
+      "template": "article",
+      "key": "fable_article_hero_caption",
+      "type": "boolean",
+      "default": true,
+      "fieldset": "content",
+      "visibleWhen": {
+        "skin": "fable",
+        "fable_article_hero": true
+      },
+      "why": "The caption and credit under the hero.",
+      "readNow": false,
+      "waits": null
+    },
+    {
+      "skin": "fable",
+      "group": "Article: hero",
+      "template": "article",
+      "key": "fable_article_hero_ratio",
+      "type": "select",
+      "options": [
+        "16:10",
+        "16:9"
+      ],
+      "default": "16:10",
+      "fieldset": "content",
+      "visibleWhen": {
+        "skin": "fable",
+        "fable_article_hero": true
+      },
+      "why": "The hero's shape: 16:10 (the drawing's hero) or 16:9 (its in-text figure).",
+      "readNow": false,
+      "waits": null
+    },
+    {
+      "skin": "fable",
+      "group": "Article: hero",
+      "template": "article",
+      "key": "fable_article_fields_before",
+      "type": "boolean",
+      "default": true,
+      "fieldset": "content",
+      "visibleWhen": {
+        "skin": "fable"
+      },
+      "why": "The custom fields set to show before the body (the drawing's \"Reviewed by\" line is such a field).",
+      "readNow": false,
+      "waits": null
+    },
+    {
+      "skin": "fable",
+      "group": "Article: body",
+      "template": "partials/article-body",
+      "key": "show_contents",
+      "type": "boolean",
+      "default": true,
+      "fieldset": "content",
+      "visibleWhen": {
+        "skin": "fable"
+      },
+      "why": "The \"In this story\" list in the rail, built from the body's h2 headings (articles and pages).",
+      "readNow": true,
+      "waits": null
+    },
+    {
+      "skin": "fable",
+      "group": "Article: body",
+      "template": "partials/article-body",
+      "key": "contents_min_headings",
+      "type": "select",
+      "options": [
+        "2",
+        "3",
+        "4"
+      ],
+      "default": "2",
+      "fieldset": "content",
+      "visibleWhen": {
+        "skin": "fable",
+        "show_contents": true
+      },
+      "why": "The fewest h2 headings that earn the list.",
+      "readNow": true,
+      "waits": null
+    },
+    {
+      "skin": "fable",
+      "group": "Article: body",
+      "template": "partials/article-body",
+      "key": "article_lede",
+      "type": "boolean",
+      "default": true,
+      "fieldset": "content",
+      "visibleWhen": {
+        "skin": "fable"
+      },
+      "why": "The first paragraph set larger, as the drawing's lede.",
+      "readNow": true,
+      "waits": null
+    },
+    {
+      "skin": "fable",
+      "group": "Article: body",
+      "template": "article",
+      "key": "fable_article_inline_related",
+      "type": "boolean",
+      "default": true,
+      "fieldset": "content",
+      "visibleWhen": {
+        "skin": "fable"
+      },
+      "why": "The small \"Related\" card inside the body (in the drawing, after the second paragraph).",
+      "readNow": false,
+      "waits": null
+    },
+    {
+      "skin": "fable",
+      "group": "Article: body",
+      "template": "article",
+      "key": "fable_article_fields_after",
+      "type": "boolean",
+      "default": true,
+      "fieldset": "content",
+      "visibleWhen": {
+        "skin": "fable"
+      },
+      "why": "The custom fields set to show after the body.",
+      "readNow": false,
+      "waits": null
+    },
+    {
+      "skin": "fable",
+      "group": "Article: body",
+      "template": "article",
+      "key": "fable_article_after_content",
+      "type": "boolean",
+      "default": true,
+      "fieldset": "content",
+      "visibleWhen": {
+        "skin": "fable"
+      },
+      "why": "The `after-content` region (a callout, button or featured posts) under the body.",
+      "readNow": false,
+      "waits": null
+    },
+    {
+      "skin": "fable",
+      "group": "Article: ads",
+      "template": "article",
+      "key": "fable_article_ad_leaderboard",
+      "type": "boolean",
+      "default": true,
+      "fieldset": "content",
+      "visibleWhen": {
+        "skin": "fable",
+        "show_ads": true
+      },
+      "why": "The leaderboard above the article (region `ad-leaderboard`).",
+      "readNow": false,
+      "waits": null
+    },
+    {
+      "skin": "fable",
+      "group": "Article: ads",
+      "template": "article",
+      "key": "fable_article_ad_in_article",
+      "type": "boolean",
+      "default": true,
+      "fieldset": "content",
+      "visibleWhen": {
+        "skin": "fable",
+        "show_ads": true
+      },
+      "why": "The ad inside the body (region `ad-in-article`).",
+      "readNow": false,
+      "waits": null
+    },
+    {
+      "skin": "fable",
+      "group": "Article: ads",
+      "template": "partials/article-body",
+      "key": "ad_in_article_after",
+      "type": "select",
+      "options": [
+        "3",
+        "4",
+        "6",
+        "8"
+      ],
+      "default": "4",
+      "fieldset": "content",
+      "visibleWhen": {
+        "skin": "fable",
+        "show_ads": true,
+        "fable_article_ad_in_article": true
+      },
+      "why": "The in-article ad sits after this many top-level blocks of the body.",
+      "readNow": true,
+      "waits": null
+    },
+    {
+      "skin": "fable",
+      "group": "Article: ads",
+      "template": "partials/article-body",
+      "key": "ad_in_article_min",
+      "type": "select",
+      "options": [
+        "6",
+        "8",
+        "10"
+      ],
+      "default": "8",
+      "fieldset": "content",
+      "visibleWhen": {
+        "skin": "fable",
+        "show_ads": true,
+        "fable_article_ad_in_article": true
+      },
+      "why": "The fewest blocks a body needs before the ad goes inside it.",
+      "readNow": true,
+      "waits": null
+    },
+    {
+      "skin": "fable",
+      "group": "Article: ads",
+      "template": "article",
+      "key": "fable_article_ad_second",
+      "type": "boolean",
+      "default": true,
+      "fieldset": "content",
+      "visibleWhen": {
+        "skin": "fable",
+        "show_ads": true
+      },
+      "why": "The second ad after the body (region `ad-in-article-2`).",
+      "readNow": false,
+      "waits": null
+    },
+    {
+      "skin": "fable",
+      "group": "Article: ads",
+      "template": "article",
+      "key": "fable_article_ad_half_page",
+      "type": "boolean",
+      "default": true,
+      "fieldset": "content",
+      "visibleWhen": {
+        "skin": "fable",
+        "show_ads": true
+      },
+      "why": "The sticky half-page ad beside the article on screens from 1440px (region `ad-half-page`).",
+      "readNow": false,
+      "waits": null
+    },
+    {
+      "skin": "fable",
+      "group": "Article: Read next",
+      "template": "partials/article-readnext",
+      "key": "show_read_next",
+      "type": "boolean",
+      "default": true,
+      "fieldset": "content",
+      "visibleWhen": {
+        "skin": "fable"
+      },
+      "why": "The \"Read next\" strip after the body.",
+      "readNow": true,
+      "waits": null
+    },
+    {
+      "skin": "fable",
+      "group": "Article: Read next",
+      "template": "partials/article-readnext",
+      "key": "fable_read_next_source",
+      "type": "select",
+      "options": [
+        "same_section",
+        "newest"
+      ],
+      "optionLabels": {
+        "same_section": "Same section",
+        "newest": "Newest story"
+      },
+      "default": "same_section",
+      "fieldset": "content",
+      "visibleWhen": {
+        "skin": "fable",
+        "show_read_next": true
+      },
+      "why": "A story from the same section (as built) or simply the newest story.",
+      "readNow": false,
+      "waits": {
+        "feature": "latest items on an article page",
+        "issue": null,
+        "note": "A single template gets `related` only; only `same_section` is storable."
+      }
+    },
+    {
+      "skin": "fable",
+      "group": "Article: Read next",
+      "template": "partials/article-readnext",
+      "key": "fable_read_next_count",
+      "type": "select",
+      "options": [
+        "1",
+        "2",
+        "3"
+      ],
+      "default": "1",
+      "fieldset": "content",
+      "visibleWhen": {
+        "skin": "fable",
+        "show_read_next": true
+      },
+      "why": "How many stories the strip offers (the drawing: one).",
+      "readNow": false,
+      "waits": null
+    },
+    {
+      "skin": "fable",
+      "group": "Article: Read next",
+      "template": "partials/article-readnext",
+      "key": "fable_read_next_reason",
+      "type": "boolean",
+      "default": true,
+      "fieldset": "content",
+      "visibleWhen": {
+        "skin": "fable",
+        "show_read_next": true
+      },
+      "why": "The small line giving the reason or byline under the \"Read next\" headline.",
+      "readNow": false,
+      "waits": null
+    },
+    {
+      "skin": "fable",
+      "group": "Article: tags",
+      "template": "article",
+      "key": "fable_tags_label",
+      "type": "text",
+      "default": "Filed under",
+      "fieldset": "content",
+      "visibleWhen": {
+        "skin": "fable",
+        "show_tags": true
+      },
+      "why": "The word before the tags.",
+      "readNow": false,
+      "waits": null
+    },
+    {
+      "skin": "fable",
+      "group": "Article: author card",
+      "template": "partials/article-authors",
+      "key": "fable_author_card_avatar",
+      "type": "boolean",
+      "default": true,
+      "fieldset": "content",
+      "visibleWhen": {
+        "skin": "fable",
+        "show_author_card": true
+      },
+      "why": "The initials circle in the card.",
+      "readNow": false,
+      "waits": null
+    },
+    {
+      "skin": "fable",
+      "group": "Article: author card",
+      "template": "partials/article-authors",
+      "key": "fable_author_card_bio",
+      "type": "boolean",
+      "default": true,
+      "fieldset": "content",
+      "visibleWhen": {
+        "skin": "fable",
+        "show_author_card": true
+      },
+      "why": "The author's bio in the card.",
+      "readNow": false,
+      "waits": null
+    },
+    {
+      "skin": "fable",
+      "group": "Article: author card",
+      "template": "partials/article-authors",
+      "key": "fable_author_card_link",
+      "type": "boolean",
+      "default": true,
+      "fieldset": "content",
+      "visibleWhen": {
+        "skin": "fable",
+        "show_author_card": true
+      },
+      "why": "The \"More from ...\" link to the author's page.",
+      "readNow": false,
+      "waits": null
+    },
+    {
+      "skin": "fable",
+      "group": "Article: related",
+      "template": "partials/article-related",
+      "key": "show_related",
+      "type": "boolean",
+      "default": true,
+      "fieldset": "content",
+      "visibleWhen": {
+        "skin": "fable"
+      },
+      "why": "The \"Keep reading\" row of related stories under the article.",
+      "readNow": true,
+      "waits": null
+    },
+    {
+      "skin": "fable",
+      "group": "Article: related",
+      "template": "partials/article-related",
+      "key": "related_heading",
+      "type": "text",
+      "default": "Keep reading",
+      "fieldset": "content",
+      "visibleWhen": {
+        "skin": "fable",
+        "show_related": true
+      },
+      "why": "The row's heading.",
+      "readNow": true,
+      "waits": null
+    },
+    {
+      "skin": "fable",
+      "group": "Article: related",
+      "template": "partials/article-related",
+      "key": "fable_related_count",
+      "type": "select",
+      "options": [
+        "2",
+        "3",
+        "4",
+        "6"
+      ],
+      "default": "3",
+      "fieldset": "content",
+      "visibleWhen": {
+        "skin": "fable",
+        "show_related": true
+      },
+      "why": "How many stories the row shows (it can only show as many as Teme relates).",
+      "readNow": false,
+      "waits": null
+    },
+    {
+      "skin": "fable",
+      "group": "Article: related",
+      "template": "partials/article-related",
+      "key": "fable_related_more_link",
+      "type": "boolean",
+      "default": true,
+      "fieldset": "content",
+      "visibleWhen": {
+        "skin": "fable",
+        "show_related": true
+      },
+      "why": "The \"All [section]\" link at the right of the heading.",
+      "readNow": false,
+      "waits": null
+    },
+    {
+      "skin": "fable",
+      "group": "Comments",
+      "template": "partials/comments-thread",
+      "key": "fable_comments_placement",
+      "type": "select",
+      "options": [
+        "below",
+        "rail"
+      ],
+      "optionLabels": {
+        "below": "Below the article",
+        "rail": "In the rail"
+      },
+      "default": "below",
+      "fieldset": "content",
+      "visibleWhen": {
+        "skin": "fable",
+        "show_comments": true
+      },
+      "why": "Below the author card (the drawing) or in the rail; \"hidden\" is `show_comments` off. The rail is a 17rem column, a poor home for a thread: listed only so the owner can strike it.",
+      "readNow": false,
+      "waits": null
+    },
+    {
+      "skin": "fable",
+      "group": "Comments",
+      "template": "partials/comment-card",
+      "key": "fable_comments_avatar",
+      "type": "boolean",
+      "default": true,
+      "fieldset": "content",
+      "visibleWhen": {
+        "skin": "fable",
+        "show_comments": true
+      },
+      "why": "The initials circle beside each comment.",
+      "readNow": false,
+      "waits": null
+    },
+    {
+      "skin": "fable",
+      "group": "Comments",
+      "template": "partials/comment-card",
+      "key": "fable_comments_author_badge",
+      "type": "boolean",
+      "default": true,
+      "fieldset": "content",
+      "visibleWhen": {
+        "skin": "fable",
+        "show_comments": true
+      },
+      "why": "The \"Author\" badge on a credited author's comment (the drawing).",
+      "readNow": false,
+      "waits": null
+    },
+    {
+      "skin": "fable",
+      "group": "Comments",
+      "template": "comments",
+      "key": "comments_page_title",
+      "type": "text",
+      "default": "Comments on “:title”",
+      "fieldset": "content",
+      "visibleWhen": {
+        "skin": "fable"
+      },
+      "why": "The h1 of a later page of a thread; :title is the story's title.",
+      "readNow": true,
+      "waits": null
+    },
+    {
+      "skin": "fable",
+      "group": "Page",
+      "template": "page",
+      "key": "fable_page_breadcrumb",
+      "type": "boolean",
+      "default": true,
+      "fieldset": "content",
+      "visibleWhen": {
+        "skin": "fable"
+      },
+      "why": "The breadcrumb above a page's title.",
+      "readNow": false,
+      "waits": null
+    },
+    {
+      "skin": "fable",
+      "group": "Page",
+      "template": "page",
+      "key": "fable_page_standfirst",
+      "type": "boolean",
+      "default": true,
+      "fieldset": "content",
+      "visibleWhen": {
+        "skin": "fable"
+      },
+      "why": "The standfirst under a page's title.",
+      "readNow": false,
+      "waits": null
+    },
+    {
+      "skin": "fable",
+      "group": "Page",
+      "template": "page",
+      "key": "show_updated",
+      "type": "boolean",
+      "default": true,
+      "fieldset": "content",
+      "visibleWhen": {
+        "skin": "fable"
+      },
+      "why": "The \"Last updated\" line under the title.",
+      "readNow": true,
+      "waits": null
+    },
+    {
+      "skin": "fable",
+      "group": "Page",
+      "template": "page",
+      "key": "fable_page_hero",
+      "type": "boolean",
+      "default": true,
+      "fieldset": "content",
+      "visibleWhen": {
+        "skin": "fable"
+      },
+      "why": "The featured picture under the title.",
+      "readNow": false,
+      "waits": null
+    },
+    {
+      "skin": "fable",
+      "group": "Page",
+      "template": "page",
+      "key": "fable_page_fields",
+      "type": "boolean",
+      "default": true,
+      "fieldset": "content",
+      "visibleWhen": {
+        "skin": "fable"
+      },
+      "why": "The custom fields set to show on a page.",
+      "readNow": false,
+      "waits": null
+    },
+    {
+      "skin": "fable",
+      "group": "Page",
+      "template": "page",
+      "key": "page_lede",
+      "type": "boolean",
+      "default": true,
+      "fieldset": "content",
+      "visibleWhen": {
+        "skin": "fable"
+      },
+      "why": "The first paragraph set larger.",
+      "readNow": true,
+      "waits": null
+    },
+    {
+      "skin": "fable",
+      "group": "Page",
+      "template": "page",
+      "key": "show_children",
+      "type": "boolean",
+      "default": true,
+      "fieldset": "content",
+      "visibleWhen": {
+        "skin": "fable"
+      },
+      "why": "The list of pages under this one.",
+      "readNow": true,
+      "waits": null
+    },
+    {
+      "skin": "fable",
+      "group": "Page",
+      "template": "page",
+      "key": "children_heading",
+      "type": "text",
+      "default": "In this section",
+      "fieldset": "content",
+      "visibleWhen": {
+        "skin": "fable",
+        "show_children": true
+      },
+      "why": "That list's heading.",
+      "readNow": true,
+      "waits": null
+    },
+    {
+      "skin": "fable",
+      "group": "Page",
+      "template": "page",
+      "key": "show_page_comments",
+      "type": "boolean",
+      "default": true,
+      "fieldset": "content",
+      "visibleWhen": {
+        "skin": "fable"
+      },
+      "why": "Comments under pages, when Teme gives them a thread.",
+      "readNow": true,
+      "waits": null
+    },
+    {
+      "skin": "fable",
+      "group": "Archive: header",
+      "template": "archive",
+      "key": "fable_archive_breadcrumb",
+      "type": "boolean",
+      "default": true,
+      "fieldset": "archive",
+      "visibleWhen": {
+        "skin": "fable"
+      },
+      "why": "The breadcrumb above the section name.",
+      "readNow": false,
+      "waits": null
+    },
+    {
+      "skin": "fable",
+      "group": "Archive: header",
+      "template": "archive",
+      "key": "fable_archive_kind_label",
+      "type": "boolean",
+      "default": true,
+      "fieldset": "archive",
+      "visibleWhen": {
+        "skin": "fable"
+      },
+      "why": "The small label (\"Section\", \"Topic\", \"Writer\") above the title.",
+      "readNow": false,
+      "waits": null
+    },
+    {
+      "skin": "fable",
+      "group": "Archive: header",
+      "template": "archive",
+      "key": "fable_archive_description",
+      "type": "boolean",
+      "default": true,
+      "fieldset": "archive",
+      "visibleWhen": {
+        "skin": "fable"
+      },
+      "why": "The section's description under the title.",
+      "readNow": false,
+      "waits": null
+    },
+    {
+      "skin": "fable",
+      "group": "Archive: header",
+      "template": "archive",
+      "key": "archive_header_image",
+      "type": "boolean",
+      "default": true,
+      "fieldset": "archive",
+      "visibleWhen": {
+        "skin": "fable"
+      },
+      "why": "The section's own picture beside the header, when it has one.",
+      "readNow": true,
+      "waits": null
+    },
+    {
+      "skin": "fable",
+      "group": "Archive: header",
+      "template": "archive",
+      "key": "archive_topic_chips",
+      "type": "boolean",
+      "default": true,
+      "fieldset": "archive",
+      "visibleWhen": {
+        "skin": "fable"
+      },
+      "why": "The section's topics as chips under the description.",
+      "readNow": true,
+      "waits": null
+    },
+    {
+      "skin": "fable",
+      "group": "Archive: header",
+      "template": "archive",
+      "key": "fable_archive_chip_all",
+      "type": "boolean",
+      "default": true,
+      "fieldset": "archive",
+      "visibleWhen": {
+        "skin": "fable",
+        "archive_topic_chips": true
+      },
+      "why": "The \"All\" chip that starts the row of topics.",
+      "readNow": false,
+      "waits": null
+    },
+    {
+      "skin": "fable",
+      "group": "Archive: header",
+      "template": "archive",
+      "key": "fable_archive_story_count",
+      "type": "boolean",
+      "default": true,
+      "fieldset": "archive",
+      "visibleWhen": {
+        "skin": "fable"
+      },
+      "why": "The \"32 stories\" count beside the title (the drawing).",
+      "readNow": false,
+      "waits": {
+        "feature": "counts",
+        "issue": null,
+        "note": "A listing knows only this page's items, never the total."
+      }
+    },
+    {
+      "skin": "fable",
+      "group": "Archive: ads",
+      "template": "archive",
+      "key": "archive_ads",
+      "type": "boolean",
+      "default": true,
+      "fieldset": "archive",
+      "visibleWhen": {
+        "skin": "fable",
+        "show_ads": true
+      },
+      "why": "Both advertisement slots on listings (leaderboard and in-feed).",
+      "readNow": true,
+      "waits": null
+    },
+    {
+      "skin": "fable",
+      "group": "Archive: ads",
+      "template": "archive",
+      "key": "fable_archive_ad_leaderboard",
+      "type": "boolean",
+      "default": true,
+      "fieldset": "archive",
+      "visibleWhen": {
+        "skin": "fable",
+        "archive_ads": true,
+        "show_ads": true
+      },
+      "why": "The leaderboard under the header.",
+      "readNow": false,
+      "waits": null
+    },
+    {
+      "skin": "fable",
+      "group": "Archive: ads",
+      "template": "archive",
+      "key": "fable_archive_ad_in_feed",
+      "type": "boolean",
+      "default": true,
+      "fieldset": "archive",
+      "visibleWhen": {
+        "skin": "fable",
+        "archive_ads": true,
+        "show_ads": true
+      },
+      "why": "The wide ad at the end of the grid.",
+      "readNow": false,
+      "waits": null
+    },
+    {
+      "skin": "fable",
+      "group": "Archive: lead story",
+      "template": "archive",
+      "key": "archive_lead_story",
+      "type": "boolean",
+      "default": true,
+      "fieldset": "archive",
+      "visibleWhen": {
+        "skin": "fable"
+      },
+      "why": "The first story of page 1 set large above the grid.",
+      "readNow": true,
+      "waits": null
+    },
+    {
+      "skin": "fable",
+      "group": "Archive: lead story",
+      "template": "archive",
+      "key": "fable_archive_lead_standfirst",
+      "type": "boolean",
+      "default": true,
+      "fieldset": "archive",
+      "visibleWhen": {
+        "skin": "fable",
+        "archive_lead_story": true
+      },
+      "why": "The standfirst under the lead story's headline.",
+      "readNow": false,
+      "waits": null
+    },
+    {
+      "skin": "fable",
+      "group": "Archive: lead story",
+      "template": "archive",
+      "key": "fable_archive_lead_byline",
+      "type": "boolean",
+      "default": true,
+      "fieldset": "archive",
+      "visibleWhen": {
+        "skin": "fable",
+        "archive_lead_story": true
+      },
+      "why": "The byline under the lead story.",
+      "readNow": false,
+      "waits": null
+    },
+    {
+      "skin": "fable",
+      "group": "Archive: story grid",
+      "template": "archive",
+      "key": "fable_archive_list_heading",
+      "type": "text",
+      "default": "All stories in :title",
+      "fieldset": "archive",
+      "visibleWhen": {
+        "skin": "fable"
+      },
+      "why": "The heading over the grid; :title is the section's name.",
+      "readNow": false,
+      "waits": null
+    },
+    {
+      "skin": "fable",
+      "group": "Archive: story grid",
+      "template": "archive",
+      "key": "archive_layout_toggle",
+      "type": "boolean",
+      "default": true,
+      "fieldset": "archive",
+      "visibleWhen": {
+        "skin": "fable"
+      },
+      "why": "The reader's grid / list buttons.",
+      "readNow": true,
+      "waits": null
+    },
+    {
+      "skin": "fable",
+      "group": "Archive: story grid",
+      "template": "archive",
+      "key": "fable_archive_layout",
+      "type": "select",
+      "options": [
+        "grid",
+        "list"
+      ],
+      "optionLabels": {
+        "grid": "Grid",
+        "list": "List"
+      },
+      "default": "grid",
+      "fieldset": "archive",
+      "visibleWhen": {
+        "skin": "fable"
+      },
+      "why": "The layout a reader sees first (the drawing: grid).",
+      "readNow": false,
+      "waits": null
+    },
+    {
+      "skin": "fable",
+      "group": "Archive: story grid",
+      "template": "archive",
+      "key": "fable_archive_columns",
+      "type": "select",
+      "options": [
+        "3",
+        "4"
+      ],
+      "default": "3",
+      "fieldset": "archive",
+      "visibleWhen": {
+        "skin": "fable"
+      },
+      "why": "Columns of the grid on wide screens (the drawing: 3).",
+      "readNow": false,
+      "waits": null
+    },
+    {
+      "skin": "fable",
+      "group": "Archive: story grid",
+      "template": "archive",
+      "key": "fable_archive_sort_toggle",
+      "type": "boolean",
+      "default": true,
+      "fieldset": "archive",
+      "visibleWhen": {
+        "skin": "fable"
+      },
+      "why": "The \"Newest / Quick reads\" switch (the drawing).",
+      "readNow": false,
+      "waits": {
+        "feature": "sort",
+        "issue": null,
+        "note": "A listing has one order, newest first."
+      }
+    },
+    {
+      "skin": "fable",
+      "group": "Author",
+      "template": "author",
+      "key": "fable_author_breadcrumb",
+      "type": "boolean",
+      "default": true,
+      "fieldset": "archive",
+      "visibleWhen": {
+        "skin": "fable"
+      },
+      "why": "The breadcrumb (\"Our writers / Name\") above the profile.",
+      "readNow": false,
+      "waits": null
+    },
+    {
+      "skin": "fable",
+      "group": "Author",
+      "template": "author",
+      "key": "author_show_portrait",
+      "type": "boolean",
+      "default": true,
+      "fieldset": "archive",
+      "visibleWhen": {
+        "skin": "fable"
+      },
+      "why": "The writer's portrait or initials beside the name.",
+      "readNow": true,
+      "waits": null
+    },
+    {
+      "skin": "fable",
+      "group": "Author",
+      "template": "author",
+      "key": "fable_author_kicker",
+      "type": "boolean",
+      "default": true,
+      "fieldset": "archive",
+      "visibleWhen": {
+        "skin": "fable"
+      },
+      "why": "The small \"Writer\" label above the name.",
+      "readNow": false,
+      "waits": null
+    },
+    {
+      "skin": "fable",
+      "group": "Author",
+      "template": "author",
+      "key": "fable_author_bio",
+      "type": "boolean",
+      "default": true,
+      "fieldset": "archive",
+      "visibleWhen": {
+        "skin": "fable"
+      },
+      "why": "The writer's bio under the name.",
+      "readNow": false,
+      "waits": null
+    },
+    {
+      "skin": "fable",
+      "group": "Author",
+      "template": "author",
+      "key": "fable_author_role",
+      "type": "boolean",
+      "default": true,
+      "fieldset": "archive",
+      "visibleWhen": {
+        "skin": "fable"
+      },
+      "why": "The role line (\"Animals editor\") under the name.",
+      "readNow": false,
+      "waits": {
+        "feature": "author role",
+        "issue": null,
+        "note": "Teme's Person has no role or job title."
+      }
+    },
+    {
+      "skin": "fable",
+      "group": "Author",
+      "template": "author",
+      "key": "fable_author_email",
+      "type": "boolean",
+      "default": true,
+      "fieldset": "archive",
+      "visibleWhen": {
+        "skin": "fable"
+      },
+      "why": "The \"Email Imani\" button.",
+      "readNow": false,
+      "waits": {
+        "feature": "author e-mail and social links",
+        "issue": null,
+        "note": "Teme's listing subject gives no e-mail or links."
+      }
+    },
+    {
+      "skin": "fable",
+      "group": "Author",
+      "template": "author",
+      "key": "fable_author_facts",
+      "type": "boolean",
+      "default": true,
+      "fieldset": "archive",
+      "visibleWhen": {
+        "skin": "fable"
+      },
+      "why": "The facts panel (covers, with us since, training, story count).",
+      "readNow": false,
+      "waits": {
+        "feature": "author facts",
+        "issue": null,
+        "note": "Teme gives none of these; they would be custom fields on the writer."
+      }
+    },
+    {
+      "skin": "fable",
+      "group": "Author",
+      "template": "author",
+      "key": "fable_author_stories",
+      "type": "boolean",
+      "default": true,
+      "fieldset": "archive",
+      "visibleWhen": {
+        "skin": "fable"
+      },
+      "why": "The writer's stories as rows under the profile.",
+      "readNow": false,
+      "waits": null
+    },
+    {
+      "skin": "fable",
+      "group": "Author",
+      "template": "author",
+      "key": "fable_author_stories_heading",
+      "type": "text",
+      "default": "Latest from :name",
+      "fieldset": "archive",
+      "visibleWhen": {
+        "skin": "fable",
+        "fable_author_stories": true
+      },
+      "why": "The heading over the stories; :name is the writer's name.",
+      "readNow": false,
+      "waits": null
+    },
+    {
+      "skin": "fable",
+      "group": "Author",
+      "template": "author",
+      "key": "fable_author_sort_toggle",
+      "type": "boolean",
+      "default": true,
+      "fieldset": "archive",
+      "visibleWhen": {
+        "skin": "fable",
+        "fable_author_stories": true
+      },
+      "why": "The \"Newest / Quick reads\" switch above the stories (the drawing).",
+      "readNow": false,
+      "waits": {
+        "feature": "sort",
+        "issue": null,
+        "note": "A listing has one order, newest first."
+      }
+    },
+    {
+      "skin": "fable",
+      "group": "Search",
+      "template": "search",
+      "key": "fable_search_form",
+      "type": "boolean",
+      "default": true,
+      "fieldset": "archive",
+      "visibleWhen": {
+        "skin": "fable"
+      },
+      "why": "The search field under the results heading.",
+      "readNow": false,
+      "waits": null
+    },
+    {
+      "skin": "fable",
+      "group": "Search",
+      "template": "search",
+      "key": "fable_search_count",
+      "type": "boolean",
+      "default": true,
+      "fieldset": "archive",
+      "visibleWhen": {
+        "skin": "fable"
+      },
+      "why": "The \"N results\" line.",
+      "readNow": false,
+      "waits": null
+    },
+    {
+      "skin": "fable",
+      "group": "Search",
+      "template": "partials/card",
+      "key": "fable_search_snippets",
+      "type": "boolean",
+      "default": true,
+      "fieldset": "archive",
+      "visibleWhen": {
+        "skin": "fable"
+      },
+      "why": "The matched passage shown under each result, with the words marked.",
+      "readNow": false,
+      "waits": null
+    },
+    {
+      "skin": "fable",
+      "group": "Search",
+      "template": "search",
+      "key": "search_show_sections",
+      "type": "boolean",
+      "default": true,
+      "fieldset": "archive",
+      "visibleWhen": {
+        "skin": "fable"
+      },
+      "why": "The section chips in the empty and no-result states.",
+      "readNow": true,
+      "waits": null
+    },
+    {
+      "skin": "fable",
+      "group": "Search",
+      "template": "search",
+      "key": "fable_search_facets",
+      "type": "boolean",
+      "default": true,
+      "fieldset": "archive",
+      "visibleWhen": {
+        "skin": "fable"
+      },
+      "why": "The \"All\" and section filter chips above the results (the drawing).",
+      "readNow": false,
+      "waits": {
+        "feature": "counts",
+        "issue": null,
+        "note": "Teme gives no results by section."
+      }
+    },
+    {
+      "skin": "fable",
+      "group": "Search",
+      "template": "search",
+      "key": "fable_search_sort_toggle",
+      "type": "boolean",
+      "default": true,
+      "fieldset": "archive",
+      "visibleWhen": {
+        "skin": "fable"
+      },
+      "why": "The \"Newest / Quick reads\" switch (the drawing).",
+      "readNow": false,
+      "waits": {
+        "feature": "sort",
+        "issue": null,
+        "note": "A search has one relevance order."
+      }
+    },
+    {
+      "skin": "fable",
+      "group": "Search",
+      "template": "search",
+      "key": "fable_search_most_read",
+      "type": "boolean",
+      "default": true,
+      "fieldset": "archive",
+      "visibleWhen": {
+        "skin": "fable"
+      },
+      "why": "\"Most read this week\" under the empty states (the drawing).",
+      "readNow": false,
+      "waits": {
+        "feature": "counts",
+        "issue": null,
+        "note": "No view counts, so no popularity list."
+      }
+    },
+    {
+      "skin": "fable",
+      "group": "Search",
+      "template": "search",
+      "key": "fable_search_ad_leaderboard",
+      "type": "boolean",
+      "default": false,
+      "fieldset": "archive",
+      "visibleWhen": {
+        "skin": "fable",
+        "show_ads": true
+      },
+      "why": "A leaderboard under the search header; the drawing has no ad here, so off.",
+      "readNow": false,
+      "waits": null
+    },
+    {
+      "skin": "fable",
+      "group": "Search",
+      "template": "search",
+      "key": "fable_search_ad_in_feed",
+      "type": "boolean",
+      "default": false,
+      "fieldset": "archive",
+      "visibleWhen": {
+        "skin": "fable",
+        "show_ads": true
+      },
+      "why": "An ad inside the results list; the drawing has no ad here, so off.",
+      "readNow": false,
+      "waits": null
+    },
+    {
+      "skin": "fable",
+      "group": "404",
+      "template": "notfound",
+      "key": "fable_404_big_number",
+      "type": "boolean",
+      "default": true,
+      "fieldset": "archive",
+      "visibleWhen": {
+        "skin": "fable"
+      },
+      "why": "The big \"404\" beside the message.",
+      "readNow": false,
+      "waits": null
+    },
+    {
+      "skin": "fable",
+      "group": "404",
+      "template": "notfound",
+      "key": "fable_404_title",
+      "type": "text",
+      "default": "That page has moved, or it was never here",
+      "fieldset": "archive",
+      "visibleWhen": {
+        "skin": "fable"
+      },
+      "why": "The 404 headline.",
+      "readNow": false,
+      "waits": null
+    },
+    {
+      "skin": "fable",
+      "group": "404",
+      "template": "notfound",
+      "key": "fable_404_text",
+      "type": "text",
+      "default": "The link may be out of date or mistyped. Search for the story you wanted, or start again from the front page.",
+      "fieldset": "archive",
+      "visibleWhen": {
+        "skin": "fable"
+      },
+      "why": "The line under the headline.",
+      "readNow": false,
+      "waits": null
+    },
+    {
+      "skin": "fable",
+      "group": "404",
+      "template": "notfound",
+      "key": "fable_404_search_form",
+      "type": "boolean",
+      "default": true,
+      "fieldset": "archive",
+      "visibleWhen": {
+        "skin": "fable"
+      },
+      "why": "The search field on the not-found page.",
+      "readNow": false,
+      "waits": null
+    },
+    {
+      "skin": "fable",
+      "group": "404",
+      "template": "notfound",
+      "key": "fable_404_home_button",
+      "type": "boolean",
+      "default": true,
+      "fieldset": "archive",
+      "visibleWhen": {
+        "skin": "fable"
+      },
+      "why": "The \"Go to the home page\" button.",
+      "readNow": false,
+      "waits": null
+    },
+    {
+      "skin": "fable",
+      "group": "404",
+      "template": "notfound",
+      "key": "notfound_show_sections",
+      "type": "boolean",
+      "default": true,
+      "fieldset": "archive",
+      "visibleWhen": {
+        "skin": "fable"
+      },
+      "why": "The section chips beside the way home.",
+      "readNow": true,
+      "waits": null
+    },
+    {
+      "skin": "fable",
+      "group": "404",
+      "template": "notfound",
+      "key": "fable_404_most_read",
+      "type": "boolean",
+      "default": true,
+      "fieldset": "archive",
+      "visibleWhen": {
+        "skin": "fable"
+      },
+      "why": "\"Most read this week\" under the message (the drawing).",
+      "readNow": false,
+      "waits": {
+        "feature": "counts",
+        "issue": null,
+        "note": "A not-found template gets no stories and Teme keeps no view counts."
+      }
+    },
+    {
+      "skin": "fable",
+      "group": "Error pages",
+      "template": "error",
+      "key": "fable_error_big_number",
+      "type": "boolean",
+      "default": true,
+      "fieldset": "archive",
+      "visibleWhen": {
+        "skin": "fable"
+      },
+      "why": "The big status number (403, 429, 500...) beside the message.",
+      "readNow": false,
+      "waits": null
+    },
+    {
+      "skin": "fable",
+      "group": "Error pages",
+      "template": "error",
+      "key": "fable_error_home_button",
+      "type": "boolean",
+      "default": true,
+      "fieldset": "archive",
+      "visibleWhen": {
+        "skin": "fable"
+      },
+      "why": "The \"Go to the home page\" button.",
+      "readNow": false,
+      "waits": null
+    },
+    {
+      "skin": "fable",
+      "group": "Error pages",
+      "template": "error",
+      "key": "fable_error_search_form",
+      "type": "boolean",
+      "default": false,
+      "fieldset": "archive",
+      "visibleWhen": {
+        "skin": "fable"
+      },
+      "why": "A search field on error pages; the current page has none and there is no drawing, so off.",
+      "readNow": false,
+      "waits": null
+    },
+    {
+      "skin": "fable",
+      "group": "Error pages",
+      "template": "error",
+      "key": "fable_error_sections",
+      "type": "boolean",
+      "default": false,
+      "fieldset": "archive",
+      "visibleWhen": {
+        "skin": "fable"
+      },
+      "why": "Section chips on error pages; the current page has none and there is no drawing, so off.",
+      "readNow": false,
+      "waits": null
+    },
+    {
+      "skin": "strata",
+      "group": "Design tokens",
+      "template": "app/Skins.php (skins/strata)",
+      "key": "strata_color_primary",
+      "type": "color",
+      "default": "#101013",
+      "fieldset": "site",
+      "visibleWhen": {
+        "skin": "strata"
+      },
+      "why": "Rail, buttons and feature band background (Strata \"primary\"). Skin identity in WordPress (never a per-site setting there); in Teme it needs per-skin tokens.",
+      "readNow": false,
+      "waits": {
+        "feature": "per-skin tokens",
+        "issue": "#370/#371",
+        "note": "A colour that belongs to Strata only, so changing skin changes it."
+      }
+    },
+    {
+      "skin": "strata",
+      "group": "Design tokens",
+      "template": "app/Skins.php (skins/strata)",
+      "key": "strata_color_accent",
+      "type": "color",
+      "default": "#7c98f5",
+      "fieldset": "site",
+      "visibleWhen": {
+        "skin": "strata"
+      },
+      "why": "The highlight colour: ticker, links on hover, progress bar, filter buttons. Skin identity in WordPress (never a per-site setting there); in Teme it needs per-skin tokens.",
+      "readNow": false,
+      "waits": {
+        "feature": "per-skin tokens",
+        "issue": "#370/#371",
+        "note": "A colour that belongs to Strata only, so changing skin changes it."
+      }
+    },
+    {
+      "skin": "strata",
+      "group": "Design tokens",
+      "template": "app/Skins.php (skins/strata)",
+      "key": "strata_color_link",
+      "type": "color",
+      "default": "#7c98f5",
+      "fieldset": "site",
+      "visibleWhen": {
+        "skin": "strata"
+      },
+      "why": "Link colour. Skin identity in WordPress (never a per-site setting there); in Teme it needs per-skin tokens.",
+      "readNow": false,
+      "waits": {
+        "feature": "per-skin tokens",
+        "issue": "#370/#371",
+        "note": "A colour that belongs to Strata only, so changing skin changes it."
+      }
+    },
+    {
+      "skin": "strata",
+      "group": "Design tokens",
+      "template": "app/Skins.php (skins/strata)",
+      "key": "strata_color_text",
+      "type": "color",
+      "default": "#17171a",
+      "fieldset": "site",
+      "visibleWhen": {
+        "skin": "strata"
+      },
+      "why": "Body text colour. Skin identity in WordPress (never a per-site setting there); in Teme it needs per-skin tokens.",
+      "readNow": false,
+      "waits": {
+        "feature": "per-skin tokens",
+        "issue": "#370/#371",
+        "note": "A colour that belongs to Strata only, so changing skin changes it."
+      }
+    },
+    {
+      "skin": "strata",
+      "group": "Design tokens",
+      "template": "app/Skins.php (skins/strata)",
+      "key": "strata_color_muted",
+      "type": "color",
+      "default": "#7a746e",
+      "fieldset": "site",
+      "visibleWhen": {
+        "skin": "strata"
+      },
+      "why": "Secondary text colour. Skin identity in WordPress (never a per-site setting there); in Teme it needs per-skin tokens.",
+      "readNow": false,
+      "waits": {
+        "feature": "per-skin tokens",
+        "issue": "#370/#371",
+        "note": "A colour that belongs to Strata only, so changing skin changes it."
+      }
+    },
+    {
+      "skin": "strata",
+      "group": "Design tokens",
+      "template": "app/Skins.php (skins/strata)",
+      "key": "strata_color_background",
+      "type": "color",
+      "default": "#ffffff",
+      "fieldset": "site",
+      "visibleWhen": {
+        "skin": "strata"
+      },
+      "why": "Page background. Skin identity in WordPress (never a per-site setting there); in Teme it needs per-skin tokens.",
+      "readNow": false,
+      "waits": {
+        "feature": "per-skin tokens",
+        "issue": "#370/#371",
+        "note": "A colour that belongs to Strata only, so changing skin changes it."
+      }
+    },
+    {
+      "skin": "strata",
+      "group": "Design tokens",
+      "template": "app/Skins.php (skins/strata)",
+      "key": "strata_font_display",
+      "type": "text",
+      "default": "\"Fraunces\", Georgia, serif",
+      "fieldset": "site",
+      "visibleWhen": {
+        "skin": "strata"
+      },
+      "why": "Headline font (Fraunces). Skin identity.",
+      "readNow": false,
+      "waits": {
+        "feature": "per-skin tokens",
+        "issue": "#370/#371",
+        "note": "A font that belongs to Strata only."
+      }
+    },
+    {
+      "skin": "strata",
+      "group": "Design tokens",
+      "template": "app/Skins.php (skins/strata)",
+      "key": "strata_font_body",
+      "type": "text",
+      "default": "\"Manrope\", system-ui, sans-serif",
+      "fieldset": "site",
+      "visibleWhen": {
+        "skin": "strata"
+      },
+      "why": "Body font (Manrope). Skin identity.",
+      "readNow": false,
+      "waits": {
+        "feature": "per-skin tokens",
+        "issue": "#370/#371",
+        "note": "A font that belongs to Strata only."
+      }
+    },
+    {
+      "skin": "strata",
+      "group": "Rail (header)",
+      "template": "skins/strata/header",
+      "key": "strata_rail_tagline",
+      "type": "text",
+      "default": "",
+      "fieldset": "site",
+      "visibleWhen": {
+        "skin": "strata"
+      },
+      "why": "The small line under the site name in the dark rail. Empty falls back to the site tagline (WordPress: egberipiribo_strata_rail_tagline).",
+      "readNow": false,
+      "waits": null
+    },
+    {
+      "skin": "strata",
+      "group": "Rail (header)",
+      "template": "skins/strata/header",
+      "key": "strata_rail_search",
+      "type": "boolean",
+      "default": true,
+      "fieldset": "site",
+      "visibleWhen": {
+        "skin": "strata"
+      },
+      "why": "The \"Search stories\" button in the rail and the header search overlay it opens.",
+      "readNow": false,
+      "waits": null
+    },
+    {
+      "skin": "strata",
+      "group": "Rail (header)",
+      "template": "skins/strata/header",
+      "key": "strata_rail_social",
+      "type": "boolean",
+      "default": true,
+      "fieldset": "site",
+      "visibleWhen": {
+        "skin": "strata"
+      },
+      "why": "The social and RSS icon row at the foot of the rail (the footer does not repeat it).",
+      "readNow": false,
+      "waits": null
+    },
+    {
+      "skin": "strata",
+      "group": "Rail (header)",
+      "template": "skins/strata/header",
+      "key": "strata_rail_counts",
+      "type": "boolean",
+      "default": true,
+      "fieldset": "site",
+      "visibleWhen": {
+        "skin": "strata"
+      },
+      "why": "The live story count beside each rail section and \"All Stories\".",
+      "readNow": false,
+      "waits": {
+        "feature": "section counts",
+        "issue": null,
+        "note": "Per-section story totals are not available from Teme data today."
+      }
+    },
+    {
+      "skin": "strata",
+      "group": "Rail (header)",
+      "template": "skins/strata/header",
+      "key": "strata_rail_sections",
+      "type": "text",
+      "default": "",
+      "fieldset": "site",
+      "visibleWhen": {
+        "skin": "strata"
+      },
+      "why": "Which categories appear as rail and drawer filter buttons; all shown by default, new ones added automatically (WordPress: one checkbox per category, egberipiribo_strata_rail_<id>).",
+      "readNow": false,
+      "waits": {
+        "feature": "term picker (category)",
+        "issue": null,
+        "note": "A checklist of categories; stored as the hidden ones so new categories appear by default."
+      }
+    },
+    {
+      "skin": "strata",
+      "group": "Rail (header)",
+      "template": "skins/strata/header",
+      "key": "strata_back_to_top",
+      "type": "boolean",
+      "default": true,
+      "fieldset": "site",
+      "visibleWhen": {
+        "skin": "strata"
+      },
+      "why": "The round back-to-top button that appears after scrolling. The drawing has it; WordPress has no switch.",
+      "readNow": false,
+      "waits": null
+    },
+    {
+      "skin": "strata",
+      "group": "Home: top stories ticker",
+      "template": "skins/strata/home",
+      "key": "strata_home_ticker",
+      "type": "boolean",
+      "default": true,
+      "fieldset": "latest",
+      "visibleWhen": {
+        "skin": "strata"
+      },
+      "why": "The scrolling \"Top stories\" strip above the header zone.",
+      "readNow": false,
+      "waits": null
+    },
+    {
+      "skin": "strata",
+      "group": "Home: top stories ticker",
+      "template": "skins/strata/home",
+      "key": "strata_home_ticker_label",
+      "type": "text",
+      "default": "Top stories",
+      "fieldset": "latest",
+      "visibleWhen": {
+        "skin": "strata",
+        "strata_home_ticker": true
+      },
+      "why": "The label on the ticker tab.",
+      "readNow": false,
+      "waits": null
+    },
+    {
+      "skin": "strata",
+      "group": "Home: top stories ticker",
+      "template": "skins/strata/home",
+      "key": "strata_home_ticker_count",
+      "type": "select",
+      "options": [
+        "4",
+        "6",
+        "8",
+        "10"
+      ],
+      "default": "6",
+      "fieldset": "latest",
+      "visibleWhen": {
+        "skin": "strata",
+        "strata_home_ticker": true
+      },
+      "why": "How many headlines run in the ticker (the template takes the latest six).",
+      "readNow": false,
+      "waits": null
+    },
+    {
+      "skin": "strata",
+      "group": "Home: header zone",
+      "template": "skins/strata/home",
+      "key": "strata_home_date",
+      "type": "boolean",
+      "default": true,
+      "fieldset": "latest",
+      "visibleWhen": {
+        "skin": "strata"
+      },
+      "why": "The weekday and date line above the page title (\"Monday, 16 November 2026\").",
+      "readNow": false,
+      "waits": {
+        "feature": "request-time date",
+        "issue": null,
+        "note": "Needs today's date at request time; Teme gives a page no clock."
+      }
+    },
+    {
+      "skin": "strata",
+      "group": "Home: header zone",
+      "template": "skins/strata/home",
+      "key": "strata_home_story_count",
+      "type": "boolean",
+      "default": true,
+      "fieldset": "latest",
+      "visibleWhen": {
+        "skin": "strata"
+      },
+      "why": "The \"N stories\" count beside the title that follows the active filter.",
+      "readNow": false,
+      "waits": null
+    },
+    {
+      "skin": "strata",
+      "group": "Home: hero cluster",
+      "template": "skins/strata/home",
+      "key": "strata_home_hero",
+      "type": "boolean",
+      "default": true,
+      "fieldset": "latest",
+      "visibleWhen": {
+        "skin": "strata"
+      },
+      "why": "The big lead story with its side list. Off leaves the feature band and grid.",
+      "readNow": false,
+      "waits": null
+    },
+    {
+      "skin": "strata",
+      "group": "Home: hero cluster",
+      "template": "skins/strata/home",
+      "key": "strata_home_hero_side_count",
+      "type": "select",
+      "options": [
+        "2",
+        "3",
+        "4"
+      ],
+      "default": "3",
+      "fieldset": "latest",
+      "visibleWhen": {
+        "skin": "strata",
+        "strata_home_hero": true
+      },
+      "why": "How many smaller stories sit beside the lead (the template shows three).",
+      "readNow": false,
+      "waits": null
+    },
+    {
+      "skin": "strata",
+      "group": "Home: feature band",
+      "template": "skins/strata/home",
+      "key": "strata_home_feature",
+      "type": "boolean",
+      "default": true,
+      "fieldset": "latest",
+      "visibleWhen": {
+        "skin": "strata"
+      },
+      "why": "The dark \"Long Read\" band with one story and a button.",
+      "readNow": false,
+      "waits": null
+    },
+    {
+      "skin": "strata",
+      "group": "Home: feature band",
+      "template": "skins/strata/home",
+      "key": "strata_home_feature_label",
+      "type": "text",
+      "default": "Long Read",
+      "fieldset": "latest",
+      "visibleWhen": {
+        "skin": "strata",
+        "strata_home_feature": true
+      },
+      "why": "The kicker above the feature headline.",
+      "readNow": false,
+      "waits": null
+    },
+    {
+      "skin": "strata",
+      "group": "Home: story grid",
+      "template": "skins/strata/home",
+      "key": "strata_home_grid_title",
+      "type": "text",
+      "default": "More to Explore",
+      "fieldset": "latest",
+      "visibleWhen": {
+        "skin": "strata"
+      },
+      "why": "The heading over the filterable grid (it becomes \"Latest in <section>\" while filtered).",
+      "readNow": false,
+      "waits": null
+    },
+    {
+      "skin": "strata",
+      "group": "Home: story grid",
+      "template": "skins/strata/home",
+      "key": "strata_home_grid_count",
+      "type": "select",
+      "options": [
+        "12",
+        "24",
+        "36",
+        "48"
+      ],
+      "default": "24",
+      "fieldset": "latest",
+      "visibleWhen": {
+        "skin": "strata"
+      },
+      "why": "How many stories the grid and rail filters work from (the template loads the latest 24; the hero, side list, feature and ticker draw from the same list).",
+      "readNow": false,
+      "waits": null
+    },
+    {
+      "skin": "strata",
+      "group": "Home: story grid",
+      "template": "skins/strata/home",
+      "key": "strata_home_updated_note",
+      "type": "text",
+      "default": "Updated daily",
+      "fieldset": "latest",
+      "visibleWhen": {
+        "skin": "strata"
+      },
+      "why": "The small note at the right of the grid heading. Empty hides it; a site that does not post daily should not promise it.",
+      "readNow": false,
+      "waits": null
+    },
+    {
+      "skin": "strata",
+      "group": "Article: header",
+      "template": "skins/strata/single",
+      "key": "strata_breadcrumbs",
+      "type": "boolean",
+      "default": true,
+      "fieldset": "content",
+      "visibleWhen": {
+        "skin": "strata"
+      },
+      "why": "The breadcrumb line above the headline (uses the SEO plugin trail automatically when its breadcrumbs are on). WordPress: egberipiribo_strata_breadcrumbs_enabled.",
+      "readNow": false,
+      "waits": null
+    },
+    {
+      "skin": "strata",
+      "group": "Article: header",
+      "template": "skins/strata/single",
+      "key": "strata_reading_progress",
+      "type": "boolean",
+      "default": true,
+      "fieldset": "content",
+      "visibleWhen": {
+        "skin": "strata"
+      },
+      "why": "The thin accent bar at the top that fills as you read. The drawing has it; WordPress has no switch.",
+      "readNow": false,
+      "waits": null
+    },
+    {
+      "skin": "strata",
+      "group": "Share",
+      "template": "skins/strata/single",
+      "key": "strata_share",
+      "type": "boolean",
+      "default": true,
+      "fieldset": "site",
+      "visibleWhen": {
+        "skin": "strata"
+      },
+      "why": "The share row in the byline: X, Facebook, email and copy link. WordPress: egberipiribo_strata_share_enabled.",
+      "readNow": false,
+      "waits": null
+    },
+    {
+      "skin": "strata",
+      "group": "Article: footer",
+      "template": "skins/strata/single",
+      "key": "strata_read_also",
+      "type": "boolean",
+      "default": true,
+      "fieldset": "content",
+      "visibleWhen": {
+        "skin": "strata"
+      },
+      "why": "The blue \"Read also\" callout between the story and its tags (the first related story).",
+      "readNow": false,
+      "waits": null
+    },
+    {
+      "skin": "strata",
+      "group": "Article: footer",
+      "template": "skins/strata/single",
+      "key": "strata_related",
+      "type": "boolean",
+      "default": true,
+      "fieldset": "content",
+      "visibleWhen": {
+        "skin": "strata"
+      },
+      "why": "The \"Keep Exploring\" row of related stories after the article. WordPress: egberipiribo_strata_related_enabled.",
+      "readNow": false,
+      "waits": null
+    },
+    {
+      "skin": "strata",
+      "group": "Article: footer",
+      "template": "skins/strata/single",
+      "key": "strata_related_heading",
+      "type": "text",
+      "default": "Keep Exploring",
+      "fieldset": "content",
+      "visibleWhen": {
+        "skin": "strata",
+        "strata_related": true
+      },
+      "why": "The related row heading.",
+      "readNow": false,
+      "waits": null
+    },
+    {
+      "skin": "strata",
+      "group": "Article: footer",
+      "template": "skins/strata/single",
+      "key": "strata_related_count",
+      "type": "select",
+      "options": [
+        "4",
+        "8"
+      ],
+      "default": "4",
+      "fieldset": "content",
+      "visibleWhen": {
+        "skin": "strata",
+        "strata_related": true
+      },
+      "why": "How many related stories (the template takes four: same category first, then latest).",
+      "readNow": false,
+      "waits": null
+    },
+    {
+      "skin": "strata",
+      "group": "Page",
+      "template": "skins/strata/page",
+      "key": "strata_page_breadcrumbs",
+      "type": "boolean",
+      "default": true,
+      "fieldset": "content",
+      "visibleWhen": {
+        "skin": "strata"
+      },
+      "why": "The small breadcrumb above a static page title (About, Contact).",
+      "readNow": false,
+      "waits": null
+    },
+    {
+      "skin": "strata",
+      "group": "Archive",
+      "template": "skins/strata/archive",
+      "key": "strata_archive_story_count",
+      "type": "boolean",
+      "default": true,
+      "fieldset": "archive",
+      "visibleWhen": {
+        "skin": "strata"
+      },
+      "why": "The \"N stories\" count at the right of the section title.",
+      "readNow": false,
+      "waits": null
+    },
+    {
+      "skin": "strata",
+      "group": "Archive",
+      "template": "skins/strata/archive",
+      "key": "strata_archive_columns",
+      "type": "select",
+      "options": [
+        "3",
+        "4"
+      ],
+      "default": "4",
+      "fieldset": "archive",
+      "visibleWhen": {
+        "skin": "strata"
+      },
+      "why": "Cards per row on a wide screen in a category archive (the author and search grids use three).",
+      "readNow": false,
+      "waits": null
+    },
+    {
+      "skin": "strata",
+      "group": "Author",
+      "template": "skins/strata/author",
+      "key": "strata_author_story_count",
+      "type": "boolean",
+      "default": true,
+      "fieldset": "archive",
+      "visibleWhen": {
+        "skin": "strata"
+      },
+      "why": "The \"N stories\" count under the author name.",
+      "readNow": false,
+      "waits": null
+    },
+    {
+      "skin": "strata",
+      "group": "Search",
+      "template": "skins/strata/search",
+      "key": "strata_search_form",
+      "type": "boolean",
+      "default": true,
+      "fieldset": "archive",
+      "visibleWhen": {
+        "skin": "strata"
+      },
+      "why": "The editable search box inside the results header (separate from the rail overlay).",
+      "readNow": false,
+      "waits": null
+    },
+    {
+      "skin": "strata",
+      "group": "Search",
+      "template": "skins/strata/search",
+      "key": "strata_search_count",
+      "type": "boolean",
+      "default": true,
+      "fieldset": "archive",
+      "visibleWhen": {
+        "skin": "strata"
+      },
+      "why": "The \"N results\" line under the search box.",
+      "readNow": false,
+      "waits": null
+    },
+    {
+      "skin": "strata",
+      "group": "Search",
+      "template": "skins/strata/search",
+      "key": "strata_search_category",
+      "type": "boolean",
+      "default": true,
+      "fieldset": "archive",
+      "visibleWhen": {
+        "skin": "strata"
+      },
+      "why": "The coloured category label on each search result card.",
+      "readNow": false,
+      "waits": null
+    },
+    {
+      "skin": "strata",
+      "group": "404",
+      "template": "skins/strata/404",
+      "key": "strata_404_search",
+      "type": "boolean",
+      "default": true,
+      "fieldset": "archive",
+      "visibleWhen": {
+        "skin": "strata"
+      },
+      "why": "The search field on the not-found page.",
+      "readNow": false,
+      "waits": null
+    },
+    {
+      "skin": "strata",
+      "group": "404",
+      "template": "skins/strata/404",
+      "key": "strata_404_recent",
+      "type": "boolean",
+      "default": true,
+      "fieldset": "archive",
+      "visibleWhen": {
+        "skin": "strata"
+      },
+      "why": "The \"Or keep reading\" row of recent stories under the 404 message.",
+      "readNow": false,
+      "waits": null
+    },
+    {
+      "skin": "strata",
+      "group": "404",
+      "template": "skins/strata/404",
+      "key": "strata_404_recent_count",
+      "type": "select",
+      "options": [
+        "4",
+        "8"
+      ],
+      "default": "4",
+      "fieldset": "archive",
+      "visibleWhen": {
+        "skin": "strata",
+        "strata_404_recent": true
+      },
+      "why": "How many recent stories the 404 page offers (the template takes four).",
+      "readNow": false,
+      "waits": null
+    },
+    {
+      "skin": "strata",
+      "group": "Footer",
+      "template": "skins/strata/footer",
+      "key": "strata_newsletter_heading",
+      "type": "text",
+      "default": "Every layer, once a week.",
+      "fieldset": "site",
+      "visibleWhen": {
+        "skin": "strata",
+        "show_newsletter": true
+      },
+      "why": "Headline of the footer signup band (hard-coded in the Strata footer today).",
+      "readNow": false,
+      "waits": null
+    },
+    {
+      "skin": "strata",
+      "group": "Footer",
+      "template": "skins/strata/footer",
+      "key": "strata_newsletter_text",
+      "type": "text",
+      "default": "The best stories across every section, chosen by an editor — not an algorithm.",
+      "fieldset": "site",
+      "visibleWhen": {
+        "skin": "strata",
+        "show_newsletter": true
+      },
+      "why": "The line under the footer signup headline (hard-coded today).",
+      "readNow": false,
+      "waits": null
+    },
+    {
+      "skin": "strata",
+      "group": "Footer",
+      "template": "skins/strata/footer",
+      "key": "strata_footer_about",
+      "type": "text",
+      "default": "",
+      "fieldset": "site",
+      "visibleWhen": {
+        "skin": "strata"
+      },
+      "why": "The paragraph under the site name in the footer. Empty shows the site tagline (WordPress: egberipiribo_strata_footer_about).",
+      "readNow": false,
+      "waits": null
+    },
+    {
+      "skin": "strata",
+      "group": "Footer",
+      "template": "skins/strata/footer",
+      "key": "strata_footer_copyright",
+      "type": "text",
+      "default": "© {{year}} {{site}}. All rights reserved.",
+      "fieldset": "site",
+      "visibleWhen": {
+        "skin": "strata"
+      },
+      "why": "The bottom bar line; [year] and [site] fill in automatically (WordPress: egberipiribo_strata_footer_copyright, basic HTML allowed).",
+      "readNow": false,
+      "waits": null
+    },
+    {
+      "skin": "threads",
+      "group": "Design tokens",
+      "template": "app/Skins.php (skins/threads)",
+      "key": "threads_color_primary",
+      "type": "color",
+      "default": "#1a1a1a",
+      "fieldset": "site",
+      "visibleWhen": {
+        "skin": "threads"
+      },
+      "why": "Ink and rule colour (Threads \"fore\"). Skin identity in WordPress (never a per-site setting there); in Teme it needs per-skin tokens.",
+      "readNow": false,
+      "waits": {
+        "feature": "per-skin tokens",
+        "issue": "#370/#371",
+        "note": "A colour that belongs to Threads only, so changing skin changes it."
+      }
+    },
+    {
+      "skin": "threads",
+      "group": "Design tokens",
+      "template": "app/Skins.php (skins/threads)",
+      "key": "threads_color_accent",
+      "type": "color",
+      "default": "#e84545",
+      "fieldset": "site",
+      "visibleWhen": {
+        "skin": "threads"
+      },
+      "why": "The red accent: tags, subscribe button, hover. Skin identity in WordPress (never a per-site setting there); in Teme it needs per-skin tokens.",
+      "readNow": false,
+      "waits": {
+        "feature": "per-skin tokens",
+        "issue": "#370/#371",
+        "note": "A colour that belongs to Threads only, so changing skin changes it."
+      }
+    },
+    {
+      "skin": "threads",
+      "group": "Design tokens",
+      "template": "app/Skins.php (skins/threads)",
+      "key": "threads_color_link",
+      "type": "color",
+      "default": "#e84545",
+      "fieldset": "site",
+      "visibleWhen": {
+        "skin": "threads"
+      },
+      "why": "Link colour. Skin identity in WordPress (never a per-site setting there); in Teme it needs per-skin tokens.",
+      "readNow": false,
+      "waits": {
+        "feature": "per-skin tokens",
+        "issue": "#370/#371",
+        "note": "A colour that belongs to Threads only, so changing skin changes it."
+      }
+    },
+    {
+      "skin": "threads",
+      "group": "Design tokens",
+      "template": "app/Skins.php (skins/threads)",
+      "key": "threads_color_text",
+      "type": "color",
+      "default": "#374151",
+      "fieldset": "site",
+      "visibleWhen": {
+        "skin": "threads"
+      },
+      "why": "Body text colour. Skin identity in WordPress (never a per-site setting there); in Teme it needs per-skin tokens.",
+      "readNow": false,
+      "waits": {
+        "feature": "per-skin tokens",
+        "issue": "#370/#371",
+        "note": "A colour that belongs to Threads only, so changing skin changes it."
+      }
+    },
+    {
+      "skin": "threads",
+      "group": "Design tokens",
+      "template": "app/Skins.php (skins/threads)",
+      "key": "threads_color_muted",
+      "type": "color",
+      "default": "#6b6b6b",
+      "fieldset": "site",
+      "visibleWhen": {
+        "skin": "threads"
+      },
+      "why": "Secondary text colour. Skin identity in WordPress (never a per-site setting there); in Teme it needs per-skin tokens.",
+      "readNow": false,
+      "waits": {
+        "feature": "per-skin tokens",
+        "issue": "#370/#371",
+        "note": "A colour that belongs to Threads only, so changing skin changes it."
+      }
+    },
+    {
+      "skin": "threads",
+      "group": "Design tokens",
+      "template": "app/Skins.php (skins/threads)",
+      "key": "threads_color_background",
+      "type": "color",
+      "default": "#ffffff",
+      "fieldset": "site",
+      "visibleWhen": {
+        "skin": "threads"
+      },
+      "why": "Page background. Skin identity in WordPress (never a per-site setting there); in Teme it needs per-skin tokens.",
+      "readNow": false,
+      "waits": {
+        "feature": "per-skin tokens",
+        "issue": "#370/#371",
+        "note": "A colour that belongs to Threads only, so changing skin changes it."
+      }
+    },
+    {
+      "skin": "threads",
+      "group": "Design tokens",
+      "template": "app/Skins.php (skins/threads)",
+      "key": "threads_font_display",
+      "type": "text",
+      "default": "\"Libre Baskerville\", Georgia, serif",
+      "fieldset": "site",
+      "visibleWhen": {
+        "skin": "threads"
+      },
+      "why": "Headline font (Libre Baskerville). Skin identity.",
+      "readNow": false,
+      "waits": {
+        "feature": "per-skin tokens",
+        "issue": "#370/#371",
+        "note": "A font that belongs to Threads only."
+      }
+    },
+    {
+      "skin": "threads",
+      "group": "Design tokens",
+      "template": "app/Skins.php (skins/threads)",
+      "key": "threads_font_body",
+      "type": "text",
+      "default": "\"Space Grotesk\", system-ui, sans-serif",
+      "fieldset": "site",
+      "visibleWhen": {
+        "skin": "threads"
+      },
+      "why": "Body font (Space Grotesk). Skin identity.",
+      "readNow": false,
+      "waits": {
+        "feature": "per-skin tokens",
+        "issue": "#370/#371",
+        "note": "A font that belongs to Threads only."
+      }
+    },
+    {
+      "skin": "threads",
+      "group": "Sidebar",
+      "template": "skins/threads/single, archive, author, search, page, home",
+      "key": "threads_sidebar_width",
+      "type": "select",
+      "options": [
+        "240",
+        "300",
+        "360",
+        "420"
+      ],
+      "default": "300",
+      "fieldset": "site",
+      "visibleWhen": {
+        "skin": "threads"
+      },
+      "why": "Width in pixels of the right-hand widget column on home, article, archive, author, search and page (WordPress: egberipiribo_single_sidebar_width, 240 to 420, default 300).",
+      "readNow": false,
+      "waits": null
+    },
+    {
+      "skin": "threads",
+      "group": "Header",
+      "template": "skins/threads/header",
+      "key": "threads_header_date",
+      "type": "boolean",
+      "default": true,
+      "fieldset": "site",
+      "visibleWhen": {
+        "skin": "threads"
+      },
+      "why": "The weekday and date line at the left of the desktop masthead.",
+      "readNow": false,
+      "waits": {
+        "feature": "request-time date",
+        "issue": null,
+        "note": "Needs today's date at request time; Teme gives a page no clock."
+      }
+    },
+    {
+      "skin": "threads",
+      "group": "Header",
+      "template": "skins/threads/header",
+      "key": "threads_header_search",
+      "type": "boolean",
+      "default": true,
+      "fieldset": "site",
+      "visibleWhen": {
+        "skin": "threads"
+      },
+      "why": "The \"Search archives\" link and button that open the full-screen search overlay.",
+      "readNow": false,
+      "waits": null
+    },
+    {
+      "skin": "threads",
+      "group": "Header",
+      "template": "skins/threads/header",
+      "key": "threads_header_tagline",
+      "type": "boolean",
+      "default": true,
+      "fieldset": "site",
+      "visibleWhen": {
+        "skin": "threads"
+      },
+      "why": "The small spaced-out tagline under the big wordmark.",
+      "readNow": false,
+      "waits": null
+    },
+    {
+      "skin": "threads",
+      "group": "Header",
+      "template": "skins/threads/header",
+      "key": "threads_header_subscribe",
+      "type": "boolean",
+      "default": true,
+      "fieldset": "site",
+      "visibleWhen": {
+        "skin": "threads"
+      },
+      "why": "The red Subscribe button in the masthead and drawer (WordPress: egberipiribo_header_subscribe_enabled).",
+      "readNow": false,
+      "waits": null
+    },
+    {
+      "skin": "threads",
+      "group": "Header",
+      "template": "skins/threads/header",
+      "key": "threads_header_subscribe_label",
+      "type": "text",
+      "default": "Subscribe",
+      "fieldset": "site",
+      "visibleWhen": {
+        "skin": "threads",
+        "threads_header_subscribe": true
+      },
+      "why": "The button words (WordPress: egberipiribo_header_subscribe_label).",
+      "readNow": false,
+      "waits": null
+    },
+    {
+      "skin": "threads",
+      "group": "Header",
+      "template": "skins/threads/header",
+      "key": "threads_header_subscribe_url",
+      "type": "text",
+      "default": "#",
+      "fieldset": "site",
+      "visibleWhen": {
+        "skin": "threads",
+        "threads_header_subscribe": true
+      },
+      "why": "Where the button goes (WordPress: egberipiribo_header_subscribe_url; the button hides while empty).",
+      "readNow": false,
+      "waits": null
+    },
+    {
+      "skin": "threads",
+      "group": "Search overlay",
+      "template": "skins/threads/search-modal",
+      "key": "threads_search_sections",
+      "type": "boolean",
+      "default": true,
+      "fieldset": "site",
+      "visibleWhen": {
+        "skin": "threads"
+      },
+      "why": "The list of top sections under the search field in the overlay.",
+      "readNow": false,
+      "waits": null
+    },
+    {
+      "skin": "threads",
+      "group": "Home: lead and columns",
+      "template": "skins/threads/home",
+      "key": "threads_home_columns",
+      "type": "boolean",
+      "default": true,
+      "fieldset": "latest",
+      "visibleWhen": {
+        "skin": "threads"
+      },
+      "why": "The three-column index under the lead story (desktop only).",
+      "readNow": false,
+      "waits": null
+    },
+    {
+      "skin": "threads",
+      "group": "Home: lead and columns",
+      "template": "skins/threads/home",
+      "key": "threads_home_column_posts",
+      "type": "select",
+      "options": [
+        "3",
+        "4",
+        "5"
+      ],
+      "default": "4",
+      "fieldset": "latest",
+      "visibleWhen": {
+        "skin": "threads",
+        "threads_home_columns": true
+      },
+      "why": "Stories per column (the template takes four).",
+      "readNow": false,
+      "waits": null
+    },
+    {
+      "skin": "threads",
+      "group": "Home: lead and columns",
+      "template": "skins/threads/home",
+      "key": "threads_home_column_1",
+      "type": "text",
+      "default": "",
+      "fieldset": "latest",
+      "visibleWhen": {
+        "skin": "threads",
+        "threads_home_columns": true
+      },
+      "why": "Which category fills column 1; empty mixes the latest stories under \"Home & Garden\" (WordPress: egberipiribo_home_column_1_category).",
+      "readNow": false,
+      "waits": {
+        "feature": "term picker (category)",
+        "issue": null,
+        "note": "A single category choice; the heading and link come from the chosen category."
+      }
+    },
+    {
+      "skin": "threads",
+      "group": "Home: lead and columns",
+      "template": "skins/threads/home",
+      "key": "threads_home_column_2",
+      "type": "text",
+      "default": "",
+      "fieldset": "latest",
+      "visibleWhen": {
+        "skin": "threads",
+        "threads_home_columns": true
+      },
+      "why": "Which category fills column 2; empty mixes the latest stories under \"Animals & Nature\" (WordPress: egberipiribo_home_column_2_category).",
+      "readNow": false,
+      "waits": {
+        "feature": "term picker (category)",
+        "issue": null,
+        "note": "A single category choice."
+      }
+    },
+    {
+      "skin": "threads",
+      "group": "Home: lead and columns",
+      "template": "skins/threads/home",
+      "key": "threads_home_column_3",
+      "type": "text",
+      "default": "",
+      "fieldset": "latest",
+      "visibleWhen": {
+        "skin": "threads",
+        "threads_home_columns": true
+      },
+      "why": "Which category fills column 3; empty mixes the latest stories under \"Life & Ideas\" (WordPress: egberipiribo_home_column_3_category).",
+      "readNow": false,
+      "waits": {
+        "feature": "term picker (category)",
+        "issue": null,
+        "note": "A single category choice."
+      }
+    },
+    {
+      "skin": "threads",
+      "group": "Home: lead and columns",
+      "template": "skins/threads/home",
+      "key": "threads_home_dedupe",
+      "type": "boolean",
+      "default": true,
+      "fieldset": "latest",
+      "visibleWhen": {
+        "skin": "threads"
+      },
+      "why": "Stops the lead, the three columns and \"Also in This Issue\" from repeating a story (WordPress: egberipiribo_home_dedupe_posts).",
+      "readNow": false,
+      "waits": null
+    },
+    {
+      "skin": "threads",
+      "group": "Home: belief band",
+      "template": "skins/threads/home",
+      "key": "threads_home_belief",
+      "type": "boolean",
+      "default": true,
+      "fieldset": "latest",
+      "visibleWhen": {
+        "skin": "threads"
+      },
+      "why": "The ruled band between columns and the issue list (WordPress: egberipiribo_home_quote_enabled). Holds the in-article ad when that is on, otherwise the manifesto.",
+      "readNow": false,
+      "waits": null
+    },
+    {
+      "skin": "threads",
+      "group": "Home: belief band",
+      "template": "skins/threads/home",
+      "key": "threads_home_belief_manifesto",
+      "type": "boolean",
+      "default": true,
+      "fieldset": "latest",
+      "visibleWhen": {
+        "skin": "threads",
+        "threads_home_belief": true
+      },
+      "why": "Shows the manifesto text in the band (WordPress: egberipiribo_home_belief_manifesto_enabled). An active in-article ad takes the band instead.",
+      "readNow": false,
+      "waits": null
+    },
+    {
+      "skin": "threads",
+      "group": "Home: belief band",
+      "template": "skins/threads/home",
+      "key": "threads_home_belief_kicker",
+      "type": "text",
+      "default": "Thread believes",
+      "fieldset": "latest",
+      "visibleWhen": {
+        "skin": "threads",
+        "threads_home_belief": true,
+        "threads_home_belief_manifesto": true
+      },
+      "why": "The small label above the manifesto (WordPress: egberipiribo_home_quote_kicker).",
+      "readNow": false,
+      "waits": null
+    },
+    {
+      "skin": "threads",
+      "group": "Home: belief band",
+      "template": "skins/threads/home",
+      "key": "threads_home_belief_text",
+      "type": "text",
+      "default": "\"Every great idea begins as curiosity. We are here for the curious.\"",
+      "fieldset": "latest",
+      "visibleWhen": {
+        "skin": "threads",
+        "threads_home_belief": true,
+        "threads_home_belief_manifesto": true
+      },
+      "why": "The big manifesto line (WordPress: egberipiribo_home_quote_text).",
+      "readNow": false,
+      "waits": null
+    },
+    {
+      "skin": "threads",
+      "group": "Home: Also in This Issue",
+      "template": "skins/threads/home",
+      "key": "threads_home_also_in_heading",
+      "type": "text",
+      "default": "Also in This Issue",
+      "fieldset": "latest",
+      "visibleWhen": {
+        "skin": "threads"
+      },
+      "why": "Heading of the numbered story list (WordPress: egberipiribo_home_issue_section_heading).",
+      "readNow": false,
+      "waits": null
+    },
+    {
+      "skin": "threads",
+      "group": "Home: Also in This Issue",
+      "template": "skins/threads/home",
+      "key": "threads_home_also_in_count",
+      "type": "select",
+      "options": [
+        "0",
+        "5",
+        "10",
+        "15",
+        "20",
+        "30",
+        "50"
+      ],
+      "default": "10",
+      "fieldset": "latest",
+      "visibleWhen": {
+        "skin": "threads"
+      },
+      "why": "How many stories the list shows first; 0 hides the section (WordPress: egberipiribo_home_also_in_initial, 0 to 50, default 10).",
+      "readNow": false,
+      "waits": null
+    },
+    {
+      "skin": "threads",
+      "group": "Home: Also in This Issue",
+      "template": "skins/threads/partials/home-also-in-rows",
+      "key": "threads_home_also_in_sidebar",
+      "type": "boolean",
+      "default": true,
+      "fieldset": "latest",
+      "visibleWhen": {
+        "skin": "threads",
+        "threads_home_also_in_count": [
+          "5",
+          "10",
+          "15",
+          "20",
+          "30",
+          "50"
+        ]
+      },
+      "why": "The widget column beside the list (WordPress: egberipiribo_also_in_sidebar_enabled).",
+      "readNow": false,
+      "waits": null
+    },
+    {
+      "skin": "threads",
+      "group": "Home: Also in This Issue",
+      "template": "skins/threads/partials/home-also-in-rows",
+      "key": "threads_home_load_more",
+      "type": "boolean",
+      "default": true,
+      "fieldset": "latest",
+      "visibleWhen": {
+        "skin": "threads",
+        "threads_home_also_in_count": [
+          "5",
+          "10",
+          "15",
+          "20",
+          "30",
+          "50"
+        ]
+      },
+      "why": "The \"Load more\" button that appends stories without a page load (WordPress: egberipiribo_home_also_in_load_more_enabled, backed by its own REST route).",
+      "readNow": false,
+      "waits": null
+    },
+    {
+      "skin": "threads",
+      "group": "Home: Also in This Issue",
+      "template": "skins/threads/partials/home-also-in-rows",
+      "key": "threads_home_load_more_count",
+      "type": "select",
+      "options": [
+        "1",
+        "3",
+        "5",
+        "10",
+        "20"
+      ],
+      "default": "3",
+      "fieldset": "latest",
+      "visibleWhen": {
+        "skin": "threads",
+        "threads_home_load_more": true
+      },
+      "why": "Stories added per click (WordPress: egberipiribo_home_also_in_per_load, 1 to 20, default 3).",
+      "readNow": false,
+      "waits": null
+    },
+    {
+      "skin": "threads",
+      "group": "Home: Also in This Issue",
+      "template": "skins/threads/partials/home-also-in-rows",
+      "key": "threads_home_load_more_label",
+      "type": "text",
+      "default": "Load more stories",
+      "fieldset": "latest",
+      "visibleWhen": {
+        "skin": "threads",
+        "threads_home_load_more": true
+      },
+      "why": "The button words (WordPress: egberipiribo_home_also_in_load_more_label).",
+      "readNow": false,
+      "waits": null
+    },
+    {
+      "skin": "threads",
+      "group": "Home: newsletter band",
+      "template": "skins/threads/home",
+      "key": "threads_home_newsletter",
+      "type": "boolean",
+      "default": true,
+      "fieldset": "latest",
+      "visibleWhen": {
+        "skin": "threads",
+        "show_newsletter": true
+      },
+      "why": "The grey signup band at the foot of the home page (WordPress: egberipiribo_home_newsletter_enabled, which also needs the site newsletter switch).",
+      "readNow": false,
+      "waits": null
+    },
+    {
+      "skin": "threads",
+      "group": "Home: newsletter band",
+      "template": "skins/threads/home",
+      "key": "threads_home_newsletter_title",
+      "type": "text",
+      "default": "Thread. In your inbox.",
+      "fieldset": "latest",
+      "visibleWhen": {
+        "skin": "threads",
+        "show_newsletter": true,
+        "threads_home_newsletter": true
+      },
+      "why": "The band headline (WordPress: egberipiribo_home_newsletter_title).",
+      "readNow": false,
+      "waits": null
+    },
+    {
+      "skin": "threads",
+      "group": "Home: newsletter band",
+      "template": "skins/threads/home",
+      "key": "threads_home_newsletter_text",
+      "type": "text",
+      "default": "Every Monday. The full issue. Free, always.",
+      "fieldset": "latest",
+      "visibleWhen": {
+        "skin": "threads",
+        "show_newsletter": true,
+        "threads_home_newsletter": true
+      },
+      "why": "The line under the band headline (WordPress: egberipiribo_home_newsletter_text).",
+      "readNow": false,
+      "waits": null
+    },
+    {
+      "skin": "threads",
+      "group": "Article",
+      "template": "skins/threads/single",
+      "key": "threads_single_stats",
+      "type": "boolean",
+      "default": true,
+      "fieldset": "content",
+      "visibleWhen": {
+        "skin": "threads"
+      },
+      "why": "The stats row on a single post (WordPress: egberipiribo_single_stats_enabled; the setting and its composer value exist but the current Threads single template renders no stats row, so decide whether it is built or dropped).",
+      "readNow": false,
+      "waits": null
+    },
+    {
+      "skin": "threads",
+      "group": "Article",
+      "template": "skins/threads/single",
+      "key": "threads_single_sidebar",
+      "type": "boolean",
+      "default": true,
+      "fieldset": "content",
+      "visibleWhen": {
+        "skin": "threads"
+      },
+      "why": "The right-hand column on an article, showing widgets or the rectangle ad (WordPress: egberipiribo_single_sidebar_enabled).",
+      "readNow": false,
+      "waits": null
+    },
+    {
+      "skin": "threads",
+      "group": "Comments",
+      "template": "skins/threads/comments",
+      "key": "threads_comments_intro",
+      "type": "text",
+      "default": "Your email address will not be published. Required fields are marked *",
+      "fieldset": "content",
+      "visibleWhen": {
+        "skin": "threads",
+        "show_comments": true
+      },
+      "why": "The note above the comment form (WordPress: egberipiribo_comments_intro_text).",
+      "readNow": false,
+      "waits": null
+    },
+    {
+      "skin": "threads",
+      "group": "Comments",
+      "template": "skins/threads/comments",
+      "key": "threads_comments_cookies",
+      "type": "boolean",
+      "default": true,
+      "fieldset": "content",
+      "visibleWhen": {
+        "skin": "threads",
+        "show_comments": true
+      },
+      "why": "The \"Save my name and email\" checkbox on the comment form (WordPress: egberipiribo_comments_show_cookies).",
+      "readNow": false,
+      "waits": null
+    },
+    {
+      "skin": "threads",
+      "group": "Archive",
+      "template": "skins/threads/archive",
+      "key": "threads_archive_featured",
+      "type": "boolean",
+      "default": true,
+      "fieldset": "archive",
+      "visibleWhen": {
+        "skin": "threads"
+      },
+      "why": "The large \"Latest in this archive\" story above the ruled list.",
+      "readNow": false,
+      "waits": null
+    },
+    {
+      "skin": "threads",
+      "group": "Archive",
+      "template": "skins/threads/archive",
+      "key": "threads_archive_story_count",
+      "type": "boolean",
+      "default": true,
+      "fieldset": "archive",
+      "visibleWhen": {
+        "skin": "threads"
+      },
+      "why": "The \"N stories\" line under the archive title.",
+      "readNow": false,
+      "waits": null
+    },
+    {
+      "skin": "threads",
+      "group": "Archive",
+      "template": "skins/threads/archive",
+      "key": "threads_archive_row_tags",
+      "type": "boolean",
+      "default": true,
+      "fieldset": "archive",
+      "visibleWhen": {
+        "skin": "threads"
+      },
+      "why": "The first two #tags on each archive row.",
+      "readNow": false,
+      "waits": null
+    },
+    {
+      "skin": "threads",
+      "group": "Author",
+      "template": "skins/threads/author",
+      "key": "threads_author_profile",
+      "type": "boolean",
+      "default": true,
+      "fieldset": "archive",
+      "visibleWhen": {
+        "skin": "threads"
+      },
+      "why": "The \"Profile\" box with topics, location and article count above the list.",
+      "readNow": false,
+      "waits": null
+    },
+    {
+      "skin": "threads",
+      "group": "Author",
+      "template": "skins/threads/author",
+      "key": "threads_author_links",
+      "type": "boolean",
+      "default": true,
+      "fieldset": "archive",
+      "visibleWhen": {
+        "skin": "threads"
+      },
+      "why": "The website and social link buttons at the right of the author header.",
+      "readNow": false,
+      "waits": null
+    },
+    {
+      "skin": "threads",
+      "group": "Search",
+      "template": "skins/threads/search",
+      "key": "threads_search_form",
+      "type": "boolean",
+      "default": true,
+      "fieldset": "archive",
+      "visibleWhen": {
+        "skin": "threads"
+      },
+      "why": "The \"Search again\" box in the results header.",
+      "readNow": false,
+      "waits": null
+    },
+    {
+      "skin": "threads",
+      "group": "404",
+      "template": "skins/threads/404",
+      "key": "threads_404_picks",
+      "type": "boolean",
+      "default": true,
+      "fieldset": "archive",
+      "visibleWhen": {
+        "skin": "threads"
+      },
+      "why": "The \"From the archive\" column of random stories beside the 404 message.",
+      "readNow": false,
+      "waits": null
+    },
+    {
+      "skin": "threads",
+      "group": "404",
+      "template": "skins/threads/404",
+      "key": "threads_404_picks_heading",
+      "type": "text",
+      "default": "From the archive",
+      "fieldset": "archive",
+      "visibleWhen": {
+        "skin": "threads",
+        "threads_404_picks": true
+      },
+      "why": "The picks heading.",
+      "readNow": false,
+      "waits": null
+    },
+    {
+      "skin": "threads",
+      "group": "404",
+      "template": "skins/threads/404",
+      "key": "threads_404_picks_count",
+      "type": "select",
+      "options": [
+        "3",
+        "5"
+      ],
+      "default": "3",
+      "fieldset": "archive",
+      "visibleWhen": {
+        "skin": "threads",
+        "threads_404_picks": true
+      },
+      "why": "How many random stories the 404 page offers (the composer takes three).",
+      "readNow": false,
+      "waits": null
+    },
+    {
+      "skin": "threads",
+      "group": "Subscribe page",
+      "template": "skins/threads/subscribe",
+      "key": "threads_subscribe_kicker",
+      "type": "text",
+      "default": "A Letter from the Editor",
+      "fieldset": "content",
+      "visibleWhen": {
+        "skin": "threads"
+      },
+      "why": "The red kicker above the Subscribe page title (hard-coded today).",
+      "readNow": false,
+      "waits": null
+    },
+    {
+      "skin": "threads",
+      "group": "Subscribe page",
+      "template": "skins/threads/subscribe",
+      "key": "threads_subscribe_heading",
+      "type": "text",
+      "default": "Join the Sunday Edition",
+      "fieldset": "content",
+      "visibleWhen": {
+        "skin": "threads"
+      },
+      "why": "Headline of the signup box on the Subscribe page (hard-coded today).",
+      "readNow": false,
+      "waits": null
+    },
+    {
+      "skin": "threads",
+      "group": "Subscribe page",
+      "template": "skins/threads/subscribe",
+      "key": "threads_subscribe_text",
+      "type": "text",
+      "default": "Join a quiet corner of the internet. Enter your email address to receive our next essay.",
+      "fieldset": "content",
+      "visibleWhen": {
+        "skin": "threads"
+      },
+      "why": "The line under that headline (hard-coded today).",
+      "readNow": false,
+      "waits": null
+    },
+    {
+      "skin": "threads",
+      "group": "Footer",
+      "template": "skins/threads/footer",
+      "key": "threads_footer_network",
+      "type": "boolean",
+      "default": true,
+      "fieldset": "site",
+      "visibleWhen": {
+        "skin": "threads"
+      },
+      "why": "The dark \"Our publications\" strip above the footer (WordPress: egberipiribo_footer_network_enabled).",
+      "readNow": false,
+      "waits": null
+    },
+    {
+      "skin": "threads",
+      "group": "Footer",
+      "template": "skins/threads/footer",
+      "key": "threads_footer_network_title",
+      "type": "text",
+      "default": "Our publications:",
+      "fieldset": "site",
+      "visibleWhen": {
+        "skin": "threads",
+        "threads_footer_network": true
+      },
+      "why": "The strip label (WordPress: egberipiribo_footer_network_title).",
+      "readNow": false,
+      "waits": null
+    },
+    {
+      "skin": "threads",
+      "group": "Footer",
+      "template": "skins/threads/footer",
+      "key": "threads_footer_network_new_tab",
+      "type": "boolean",
+      "default": false,
+      "fieldset": "site",
+      "visibleWhen": {
+        "skin": "threads",
+        "threads_footer_network": true
+      },
+      "why": "Opens publication links in a new tab (WordPress: egberipiribo_footer_network_new_tab).",
+      "readNow": false,
+      "waits": null
+    },
+    {
+      "skin": "threads",
+      "group": "Footer",
+      "template": "skins/threads/footer",
+      "key": "threads_footer_network_links",
+      "type": "text",
+      "default": "",
+      "fieldset": "site",
+      "visibleWhen": {
+        "skin": "threads",
+        "threads_footer_network": true
+      },
+      "why": "The up to five sister publications: PawPrint, The Garden Thread, At Table, The Travel Letter, Well (WordPress: five label and URL pairs, egberipiribo_footer_network_item_1_label ... _5_url).",
+      "readNow": false,
+      "waits": {
+        "feature": "list of links",
+        "issue": "#373",
+        "note": "Pairs of label and URL; the strip hides while the list is empty."
+      }
+    },
+    {
+      "skin": "threads",
+      "group": "Footer",
+      "template": "skins/threads/footer",
+      "key": "threads_footer_tagline",
+      "type": "text",
+      "default": "Issue 142 · Published weekly since 2019.",
+      "fieldset": "site",
+      "visibleWhen": {
+        "skin": "threads"
+      },
+      "why": "The line under the footer wordmark (WordPress: egberipiribo_footer_tagline).",
+      "readNow": false,
+      "waits": null
+    },
+    {
+      "skin": "threads",
+      "group": "Footer",
+      "template": "skins/threads/footer",
+      "key": "threads_footer_copyright",
+      "type": "text",
+      "default": "© {{year}} {{site}}. Published by <a href=\"https://kraftysprouts.com\">Krafty Sprouts Media, LLC</a>. All rights reserved.",
+      "fieldset": "site",
+      "visibleWhen": {
+        "skin": "threads"
+      },
+      "why": "The bottom bar line; [year] and [site] fill in automatically, links allowed (WordPress: egberipiribo_footer_copyright). The default names the publisher, so a new site will want to change it.",
+      "readNow": false,
+      "waits": null
+    }
+  ]
+}

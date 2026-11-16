@@ -31,7 +31,7 @@ sideways overflow at 375 on a static page (core's wide-picture margins spilling 
 - **Accessibility**: one `h1` per page, landmarks, skip link (core's), visible focus, no sideways scroll, labels that contain their visible text.
 - **Words**: every printed word goes through `__()`; translations for de, es, fr, hi, it, ja, pt_BR (123 sentences each).
 - **Structure for later**: each presentational choice is read in one place at the top of its template as `$themeSettings['key'] ?? <default>`;
-  `OPTIONS.md` proposes about 55 settings, none built.
+  `OPTIONS.md` proposes 336 settings, per skin (Fable 222, shared 9 plus the `skin` choice, Strata 47 and Threads 57 for later), every one with a default that reproduces the drawing; none is built.
 
 ## What does not work yet, and why
 
@@ -68,7 +68,7 @@ categories, and the kit and seed cannot make portraits or comments); the author,
 | Tests | 6 files: 19 pass (238 assertions), 1 gated snapshot test skipped by default |
 | `teme:theme:check` | passes, 1 warning (JS budget) |
 | FEATURES.md rows | 343: 33 same, 132 different, 124 later, 54 can't yet |
-| FINDINGS.md | 23 entries (docs missing or wrong, and walls) |
+| FINDINGS.md | 24 entries (docs missing or wrong, and walls) |
 | DECISIONS.md | 28 entries |
 | Translations | 7 languages × 123 sentences |
 | Commits | 17 (with this one), nothing pushed |
@@ -123,6 +123,6 @@ active theme. Nothing was stopped for danger; nothing outside the new folder was
 
 ## For the owner to review
 
-1. `OPTIONS.md`: the settings proposed for Fable, and what each needs.
+1. `OPTIONS.md` (rewritten after the owner found the first version too thin): 336 settings per skin and per template, 50 of them waiting on a Teme feature. It is generated from `docs/options.json` by `scripts/build-options.mjs`, which also checks every row against Teme's rules; to adopt or drop a setting, edit the JSON and run the script.
 2. `FINDINGS.md`: items 1, 6, 7, 15 and 17 are the walls that matter most for the next release (tokens and skins, setting types, heading ids, the JS budget).
 3. `DECISIONS.md` items 14 to 18 (what replaced the data Teme does not give) and 25 (the seed's use of Teme's internals).
