@@ -2,7 +2,7 @@
     Fable: index. The floor every kind of page without a template of its own falls to. It reads nothing from $page:
     a plain Fable page saying so, with a search and a way home.
 
-    Choices a later update can turn into theme settings: none.
+    Settings this template reads: none.
 
     @package egberipiribo
     @since   0.1.0

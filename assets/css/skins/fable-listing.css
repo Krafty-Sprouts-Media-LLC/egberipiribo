@@ -34,6 +34,8 @@
     .listing-rows > .card .card-title { font-size: 1.625rem; line-height: 1.1; }
     .listing-rows > .card .card-deck { display: block; margin-top: .55rem; }
   }
+  /* The search page's optional advertisement closes the list with the same rule the rows have. */
+  .listing-rows > .ad-slot { padding-block: 1.5rem; border-bottom: 1px solid var(--color-rule); }
   /* The marked words in a search snippet. */
   .listing-rows .card-deck mark { background: color-mix(in oklab, var(--color-rail) 16%, transparent); color: inherit; border-radius: 3px; padding-inline: .1em; }
 }

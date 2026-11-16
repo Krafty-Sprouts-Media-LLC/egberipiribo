@@ -1,0 +1,130 @@
+{
+  "fable_archive_breadcrumb": {
+    "label": "Archive: show the breadcrumb",
+    "description": "The trail of links above the section name."
+  },
+  "fable_archive_kind_label": {
+    "label": "Archive: show the kind label",
+    "description": "The small label (Section, Topic, Writer) above the title."
+  },
+  "fable_archive_description": {
+    "label": "Archive: show the description",
+    "description": "The section's description under the title."
+  },
+  "archive_header_image": {
+    "label": "Archive: show the header picture",
+    "description": "The section's own picture beside the header, when it has one."
+  },
+  "archive_topic_chips": {
+    "label": "Archive: show the topic chips",
+    "description": "The section's topics as chips under the description."
+  },
+  "fable_archive_chip_all": {
+    "label": "Archive: show the All chip",
+    "description": "The All chip that starts the row of topics."
+  },
+  "archive_ads": {
+    "label": "Archive: show advertisements",
+    "description": "Both advertisement slots on listings; turn off to remove both."
+  },
+  "fable_archive_ad_leaderboard": {
+    "label": "Archive: show the leaderboard ad",
+    "description": "The wide advertisement under the header."
+  },
+  "fable_archive_ad_in_feed": {
+    "label": "Archive: show the ad at the end of the grid",
+    "description": "The wide advertisement after the last story of the grid."
+  },
+  "archive_lead_story": {
+    "label": "Archive: show the lead story",
+    "description": "The first story of page 1 set large above the grid."
+  },
+  "fable_archive_lead_standfirst": {
+    "label": "Archive: show the lead standfirst",
+    "description": "Show the standfirst under the lead story's headline."
+  },
+  "fable_archive_lead_byline": {
+    "label": "Archive: show the lead byline",
+    "description": "Show the byline under the lead story."
+  },
+  "archive_layout_toggle": {
+    "label": "Archive: show the grid and list buttons",
+    "description": "Lets the reader switch the stories between a grid and a list."
+  },
+  "fable_author_breadcrumb": {
+    "label": "Author: show the breadcrumb",
+    "description": "The trail of links above the writer's profile."
+  },
+  "author_show_portrait": {
+    "label": "Author: show the portrait",
+    "description": "The writer's picture, or their initials, beside the name."
+  },
+  "fable_author_kicker": {
+    "label": "Author: show the Writer label",
+    "description": "The small Writer label above the name."
+  },
+  "fable_author_bio": {
+    "label": "Author: show the bio",
+    "description": "The writer's bio under the name."
+  },
+  "fable_author_stories": {
+    "label": "Author: show the writer's stories",
+    "description": "The writer's stories as rows under the profile."
+  },
+  "fable_search_form": {
+    "label": "Search: show the search field",
+    "description": "The search field under the results heading."
+  },
+  "fable_search_count": {
+    "label": "Search: show the result count",
+    "description": "The line that says how many results were found."
+  },
+  "fable_search_snippets": {
+    "label": "Search: show the matched passage",
+    "description": "The passage that matched, with the words marked, under each result."
+  },
+  "search_show_sections": {
+    "label": "Search: show the section chips",
+    "description": "Section chips on the empty and no-result pages."
+  },
+  "fable_search_ad_leaderboard": {
+    "label": "Search: show a leaderboard ad",
+    "description": "A wide advertisement under the search header."
+  },
+  "fable_search_ad_in_feed": {
+    "label": "Search: show an ad in the results",
+    "description": "An advertisement at the end of the results list."
+  },
+  "fable_404_big_number": {
+    "label": "Not found: show the big 404",
+    "description": "The large 404 beside the message."
+  },
+  "fable_404_search_form": {
+    "label": "Not found: show the search field",
+    "description": "A search field on the page-not-found page."
+  },
+  "fable_404_home_button": {
+    "label": "Not found: show the home button",
+    "description": "The Go to the home page button."
+  },
+  "notfound_show_sections": {
+    "label": "Not found: show the section chips",
+    "description": "Section chips beside the way home."
+  },
+  "fable_error_big_number": {
+    "label": "Error page: show the big number",
+    "description": "The large status number (403, 429, 500) beside the message."
+  },
+  "fable_error_home_button": {
+    "label": "Error page: show the home button",
+    "description": "The Go to the home page button."
+  },
+  "fable_error_search_form": {
+    "label": "Error page: show the search field",
+    "description": "A search field on error pages."
+  },
+  "fable_error_sections": {
+    "label": "Error page: show the section chips",
+    "description": "Section chips on error pages."
+  }
+}

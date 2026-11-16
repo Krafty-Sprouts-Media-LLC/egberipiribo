@@ -9,8 +9,12 @@
     facts panel (covers, with us since, training, story count) and the sort control. Without a portrait the page
     draws the name's initials in a round tile.
 
-    Choices a later update can turn into theme settings:
-      author_show_portrait   bool, true   the writer's portrait (or initials) beside the name
+    Settings this template reads (each once, at the top):
+      fable_author_breadcrumb  bool, true   the breadcrumb ("Our writers / Name") above the profile
+      author_show_portrait     bool, true   the writer's portrait (or initials) beside the name
+      fable_author_kicker      bool, true   the small "Writer" label above the name
+      fable_author_bio         bool, true   the writer's bio under the name
+      fable_author_stories     bool, true   the stories as rows under the profile (with the pages, or the empty note)
 
     @package egberipiribo
     @since   0.1.0
@@ -20,7 +24,11 @@
 @section('template', 'author')
 
 @php
-    $showPortrait = $themeSettings['author_show_portrait'] ?? true;
+    $showBreadcrumb = (bool) ($themeSettings['fable_author_breadcrumb'] ?? true);
+    $showPortrait = (bool) ($themeSettings['author_show_portrait'] ?? true);
+    $showKicker = (bool) ($themeSettings['fable_author_kicker'] ?? true);
+    $showBio = (bool) ($themeSettings['fable_author_bio'] ?? true);
+    $showStories = (bool) ($themeSettings['fable_author_stories'] ?? true);
 
     $subject = $page->subject;
     $name = $subject?->title ?? $site->name;
@@ -41,9 +49,12 @@
 
 @section('main')
     <header class="pt-8 pb-9 border-b border-ink">
-        @include('theme::skins.fable.partials.breadcrumbs', ['crumbs' => $crumbs])
+        @include('theme::skins.fable.partials.pattern', ['area' => 'sections', 'mode' => 'band'])
+        @if ($showBreadcrumb)
+            @include('theme::skins.fable.partials.breadcrumbs', ['crumbs' => $crumbs])
+        @endif
 
-        <div class="grid {{ $showPortrait ? 'md:grid-cols-[10rem_minmax(0,1fr)]' : '' }} gap-x-10 gap-y-7 mt-7">
+        <div class="grid {{ $showPortrait ? 'md:grid-cols-[10rem_minmax(0,1fr)]' : '' }} gap-x-10 gap-y-7{{ $showBreadcrumb ? ' mt-7' : '' }}">
             @if ($showPortrait)
                 @if ($portrait !== null)
                     <div class="media w-28 h-28 md:w-40 md:h-40 rounded-full"><x-teme::image :id="$portrait->id" context="avatar" :decorative="true" :priority="true" /></div>
@@ -52,16 +63,20 @@
                 @endif
             @endif
             <div class="min-w-0">
-                <p class="kicker">{{ __('Writer') }}</p>
-                <h1 class="hed hed-page mt-2">{{ $name }}</h1>
-                @if (($subject?->description ?? '') !== '')
+                @if ($showKicker)
+                    <p class="kicker">{{ __('Writer') }}</p>
+                @endif
+                <h1 class="hed hed-page{{ $showKicker ? ' mt-2' : '' }}">{{ $name }}</h1>
+                @if ($showBio && ($subject?->description ?? '') !== '')
                     <p class="deck text-[1.125rem] mt-4 max-w-[38rem]">{{ $subject->description }}</p>
                 @endif
             </div>
         </div>
     </header>
 
-    @if ($items !== [])
+    @if (! $showStories)
+        {{-- The stories are switched off: nothing under the profile (no rows, no pages, no empty note). --}}
+    @elseif ($items !== [])
         <section class="pt-9 pb-16" aria-labelledby="author-stories">
             <h2 id="author-stories" class="hed hed-lg">{{ __('Latest from :name', ['name' => $name]) }}</h2>
             <div class="listing-rows mt-4">

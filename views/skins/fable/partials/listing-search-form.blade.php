@@ -5,8 +5,9 @@
     Takes optionally $id (the field's id, which must differ on a page holding two forms, 'search-term' by default),
     $value (what to prefill, '' by default), $class (spacing and width around the form) and $placeholder.
 
-    Choices a later update can turn into theme settings:
-      search_placeholder  string, "Search stories, sections and writers"  the words in the empty field
+    Settings this partial reads:
+      search_placeholder  string, "Search stories, sections and writers"  the words in the empty field (not yet declared
+                          in the manifest; the default applies)
 
     @package egberipiribo
     @since   0.1.0

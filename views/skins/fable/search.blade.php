@@ -10,9 +10,16 @@
     Left out because Teme cannot give it: the facets by section, the sort control, and the "Most read this week"
     list under the empty states (no popularity data).
 
-    Choices a later update can turn into theme settings:
-      search_placeholder    string, "Search stories, sections and writers"   (in partials.listing-search-form)
-      search_show_sections  bool, true   the section chips in the empty states
+    Settings this template reads (each once, at the top):
+      fable_search_form              bool, true    the search field under the results heading
+      fable_search_count             bool, true    the "N results" line
+      fable_search_snippets          bool, true    the matched passage under each result, words marked (off: the
+                                                   card shows the story's standfirst instead, if it has one)
+      search_show_sections           bool, true    the section chips in the empty states
+      fable_search_ad_leaderboard    bool, false   a leaderboard under the header (the drawing has none)
+      fable_search_ad_in_feed        bool, false   an ad at the end of the results list (the drawing has none)
+    Not read here: search_placeholder (string, in partials.listing-search-form) and the master show_ads (the ad
+    partial's).
 
     @package egberipiribo
     @since   0.1.0
@@ -22,7 +29,12 @@
 @section('template', 'search')
 
 @php
-    $showSections = $themeSettings['search_show_sections'] ?? true;
+    $showForm = (bool) ($themeSettings['fable_search_form'] ?? true);
+    $showCount = (bool) ($themeSettings['fable_search_count'] ?? true);
+    $showSnippets = (bool) ($themeSettings['fable_search_snippets'] ?? true);
+    $showSections = (bool) ($themeSettings['search_show_sections'] ?? true);
+    $showAdLeaderboard = (bool) ($themeSettings['fable_search_ad_leaderboard'] ?? false);
+    $showAdInFeed = (bool) ($themeSettings['fable_search_ad_in_feed'] ?? false);
 
     $search = $page->search;
     $query = $search?->query ?? '';
@@ -42,11 +54,17 @@
 @section('main')
     <header class="pt-8 pb-6 border-b border-ink">
         <h1 class="hed hed-page">{{ $heading }}</h1>
-        @include('theme::skins.fable.partials.listing-search-form', ['id' => 'search-term', 'value' => $query])
-        @if ($countText !== '')
+        @if ($showForm)
+            @include('theme::skins.fable.partials.listing-search-form', ['id' => 'search-term', 'value' => $query])
+        @endif
+        @if ($showCount && $countText !== '')
             <p class="meta mt-5">{{ $countText }}</p>
         @endif
     </header>
+
+    @if ($showAdLeaderboard)
+        @include('theme::skins.fable.partials.ad', ['region' => 'ad-leaderboard', 'class' => 'mt-7'])
+    @endif
 
     @if ($blank)
         <section class="py-12 pb-16" aria-labelledby="search-blank">
@@ -68,8 +86,12 @@
         <section class="pb-16" aria-label="{{ __('Search results') }}">
             <div class="listing-rows">
                 @foreach ($results as $result)
-                    @include('theme::skins.fable.partials.card', ['item' => $result->item, 'level' => 2, 'snippetHtml' => $result->snippetHtml !== '' ? $result->snippetHtml : null])
+                    @include('theme::skins.fable.partials.card', ['item' => $result->item, 'level' => 2, 'snippetHtml' => ($showSnippets && $result->snippetHtml !== '') ? $result->snippetHtml : null])
                 @endforeach
+
+                @if ($showAdInFeed)
+                    @include('theme::skins.fable.partials.ad', ['region' => 'ad-in-feed'])
+                @endif
             </div>
 
             @include('theme::skins.fable.partials.pagination', ['pagination' => $page->pagination])
