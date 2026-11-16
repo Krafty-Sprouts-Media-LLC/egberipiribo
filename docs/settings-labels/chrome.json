@@ -1,0 +1,178 @@
+{
+  "skin": {
+    "label": "All skins: which skin draws the site",
+    "description": "Chooses the skin that draws every page. Only Fable is available in this release, so the setting stays hidden.",
+    "optionLabels": {
+      "fable": "Fable"
+    }
+  },
+  "show_ads": {
+    "label": "Ads: show advertisement slots",
+    "description": "Turn off to hide every advertisement slot at once, without emptying the regions an editor filled."
+  },
+  "show_newsletter": {
+    "label": "Newsletter: show the sign-up band",
+    "description": "Turn off to remove the newsletter band and the buttons that point to it."
+  },
+  "fable_footer_newsletter": {
+    "label": "Newsletter: show the band above the footer",
+    "description": "Shows the dark sign-up band above the footer; off also removes the rail and menu buttons that point to it."
+  },
+  "fable_search_panel": {
+    "label": "Search: open a panel from the search buttons",
+    "description": "Opens the search panel over the page; off makes the search buttons plain links to the search page."
+  },
+  "fable_search_shortcut": {
+    "label": "Search: show the \"/\" key hint and shortcut",
+    "description": "Shows the \"/\" hint on the rail's search button and lets readers press the key to open the search."
+  },
+  "show_share": {
+    "label": "Share: show buttons on articles",
+    "description": "Shows the share buttons on articles, at the byline and after the tags."
+  },
+  "fable_share_facebook": {
+    "label": "Share: Facebook",
+    "description": "Shows a button that shares the article on Facebook."
+  },
+  "fable_share_x": {
+    "label": "Share: X",
+    "description": "Shows a button that shares the article on X."
+  },
+  "fable_share_pinterest": {
+    "label": "Share: Pinterest",
+    "description": "Shows a button that shares the article on Pinterest."
+  },
+  "fable_share_linkedin": {
+    "label": "Share: LinkedIn",
+    "description": "Shows a button that shares the article on LinkedIn, for a business or news audience."
+  },
+  "fable_share_whatsapp": {
+    "label": "Share: WhatsApp",
+    "description": "Shows a button that shares the article on WhatsApp, the main way stories travel on phones in many countries."
+  },
+  "fable_share_telegram": {
+    "label": "Share: Telegram",
+    "description": "Shows a button that shares the article on Telegram."
+  },
+  "fable_share_reddit": {
+    "label": "Share: Reddit",
+    "description": "Shows a button that shares the article on Reddit."
+  },
+  "fable_share_email": {
+    "label": "Share: email",
+    "description": "Shows a button that opens a new email with the article's link."
+  },
+  "fable_share_copy": {
+    "label": "Share: copy link",
+    "description": "Shows a button that copies the article's link."
+  },
+  "fable_share_native": {
+    "label": "Share: the phone's own share sheet",
+    "description": "Shows a button that opens the phone's own share sheet, only on devices that offer one."
+  },
+  "fable_share_placement": {
+    "label": "Share: where the buttons sit",
+    "description": "Puts the buttons at the byline, after the tags, in both places or in a floating column beside the article on wide screens.",
+    "optionLabels": {
+      "top": "At the byline",
+      "bottom": "After the tags",
+      "both": "At the byline and after the tags",
+      "floating": "Floating column beside the article"
+    }
+  },
+  "fable_share_style": {
+    "label": "Share: button style",
+    "description": "Shows round icon buttons only, or icons with the name of each network.",
+    "optionLabels": {
+      "icons": "Icons only",
+      "labels": "Icons with names"
+    }
+  },
+  "fable_share_label": {
+    "label": "Share: line before the buttons",
+    "description": "The line printed before the row of buttons after the tags; leave it empty for none."
+  },
+  "pattern": {
+    "label": "Pattern: icon set",
+    "description": "Lays a pattern of small icons over the brand-colour areas; None keeps every area solid.",
+    "optionLabels": {
+      "none": "None",
+      "sections": "Sections",
+      "pets": "Pets",
+      "home": "Home",
+      "food": "Food"
+    }
+  },
+  "pattern_strength": {
+    "label": "Pattern: how visible the icons are",
+    "description": "Sets how strongly the icons show against the colour behind them.",
+    "optionLabels": {
+      "subtle": "Subtle",
+      "medium": "Medium",
+      "bold": "Bold"
+    }
+  },
+  "pattern_density": {
+    "label": "Pattern: how close the icons sit",
+    "description": "Sets how tightly the icons repeat: open, even or tight.",
+    "optionLabels": {
+      "sparse": "Open",
+      "regular": "Even",
+      "dense": "Tight"
+    }
+  },
+  "pattern_accent": {
+    "label": "Pattern: accent colour",
+    "description": "The colour one icon in seven takes; leave it empty to keep every icon white."
+  },
+  "fable_pattern_colour": {
+    "label": "Pattern: icon colours",
+    "description": "Chooses white icons with one accent icon in seven, all accent icons, or all white icons. It needs an accent colour.",
+    "optionLabels": {
+      "mixed": "White with one accent icon",
+      "accent": "All accent colour",
+      "white": "All white"
+    }
+  },
+  "fable_pattern_layout": {
+    "label": "Pattern: icon layout",
+    "description": "Scatters and turns the icons, lays them in straight rows, or adds dots between the straight rows.",
+    "optionLabels": {
+      "scatter": "Scattered",
+      "grid": "Straight rows",
+      "dots": "Straight rows with dots"
+    }
+  },
+  "fable_pattern_style": {
+    "label": "Pattern: icon style",
+    "description": "Draws the icons as outlines or as solid shapes.",
+    "optionLabels": {
+      "regular": "Outline",
+      "fill": "Solid"
+    }
+  },
+  "fable_pattern_rail": {
+    "label": "Pattern: show on the rail",
+    "description": "Shows the pattern on the side rail on wide screens."
+  },
+  "fable_pattern_phone_header": {
+    "label": "Pattern: show on the phone header",
+    "description": "Shows the pattern on the header of small screens."
+  },
+  "fable_pattern_footer": {
+    "label": "Pattern: show on the footer",
+    "description": "Shows the pattern on the footer."
+  },
+  "fable_pattern_long_read": {
+    "label": "Pattern: show on the home long read",
+    "description": "Shows the pattern behind the long read block on the home page."
+  },
+  "fable_pattern_sections": {
+    "label": "Pattern: show on section headings",
+    "description": "Shows the pattern behind section headings."
+  },
+  "fable_pattern_404": {
+    "label": "Pattern: show behind the 404 number",
+    "description": "Shows the pattern behind the big 404 on the page-not-found screen."
+  }
+}

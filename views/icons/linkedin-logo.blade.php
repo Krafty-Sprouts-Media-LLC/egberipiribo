@@ -1,0 +1,8 @@
+{{--
+    Icon: linkedin-logo (Phosphor, bold, MIT). Takes an optional $class. Decorative: hidden from assistive technology,
+    so give the control around it a name of its own.
+
+    @package egberipiribo
+    @since   0.1.0
+--}}
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" fill="currentColor" width="1em" height="1em" class="icon {{ $class ?? '' }}" aria-hidden="true" focusable="false"><path d="M216,20H40A20,20,0,0,0,20,40V216a20,20,0,0,0,20,20H216a20,20,0,0,0,20-20V40A20,20,0,0,0,216,20Zm-4,192H44V44H212ZM112,176V120a12,12,0,0,1,21.43-7.41A40,40,0,0,1,192,148v28a12,12,0,0,1-24,0V148a16,16,0,0,0-32,0v28a12,12,0,0,1-24,0ZM96,120v56a12,12,0,0,1-24,0V120a12,12,0,0,1,24,0ZM68,80A16,16,0,1,1,84,96,16,16,0,0,1,68,80Z"/></svg>

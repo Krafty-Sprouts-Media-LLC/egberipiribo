@@ -3,8 +3,16 @@
     Custom HTML card, and which is left out while it is empty), then the site's name and tagline with two menus
     (`footer` and `network`), then the copyright. It complements the rail and never repeats its nav.
 
-    Choices a later update can turn into theme settings, each read in one place here:
-      footer_newsletter_heading, footer_newsletter_text, footer_blurb
+    Takes $newsletterBand (bool; layout.blade.php reads show_newsletter and fable_footer_newsletter once and passes the
+    result to the rail, the phone header and this footer: the band is drawn only when both are on).
+
+    Settings this template reads:
+      show_newsletter, fable_footer_newsletter   on/off, on and on   the band (read by the layout; off removes the band,
+                                                                    the separator under it and the buttons that point to it)
+      footer_newsletter_heading  text, "Never miss a story."   the band's headline
+      footer_newsletter_text     text, "The best stories of the week..."   the line under it
+      footer_blurb               text, the site's tagline        the line under the name
+      fable_pattern_footer       on/off, on   the icon pattern on the footer (only while the pattern is not "none")
 
     @package egberipiribo
     @since   0.1.0
@@ -16,7 +24,8 @@
     $company = $navigation['footer'] ?? [];
     $network = $navigation['network'] ?? [];
 @endphp
-<footer class="bg-ink text-white">
+<footer class="bg-ink text-white @include('theme::skins.fable.partials.pattern', ['area' => 'footer', 'mode' => 'class'])">
+    @if ($newsletterBand)
     {{-- The region draws nothing while it is empty; the band then hides itself (see .newsletter-band in the skin's CSS). --}}
     <div id="newsletter" class="newsletter-band wrap py-14 lg:py-16 grid lg:grid-cols-[minmax(0,1fr)_minmax(0,27rem)] gap-x-16 gap-y-8 items-end scroll-mt-16">
         <div>
@@ -25,8 +34,9 @@
         </div>
         <div class="newsletter-slot"><x-teme::region name="newsletter" /></div>
     </div>
+    @endif
 
-    <div class="border-t border-white/15">
+    <div class="{{ $newsletterBand ? 'border-t border-white/15' : '' }}">
         <div class="wrap py-10 grid sm:grid-cols-[minmax(0,1.4fr)_minmax(0,1fr)_minmax(0,1fr)] gap-x-12 gap-y-8 text-[.9375rem]">
             <div>
                 <p class="wordmark text-[2.25rem]">{{ $site->name }}</p>

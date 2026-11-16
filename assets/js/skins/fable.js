@@ -274,6 +274,29 @@ function copyLink(Alpine) {
 }
 
 /**
+ * The share button that opens the phone's own share sheet. It shows only where the browser has one.
+ *
+ * @param {import('alpinejs').Alpine} Alpine
+ */
+function shareNative(Alpine) {
+    Alpine.data('shareNative', () => ({
+        supported: false,
+
+        init() {
+            this.supported = typeof navigator.share === 'function';
+        },
+
+        async share() {
+            try {
+                await navigator.share({ title: document.title, url: window.location.href });
+            } catch {
+                /* The reader closed the sheet, or the browser refused: nothing to do. */
+            }
+        },
+    }));
+}
+
+/**
  * Registers every Fable component.
  *
  * @param {import('alpinejs').Alpine} Alpine
@@ -283,4 +306,5 @@ export function registerFable(Alpine) {
     railSection(Alpine);
     layoutToggle(Alpine);
     copyLink(Alpine);
+    shareNative(Alpine);
 }

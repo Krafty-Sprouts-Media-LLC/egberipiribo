@@ -21,6 +21,7 @@ const ICONS = [
     'magnifying-glass', 'caret-down', 'arrow-right', 'arrow-left', 'arrow-up', 'x', 'list',
     'check', 'check-circle', 'warning-circle', 'link', 'envelope-simple', 'rows', 'squares-four',
     'x-logo', 'instagram-logo', 'pinterest-logo', 'facebook-logo', 'rss',
+    'linkedin-logo', 'whatsapp-logo', 'telegram-logo', 'reddit-logo', 'share-network',
 ];
 
 mkdirSync(resolve(root, 'views/icons'), { recursive: true });

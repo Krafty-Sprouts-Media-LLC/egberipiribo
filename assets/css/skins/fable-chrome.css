@@ -9,4 +9,29 @@
  */
 
 @layer teme.theme.components {
+  /* A decorative brand-colour strip that carries the icon pattern: the section headers and the 404 draw it when their pattern switch is on. */
+  .pattern-band { height: 4.5rem; margin-bottom: 1.25rem; border-radius: var(--radius-box); background-color: var(--color-rail); background-size: auto; }
+  /* On the front page the strip belongs to the sections region: no region content, no strip. */
+  .pattern-band:has(+ .home-slot:empty) { display: none; }
+
+  /* ---- The icon pattern: a solid area with the tile laid over its own colour. The tile (--fable-pattern) is one
+          inline SVG made by partials/pattern.blade.php and set once on the page shell (a custom property inherits, so
+          the rail, the phone header, the footer and the long read all receive it). With no tile the variable is unset
+          and the area stays solid. The rail scrolls its own content, so the tile stays put behind it. ---- */
+  .patterned { background-image: var(--fable-pattern, none); background-repeat: repeat; }
+
+  /* ---- Share: the buttons that carry a network's name ---- */
+  .share-row { display: flex; flex-wrap: wrap; align-items: center; gap: .375rem; }
+  .share-row .chip > span { white-space: nowrap; }
+
+  /* ---- Share: the floating column. Hidden below 96rem; from there it sits in the page's left margin beside the
+          article and stays in view (sticky inside the article's own height). The row after the tags then hides, and
+          shows again below 96rem, so a narrow screen always keeps one row. ---- */
+  .share-float { display: none; }
+  @media (min-width: 96rem) {
+    .article-main:has(.share-float) { position: relative; }
+    .share-float { display: block; position: absolute; top: 0; bottom: 0; inset-inline-start: -3.75rem; width: 2.75rem; }
+    .share-float-rail { position: sticky; top: 6rem; }
+    .share-float-fallback { display: none; }
+  }
 }
