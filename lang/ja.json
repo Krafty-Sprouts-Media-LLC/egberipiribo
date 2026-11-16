@@ -121,5 +121,20 @@
     "Your comment": "あなたのコメント",
     "and": "と",
     "comments": "コメント",
-    "to :name": ":nameさんへ"
+    "to :name": ":nameさんへ",
+    "Facebook": "Facebook",
+    "LinkedIn": "LinkedIn",
+    "Pinterest": "Pinterest",
+    "Reddit": "Reddit",
+    "Telegram": "Telegram",
+    "WhatsApp": "WhatsApp",
+    "X": "X",
+    "Email": "メール",
+    "Related": "関連記事",
+    "Share": "シェア",
+    "Share on LinkedIn": "LinkedIn でシェア",
+    "Share on Reddit": "Reddit でシェア",
+    "Share on Telegram": "Telegram でシェア",
+    "Share on WhatsApp": "WhatsApp でシェア",
+    "Share with your apps": "アプリでシェア"
 }

@@ -1,6 +1,6 @@
 # OPTIONS: the theme settings, skin by skin
 
-**A proposal. Nothing here is built.** Fable ships with each default below fixed. For the owner to review.
+**A proposal, with a first set built.** The settings marked **built** are declared in `teme-theme.json` and read by the templates; every other row is still a proposal for later updates. Defaults reproduce the drawings, so the site looks unchanged until someone changes a setting.
 
 The Fable drawings and the WordPress theme's built skins give the administrator of a magazine site a long list of choices. This document lists them as proposed Teme theme settings, **per skin and section by section**.
 
@@ -10,13 +10,13 @@ The data behind this file is `docs/options.json`; `node scripts/build-options.mj
 
 ## Totals
 
-| | Settings | Read by a template now | New proposals | Waiting on a Teme feature |
+| | Settings | **Built** | Proposed, not built | Waiting on a Teme feature |
 |---|---|---|---|---|
-| Fable | 222 | 40 | 182 | 25 |
-| Shared by every skin | 10 | 5 | 5 | 1 |
-| Later: Strata | 47 | 0 | 47 | 11 |
-| Later: Threads | 57 | 0 | 57 | 13 |
-| **All** | **336** | 46 | 290 | 50 |
+| Fable | 222 | 119 | 78 | 25 |
+| Shared by every skin (with the skin choice) | 10 | 9 | 0 | 1 |
+| Later: Strata | 47 | 0 | 36 | 11 |
+| Later: Threads | 57 | 0 | 44 | 13 |
+| **All** | **336** | **128** | 158 | 50 |
 
 Fable settings per template or partial: `home` 48 · `archive` 18 · `article` 16 · `partials/footer` 14 · `partials/article-share` 14 · `partials/card` 11 · `author` 10 · `layout` 9 · `page` 9 · `partials/rail` 8 · `notfound` 8 · `search` 8 · `partials/article-byline` 7 · `partials/home-pattern` 6 · `partials/article-body` 5 · `partials/mobile-header` 4 · `partials/article-readnext` 4 · `partials/article-related` 4 · `error` 4 · `partials/article-authors` 3 · `partials/nav-sections` 2 · `partials/pagination` 2 · `partials/comment-card` 2 · `partials/ad` 1 · `partials/wordmark` 1 · `partials/search-panel` 1 · `partials/listing-search-form` 1 · `partials/comments-thread` 1 · `comments` 1.
 
@@ -42,7 +42,7 @@ A setting that waits is still listed with the form it will take, so the template
 
 | Key | Type | Default | Read in | Visible when | Fieldset | Why | Status |
 |---|---|---|---|---|---|---|---|
-| `skin` | select: `fable`, `strata`, `threads` | `fable` | `views/templates/* (every dispatcher)` | always | site | Chooses the skin once more than one ships (strata and threads are added to the options by the update that builds them). Today there is one option, so the setting is not shown. Strata and Threads are listed as options for the structure; only fable exists in this release. | read now |
+| `skin` | select: `fable`, `strata`, `threads` | `fable` | `views/templates/* (every dispatcher)` | always | site | Chooses the skin once more than one ships (strata and threads are added to the options by the update that builds them). Today there is one option, so the setting is not shown. Strata and Threads are listed as options for the structure; only fable exists in this release. | **built** |
 
 ### How skins and settings fit together
 
@@ -57,15 +57,15 @@ A setting that waits is still listed with the form it will take, so the template
 
 | Key | Type | Default | Read in | Visible when | Fieldset | Why | Status |
 |---|---|---|---|---|---|---|---|
-| `show_ads` | boolean | on | `components/ad-slot` | always | site | Master switch that hides every ad region at once without emptying them. Used by Fable, Strata and Threads. WordPress has no master switch, only the three per-placement switches below. | read now |
-| `show_newsletter` | boolean | on | `skins/strata/footer, skins/threads/home, skins/threads/subscribe` | always | site | Turns the newsletter band on or off (Strata footer, Threads home band and Subscribe page). WordPress: egberipiribo_newsletter_enabled, default off; the drawings show the band so it defaults on. | new |
+| `show_ads` | boolean | on | `components/ad-slot` | always | site | Master switch that hides every ad region at once without emptying them. Used by Fable, Strata and Threads. WordPress has no master switch, only the three per-placement switches below. | **built** |
+| `show_newsletter` | boolean | on | `skins/strata/footer, skins/threads/home, skins/threads/subscribe` | always | site | Turns the newsletter band on or off (Strata footer, Threads home band and Subscribe page). WordPress: egberipiribo_newsletter_enabled, default off; the drawings show the band so it defaults on. | **built** |
 | `social_networks` | text | empty | `skins/strata/social-icons, skins/threads/footer` | always | site | The site social accounts (WordPress: nine egberipiribo_social_* URLs for Facebook, Instagram, X, Threads, YouTube, TikTok, Flipboard, LinkedIn, Pinterest; icons render only for the filled ones; RSS is automatic). Used by Strata rail and Threads connect column. *When Teme can: One list of network and URL pairs; the icon registry (nine platforms) stays in the theme.* | **waits**: list of links #373 |
-| `show_updated_date` | boolean | on | `skins/strata/single, skins/threads/single` | always | site | Prints "Updated <date>" in place of the publish date once a post was edited well after publishing (WordPress: post_display_date(), always on). Strata and Threads singles. | new |
-| `updated_after_days` | select: `7`, `14`, `30` | `7` | `skins/strata/single, skins/threads/single` | `show_updated_date` = on | site | How long after publishing an edit counts as an update (the WordPress rule is a fixed seven days, App\post_display_date()). | new |
-| `show_comments` | boolean | on | `skins/strata/comments, skins/threads/comments` | always | content | Shows or hides the comment list and form on posts. Used by Fable, Strata and Threads (WordPress shows them whenever the post allows comments). | read now |
-| `show_reading_time` | boolean | on | `skins/strata/single, skins/threads/single` | always | content | The "N min read" figure (Strata byline and cards, Threads kicker, lead and rows). WordPress always prints it. | read now |
-| `show_tags` | boolean | on | `skins/strata/single, skins/threads/single` | always | content | The tag chips under a post. Strata and Threads (WordPress: egberipiribo_strata_tags_enabled and egberipiribo_single_tags_enabled, both default on). | read now |
-| `show_author_card` | boolean | on | `skins/strata/single, skins/threads/single` | always | content | The author bio box under a post. Strata and Threads (WordPress: egberipiribo_strata_author_box_enabled and egberipiribo_single_author_bio_enabled, both default on). | read now |
+| `show_updated_date` | boolean | on | `skins/strata/single, skins/threads/single` | always | site | Prints "Updated <date>" in place of the publish date once a post was edited well after publishing (WordPress: post_display_date(), always on). Strata and Threads singles. | **built** |
+| `updated_after_days` | select: `1`, `7`, `14`, `30` | `1` | `skins/strata/single, skins/threads/single` | `show_updated_date` = on | site | How long after publishing an edit counts as an update. Teme's own rule starts at one day, which Fable follows by default; Strata and Threads' WordPress rule is a fixed seven. | **built** |
+| `show_comments` | boolean | on | `skins/strata/comments, skins/threads/comments` | always | content | Shows or hides the comment list and form on posts. Used by Fable, Strata and Threads (WordPress shows them whenever the post allows comments). | **built** |
+| `show_reading_time` | boolean | on | `skins/strata/single, skins/threads/single` | always | content | The "N min read" figure (Strata byline and cards, Threads kicker, lead and rows). WordPress always prints it. | **built** |
+| `show_tags` | boolean | on | `skins/strata/single, skins/threads/single` | always | content | The tag chips under a post. Strata and Threads (WordPress: egberipiribo_strata_tags_enabled and egberipiribo_single_tags_enabled, both default on). | **built** |
+| `show_author_card` | boolean | on | `skins/strata/single, skins/threads/single` | always | content | The author bio box under a post. Strata and Threads (WordPress: egberipiribo_strata_author_box_enabled and egberipiribo_single_author_bio_enabled, both default on). | **built** |
 
 ## Fable (the skin this release ships)
 
@@ -87,7 +87,7 @@ Every block of every Fable page has its own switch; every presentational choice 
 
 | Key | Type | Default | Read in | Visible when | Fieldset | Why | Status |
 |---|---|---|---|---|---|---|---|
-| `fable_footer_newsletter` | boolean | on | `partials/footer` | `skin` = `fable` | site | The dark sign-up band above the footer (the drawing has it on every page); off removes the band and the rail and menu buttons that point to it. | new |
+| `fable_footer_newsletter` | boolean | on | `partials/footer` | `skin` = `fable` | site | The dark sign-up band above the footer (the drawing has it on every page); off removes the band and the rail and menu buttons that point to it. | **built** |
 | `fable_newsletter_where` | select: `every_page`, `home_only` | `every_page` | `partials/footer` | `skin` = `fable`; `fable_footer_newsletter` = on | site | A magazine may want the sign-up band only on the front page; the footer reads $isFront once. | new |
 | `footer_newsletter_heading` | text | `Never miss a story.` | `partials/footer` | `skin` = `fable`; `fable_footer_newsletter` = on | site | The band's headline (the drawing: "Seven sections. One email. Sundays."). | read now |
 | `footer_newsletter_text` | text | `The best stories of the week, picked by an editor and sent once. You can leave in one click.` | `partials/footer` | `skin` = `fable`; `fable_footer_newsletter` = on | site | The line under the headline; the sign-up form itself is the `newsletter` region. | read now |
@@ -122,8 +122,8 @@ Every block of every Fable page has its own switch; every presentational choice 
 
 | Key | Type | Default | Read in | Visible when | Fieldset | Why | Status |
 |---|---|---|---|---|---|---|---|
-| `fable_search_panel` | boolean | on | `partials/search-panel` | `skin` = `fable` | site | The search overlay opened by the search buttons or "/" (the drawing); off makes the buttons plain links to the search page. | new |
-| `fable_search_shortcut` | boolean | on | `partials/rail` | `skin` = `fable`; `fable_search_panel` = on | site | The "/" key hint in the rail search button and the keyboard shortcut itself. | new |
+| `fable_search_panel` | boolean | on | `partials/search-panel` | `skin` = `fable` | site | The search overlay opened by the search buttons or "/" (the drawing); off makes the buttons plain links to the search page. | **built** |
+| `fable_search_shortcut` | boolean | on | `partials/rail` | `skin` = `fable`; `fable_search_panel` = on | site | The "/" key hint in the rail search button and the keyboard shortcut itself. | **built** |
 | `search_placeholder` | text | `Search stories, sections and writers` | `partials/listing-search-form` | `skin` = `fable` | site | The words in every empty search field; a site that is not stories-and-writers wants its own. | read now |
 
 #### Cards
@@ -152,38 +152,38 @@ Every block of every Fable page has its own switch; every presentational choice 
 
 | Key | Type | Default | Read in | Visible when | Fieldset | Why | Status |
 |---|---|---|---|---|---|---|---|
-| `show_share` | boolean | on | `partials/article-share` | `skin` = `fable` | site | The share buttons on articles, at the byline and after the tags. | read now |
-| `fable_share_facebook` | boolean | on | `partials/article-share` | `skin` = `fable`; `show_share` = on | site | A Facebook button (in the drawing). | new |
-| `fable_share_x` | boolean | on | `partials/article-share` | `skin` = `fable`; `show_share` = on | site | An X button (in the drawing). | new |
-| `fable_share_email` | boolean | on | `partials/article-share` | `skin` = `fable`; `show_share` = on | site | A share-by-email button (in the drawing). | new |
-| `fable_share_copy` | boolean | on | `partials/article-share` | `skin` = `fable`; `show_share` = on | site | The copy-link button (in the drawing). | new |
-| `fable_share_pinterest` | boolean | off | `partials/article-share` | `skin` = `fable`; `show_share` = on | site | A Pinterest button; the template draws it today but the drawing has none, so the default is off. | new |
-| `fable_share_linkedin` | boolean | off | `partials/article-share` | `skin` = `fable`; `show_share` = on | site | A LinkedIn button for a business or news audience. | new |
-| `fable_share_whatsapp` | boolean | off | `partials/article-share` | `skin` = `fable`; `show_share` = on | site | A WhatsApp button, the main way stories travel on phones in many countries. | new |
-| `fable_share_telegram` | boolean | off | `partials/article-share` | `skin` = `fable`; `show_share` = on | site | A Telegram button. | new |
-| `fable_share_reddit` | boolean | off | `partials/article-share` | `skin` = `fable`; `show_share` = on | site | A Reddit button. | new |
-| `fable_share_native` | boolean | off | `partials/article-share` | `skin` = `fable`; `show_share` = on | site | The phone's own share sheet (navigator.share), shown only on devices that offer it. | new |
-| `fable_share_placement` | select: `top`, `bottom`, `both`, `floating` | `both` | `partials/article-share` | `skin` = `fable`; `show_share` = on | site | Where the buttons sit: at the byline (top), after the tags (bottom), both (the drawing) or a floating rail down the side. | new |
-| `fable_share_style` | select: `icons`, `labels` | `icons` | `partials/article-share` | `skin` = `fable`; `show_share` = on | site | Round icon buttons only (the drawing) or icons with their network name. | new |
-| `fable_share_label` | text | `Share this story` | `partials/article-share` | `skin` = `fable`; `show_share` = on | site | The line before the bottom row of buttons. | new |
+| `show_share` | boolean | on | `partials/article-share` | `skin` = `fable` | site | The share buttons on articles, at the byline and after the tags. | **built** |
+| `fable_share_facebook` | boolean | on | `partials/article-share` | `skin` = `fable`; `show_share` = on | site | A Facebook button (in the drawing). | **built** |
+| `fable_share_x` | boolean | on | `partials/article-share` | `skin` = `fable`; `show_share` = on | site | An X button (in the drawing). | **built** |
+| `fable_share_email` | boolean | on | `partials/article-share` | `skin` = `fable`; `show_share` = on | site | A share-by-email button (in the drawing). | **built** |
+| `fable_share_copy` | boolean | on | `partials/article-share` | `skin` = `fable`; `show_share` = on | site | The copy-link button (in the drawing). | **built** |
+| `fable_share_pinterest` | boolean | off | `partials/article-share` | `skin` = `fable`; `show_share` = on | site | A Pinterest button; the template draws it today but the drawing has none, so the default is off. | **built** |
+| `fable_share_linkedin` | boolean | off | `partials/article-share` | `skin` = `fable`; `show_share` = on | site | A LinkedIn button for a business or news audience. | **built** |
+| `fable_share_whatsapp` | boolean | off | `partials/article-share` | `skin` = `fable`; `show_share` = on | site | A WhatsApp button, the main way stories travel on phones in many countries. | **built** |
+| `fable_share_telegram` | boolean | off | `partials/article-share` | `skin` = `fable`; `show_share` = on | site | A Telegram button. | **built** |
+| `fable_share_reddit` | boolean | off | `partials/article-share` | `skin` = `fable`; `show_share` = on | site | A Reddit button. | **built** |
+| `fable_share_native` | boolean | off | `partials/article-share` | `skin` = `fable`; `show_share` = on | site | The phone's own share sheet (navigator.share), shown only on devices that offer it. | **built** |
+| `fable_share_placement` | select: `top`, `bottom`, `both`, `floating` | `both` | `partials/article-share` | `skin` = `fable`; `show_share` = on | site | Where the buttons sit: at the byline (top), after the tags (bottom), both (the drawing) or a floating rail down the side. | **built** |
+| `fable_share_style` | select: `icons`, `labels` | `icons` | `partials/article-share` | `skin` = `fable`; `show_share` = on | site | Round icon buttons only (the drawing) or icons with their network name. | **built** |
+| `fable_share_label` | text | `Share this story` | `partials/article-share` | `skin` = `fable`; `show_share` = on | site | The line before the bottom row of buttons. | **built** |
 
 #### Patterns
 
 | Key | Type | Default | Read in | Visible when | Fieldset | Why | Status |
 |---|---|---|---|---|---|---|---|
-| `pattern` | select: `none`, `sections`, `pets`, `home`, `food` | `none` | `home` | `skin` = `fable` | site | The icon pattern laid over the brand-colour areas (the pattern samples); off keeps every area solid, as the seven main drawings are. | read now |
-| `pattern_strength` | select: `subtle`, `medium`, `bold` | `subtle` | `partials/home-pattern` | `skin` = `fable`; `pattern` = `sections` or `pets` or `home` or `food` | site | How visible the icons are. | read now |
-| `pattern_density` | select: `sparse`, `regular`, `dense` | `regular` | `partials/home-pattern` | `skin` = `fable`; `pattern` = `sections` or `pets` or `home` or `food` | site | How tightly the icons repeat (the samples: open, even, tight). | read now |
-| `pattern_accent` | color | empty | `partials/home-pattern` | `skin` = `fable`; `pattern` = `sections` or `pets` or `home` or `food` | site | One icon in seven takes this colour (pattern sample 2 uses #ffd23f); empty keeps every icon white. | read now |
-| `fable_pattern_colour` | select: `mixed`, `accent`, `white` | `mixed` | `partials/home-pattern` | `skin` = `fable`; `pattern` = `sections` or `pets` or `home` or `food` | site | Icon colour as in sample 2: white with one accent icon, all accent, or all white. | new |
-| `fable_pattern_layout` | select: `scatter`, `grid`, `dots` | `scatter` | `partials/home-pattern` | `skin` = `fable`; `pattern` = `sections` or `pets` or `home` or `food` | site | Scattered and turned icons, straight rows, or straight rows with dots between (sample 2). | new |
-| `fable_pattern_style` | select: `regular`, `fill` | `regular` | `partials/home-pattern` | `skin` = `fable`; `pattern` = `sections` or `pets` or `home` or `food` | site | Outline or solid icons (the samples' icon style). | new |
-| `fable_pattern_rail` | boolean | on | `partials/rail` | `skin` = `fable`; `pattern` = `sections` or `pets` or `home` or `food` | site | The pattern on the rail (both samples do). | new |
-| `fable_pattern_phone_header` | boolean | on | `partials/mobile-header` | `skin` = `fable`; `pattern` = `sections` or `pets` or `home` or `food` | site | The pattern on the small-screen header (both samples do). | new |
-| `fable_pattern_footer` | boolean | on | `partials/footer` | `skin` = `fable`; `pattern` = `sections` or `pets` or `home` or `food` | site | The pattern on the footer (both samples do). | new |
-| `fable_pattern_long_read` | boolean | on | `home` | `skin` = `fable`; `pattern` = `sections` or `pets` or `home` or `food` | site | The pattern on the home page's long read (built today whenever `pattern` is on; this adds only the off switch). | new |
-| `fable_pattern_sections` | boolean | off | `home` | `skin` = `fable`; `pattern` = `sections` or `pets` or `home` or `food` | site | The pattern on section headings; not in the samples, so off. | new |
-| `fable_pattern_404` | boolean | off | `notfound` | `skin` = `fable`; `pattern` = `sections` or `pets` or `home` or `food` | site | The pattern behind the big 404 number; not in the samples, so off. | new |
+| `pattern` | select: `none`, `sections`, `pets`, `home`, `food` | `none` | `home` | `skin` = `fable` | site | The icon pattern laid over the brand-colour areas (the pattern samples); off keeps every area solid, as the seven main drawings are. | **built** |
+| `pattern_strength` | select: `subtle`, `medium`, `bold` | `subtle` | `partials/home-pattern` | `skin` = `fable`; `pattern` = `sections` or `pets` or `home` or `food` | site | How visible the icons are. | **built** |
+| `pattern_density` | select: `sparse`, `regular`, `dense` | `regular` | `partials/home-pattern` | `skin` = `fable`; `pattern` = `sections` or `pets` or `home` or `food` | site | How tightly the icons repeat (the samples: open, even, tight). | **built** |
+| `pattern_accent` | color | empty | `partials/home-pattern` | `skin` = `fable`; `pattern` = `sections` or `pets` or `home` or `food` | site | One icon in seven takes this colour (pattern sample 2 uses #ffd23f); empty keeps every icon white. | **built** |
+| `fable_pattern_colour` | select: `mixed`, `accent`, `white` | `mixed` | `partials/home-pattern` | `skin` = `fable`; `pattern` = `sections` or `pets` or `home` or `food` | site | Icon colour as in sample 2: white with one accent icon, all accent, or all white. | **built** |
+| `fable_pattern_layout` | select: `scatter`, `grid`, `dots` | `scatter` | `partials/home-pattern` | `skin` = `fable`; `pattern` = `sections` or `pets` or `home` or `food` | site | Scattered and turned icons, straight rows, or straight rows with dots between (sample 2). | **built** |
+| `fable_pattern_style` | select: `regular`, `fill` | `regular` | `partials/home-pattern` | `skin` = `fable`; `pattern` = `sections` or `pets` or `home` or `food` | site | Outline or solid icons (the samples' icon style). | **built** |
+| `fable_pattern_rail` | boolean | on | `partials/rail` | `skin` = `fable`; `pattern` = `sections` or `pets` or `home` or `food` | site | The pattern on the rail (both samples do). | **built** |
+| `fable_pattern_phone_header` | boolean | on | `partials/mobile-header` | `skin` = `fable`; `pattern` = `sections` or `pets` or `home` or `food` | site | The pattern on the small-screen header (both samples do). | **built** |
+| `fable_pattern_footer` | boolean | on | `partials/footer` | `skin` = `fable`; `pattern` = `sections` or `pets` or `home` or `food` | site | The pattern on the footer (both samples do). | **built** |
+| `fable_pattern_long_read` | boolean | on | `home` | `skin` = `fable`; `pattern` = `sections` or `pets` or `home` or `food` | site | The pattern on the home page's long read (built today whenever `pattern` is on; this adds only the off switch). | **built** |
+| `fable_pattern_sections` | boolean | off | `home` | `skin` = `fable`; `pattern` = `sections` or `pets` or `home` or `food` | site | The pattern on section headings; not in the samples, so off. | **built** |
+| `fable_pattern_404` | boolean | off | `notfound` | `skin` = `fable`; `pattern` = `sections` or `pets` or `home` or `food` | site | The pattern behind the big 404 number; not in the samples, so off. | **built** |
 
 #### Colour and dark mode
 
@@ -242,26 +242,26 @@ Every block of every Fable page has its own switch; every presentational choice 
 |---|---|---|---|---|---|---|---|
 | `front_title` | text | `Today on :site` | `home` | `skin` = `fable` | latest | The home page's one h1; :site is the site's name. | read now |
 | `posts_title` | text | `Latest stories` | `home` | `skin` = `fable` | latest | The title of a posts page that has none of its own. | read now |
-| `fable_home_title_visible` | boolean | on | `home` | `skin` = `fable` | latest | Show the h1 on the page; off keeps it for assistive technology and search engines but hides it (a page must keep one h1). | new |
-| `show_story_count` | boolean | on | `home` | `skin` = `fable` | latest | "N stories on this page" beside the title. | read now |
+| `fable_home_title_visible` | boolean | on | `home` | `skin` = `fable` | latest | Show the h1 on the page; off keeps it for assistive technology and search engines but hides it (a page must keep one h1). | **built** |
+| `show_story_count` | boolean | on | `home` | `skin` = `fable` | latest | "N stories on this page" beside the title. | **built** |
 
 #### Home: top stories strip
 
 | Key | Type | Default | Read in | Visible when | Fieldset | Why | Status |
 |---|---|---|---|---|---|---|---|
-| `fable_home_top_stories` | boolean | on | `home` | `skin` = `fable` | latest | The ranked "Top stories" strip above the page (the drawing's first band). | new |
+| `fable_home_top_stories` | boolean | on | `home` | `skin` = `fable` | latest | The ranked "Top stories" strip above the page (the drawing's first band). | **built** |
 | `top_stories_count` | select: `3`, `4`, `5`, `6` | `4` | `home` | `skin` = `fable`; `fable_home_top_stories` = on | latest | How many stories the strip lists. | read now |
 | `fable_home_top_stories_label` | text | `Top stories` | `home` | `skin` = `fable`; `fable_home_top_stories` = on | latest | The strip's label. | new |
-| `fable_home_top_stories_rank` | boolean | on | `home` | `skin` = `fable`; `fable_home_top_stories` = on | latest | The big rank numbers before each headline (1, 2, 3...). | new |
+| `fable_home_top_stories_rank` | boolean | on | `home` | `skin` = `fable`; `fable_home_top_stories` = on | latest | The big rank numbers before each headline (1, 2, 3...). | **built** |
 
 #### Home: cover story
 
 | Key | Type | Default | Read in | Visible when | Fieldset | Why | Status |
 |---|---|---|---|---|---|---|---|
-| `fable_home_cover` | boolean | on | `home` | `skin` = `fable` | latest | The cover story (the lead) with its picture and overlapping headline card. | new |
-| `fable_home_cover_kicker` | boolean | on | `home` | `skin` = `fable`; `fable_home_cover` = on | latest | The section name above the cover headline. | new |
-| `fable_home_cover_standfirst` | boolean | on | `home` | `skin` = `fable`; `fable_home_cover` = on | latest | The standfirst under the cover headline. | new |
-| `fable_home_cover_byline` | boolean | on | `home` | `skin` = `fable`; `fable_home_cover` = on | latest | The byline under the cover story. | new |
+| `fable_home_cover` | boolean | on | `home` | `skin` = `fable` | latest | The cover story (the lead) with its picture and overlapping headline card. | **built** |
+| `fable_home_cover_kicker` | boolean | on | `home` | `skin` = `fable`; `fable_home_cover` = on | latest | The section name above the cover headline. | **built** |
+| `fable_home_cover_standfirst` | boolean | on | `home` | `skin` = `fable`; `fable_home_cover` = on | latest | The standfirst under the cover headline. | **built** |
+| `fable_home_cover_byline` | boolean | on | `home` | `skin` = `fable`; `fable_home_cover` = on | latest | The byline under the cover story. | **built** |
 | `fable_home_cover_layout` | select: `overlap`, `stacked` | `overlap` | `home` | `skin` = `fable`; `fable_home_cover` = on | latest | The headline card overlaps the bottom of the picture (the drawing) or sits plainly below it (as the no-picture variant does). | new |
 | `fable_home_cover_ratio` | select: `wide`, `standard` | `wide` | `home` | `skin` = `fable`; `fable_home_cover` = on | latest | Picture shape: 21:10 from 640px (the drawing) or 4:3 at every width. | new |
 
@@ -269,33 +269,33 @@ Every block of every Fable page has its own switch; every presentational choice 
 
 | Key | Type | Default | Read in | Visible when | Fieldset | Why | Status |
 |---|---|---|---|---|---|---|---|
-| `fable_home_also_today` | boolean | on | `home` | `skin` = `fable` | latest | The "Also today" row of small stories under the cover. | new |
+| `fable_home_also_today` | boolean | on | `home` | `skin` = `fable` | latest | The "Also today" row of small stories under the cover. | **built** |
 | `also_today_count` | select: `3`, `6` | `3` | `home` | `skin` = `fable`; `fable_home_also_today` = on | latest | How many of the newest stories fill it when none are pinned (rows of three). | read now |
-| `fable_home_also_today_kicker` | boolean | on | `home` | `skin` = `fable`; `fable_home_also_today` = on | latest | The section name above each small headline. | new |
-| `fable_home_also_today_thumb` | boolean | on | `home` | `skin` = `fable`; `fable_home_also_today` = on | latest | The small square picture beside each headline. | new |
+| `fable_home_also_today_kicker` | boolean | on | `home` | `skin` = `fable`; `fable_home_also_today` = on | latest | The section name above each small headline. | **built** |
+| `fable_home_also_today_thumb` | boolean | on | `home` | `skin` = `fable`; `fable_home_also_today` = on | latest | The small square picture beside each headline. | **built** |
 
 #### Home: ad spots
 
 | Key | Type | Default | Read in | Visible when | Fieldset | Why | Status |
 |---|---|---|---|---|---|---|---|
-| `fable_home_ad_leaderboard` | boolean | on | `home` | `skin` = `fable`; `show_ads` = on | latest | The 728 x 90 leaderboard under Also today (region `ad-leaderboard`). | new |
-| `fable_home_ad_in_feed` | boolean | on | `home` | `skin` = `fable`; `show_ads` = on | latest | The wide advertisement inside the story grid (region `ad-in-feed`). | new |
+| `fable_home_ad_leaderboard` | boolean | on | `home` | `skin` = `fable`; `show_ads` = on | latest | The 728 x 90 leaderboard under Also today (region `ad-leaderboard`). | **built** |
+| `fable_home_ad_in_feed` | boolean | on | `home` | `skin` = `fable`; `show_ads` = on | latest | The wide advertisement inside the story grid (region `ad-in-feed`). | **built** |
 | `feed_ad_after` | select: `4`, `8`, `12` | `4` | `home` | `skin` = `fable`; `fable_home_ad_in_feed` = on; `show_ads` = on | latest | The in-feed ad sits after this many stories. | read now |
-| `fable_home_ad_rectangle` | boolean | on | `home` | `skin` = `fable`; `show_ads` = on | latest | The 336 x 280 rectangle beside Most read (region `ad-rectangle`). | new |
+| `fable_home_ad_rectangle` | boolean | on | `home` | `skin` = `fable`; `show_ads` = on | latest | The 336 x 280 rectangle beside Most read (region `ad-rectangle`). | **built** |
 
 #### Home: the long read
 
 | Key | Type | Default | Read in | Visible when | Fieldset | Why | Status |
 |---|---|---|---|---|---|---|---|
-| `fable_home_long_read` | boolean | on | `home` | `skin` = `fable` | latest | The brand-colour "long read" block (region `home-long-read`; its story and heading are the editor's). | new |
+| `fable_home_long_read` | boolean | on | `home` | `skin` = `fable` | latest | The brand-colour "long read" block (region `home-long-read`; its story and heading are the editor's). | **built** |
 
 #### Home: story grid
 
 | Key | Type | Default | Read in | Visible when | Fieldset | Why | Status |
 |---|---|---|---|---|---|---|---|
-| `fable_home_grid` | boolean | on | `home` | `skin` = `fable` | latest | The "More to explore" grid of stories with its pages. | new |
+| `fable_home_grid` | boolean | on | `home` | `skin` = `fable` | latest | The "More to explore" grid of stories with its pages. | **built** |
 | `grid_title` | text | `More to explore` | `home` | `skin` = `fable`; `fable_home_grid` = on | latest | The heading above the grid. | read now |
-| `show_layout_toggle` | boolean | on | `home` | `skin` = `fable`; `fable_home_grid` = on | latest | The reader's grid / list buttons above the grid. | read now |
+| `show_layout_toggle` | boolean | on | `home` | `skin` = `fable`; `fable_home_grid` = on | latest | The reader's grid / list buttons above the grid. | **built** |
 | `fable_home_grid_layout` | select: `grid`, `list` | `grid` | `home` | `skin` = `fable`; `fable_home_grid` = on | latest | The layout a reader sees first (the drawing: grid); their own choice is kept on their device. | new |
 | `fable_home_grid_columns` | select: `3`, `4` | `4` | `home` | `skin` = `fable`; `fable_home_grid` = on | latest | Columns of the grid on wide screens (the drawing: 4). | new |
 | `fable_home_sort_toggle` | boolean | on | `home` | `skin` = `fable`; `fable_home_grid` = on | latest | The "Newest / Quick reads" switch above the grid (the drawing). *When Teme can: A listing has one order, newest first; Teme offers no sort and no reading time on items.* | **waits**: sort |
@@ -304,15 +304,15 @@ Every block of every Fable page has its own switch; every presentational choice 
 
 | Key | Type | Default | Read in | Visible when | Fieldset | Why | Status |
 |---|---|---|---|---|---|---|---|
-| `fable_home_sections` | boolean | on | `home` | `skin` = `fable` | latest | The "From the sections" band of up to four section lists (region `home-sections`). | new |
+| `fable_home_sections` | boolean | on | `home` | `skin` = `fable` | latest | The "From the sections" band of up to four section lists (region `home-sections`). | **built** |
 
 #### Home: Most read
 
 | Key | Type | Default | Read in | Visible when | Fieldset | Why | Status |
 |---|---|---|---|---|---|---|---|
-| `fable_home_most_read` | boolean | on | `home` | `skin` = `fable` | latest | The "Most read" ranked list beside its advertisement (region `home-most-read`). | new |
+| `fable_home_most_read` | boolean | on | `home` | `skin` = `fable` | latest | The "Most read" ranked list beside its advertisement (region `home-most-read`). | **built** |
 | `fable_home_most_read_source` | select: `editor_list`, `views` | `editor_list` | `home` | `skin` = `fable`; `fable_home_most_read` = on | latest | An editor's hand-picked list (as built) or the stories read most this week (the drawing). *When Teme can: Teme keeps no per-story view counts; only `editor_list` is storable.* | **waits**: counts |
-| `fable_home_most_read_rank` | boolean | on | `home` | `skin` = `fable`; `fable_home_most_read` = on | latest | The ranking numbers beside each story. | new |
+| `fable_home_most_read_rank` | boolean | on | `home` | `skin` = `fable`; `fable_home_most_read` = on | latest | The ranking numbers beside each story. | **built** |
 
 
 ### Articles, pages and comment pages (fieldset content)
@@ -321,60 +321,60 @@ Every block of every Fable page has its own switch; every presentational choice 
 
 | Key | Type | Default | Read in | Visible when | Fieldset | Why | Status |
 |---|---|---|---|---|---|---|---|
-| `show_reading_progress` | boolean | on | `article` | `skin` = `fable` | content | The thin reading bar across the top. | read now |
-| `fable_article_breadcrumb` | boolean | on | `article` | `skin` = `fable` | content | The breadcrumb above the headline (Strata has the same switch). | new |
-| `fable_article_kicker` | boolean | on | `article` | `skin` = `fable` | content | The section name above the headline when there is no breadcrumb. | new |
-| `fable_article_standfirst` | boolean | on | `article` | `skin` = `fable` | content | The standfirst (deck) under the headline. | new |
+| `show_reading_progress` | boolean | on | `article` | `skin` = `fable` | content | The thin reading bar across the top. | **built** |
+| `fable_article_breadcrumb` | boolean | on | `article` | `skin` = `fable` | content | The breadcrumb above the headline (Strata has the same switch). | **built** |
+| `fable_article_kicker` | boolean | on | `article` | `skin` = `fable` | content | The section name above the headline when there is no breadcrumb. | **built** |
+| `fable_article_standfirst` | boolean | on | `article` | `skin` = `fable` | content | The standfirst (deck) under the headline. | **built** |
 
 #### Article: byline
 
 | Key | Type | Default | Read in | Visible when | Fieldset | Why | Status |
 |---|---|---|---|---|---|---|---|
-| `fable_byline_avatar` | boolean | on | `partials/article-byline` | `skin` = `fable` | content | The author's initials circle beside the byline. | new |
-| `fable_byline_authors` | boolean | on | `partials/article-byline` | `skin` = `fable` | content | "By" and the author names. | new |
+| `fable_byline_avatar` | boolean | on | `partials/article-byline` | `skin` = `fable` | content | The author's initials circle beside the byline. | **built** |
+| `fable_byline_authors` | boolean | on | `partials/article-byline` | `skin` = `fable` | content | "By" and the author names. | **built** |
 | `fable_byline_role` | boolean | on | `partials/article-byline` | `skin` = `fable`; `fable_byline_authors` = on | content | The author's role after the name ("animals editor" in the drawing). *When Teme can: Teme's Person has a name, url and bio but no role or job title.* | **waits**: author role |
-| `fable_byline_date` | boolean | on | `partials/article-byline` | `skin` = `fable` | content | The publication date in the byline. | new |
-| `fable_article_show_updated` | boolean | on | `partials/article-byline` | `skin` = `fable` | content | The "Updated" date in the byline, when the article was revised at least a day later. | new |
+| `fable_byline_date` | boolean | on | `partials/article-byline` | `skin` = `fable` | content | The publication date in the byline. | **built** |
+| `fable_article_show_updated` | boolean | on | `partials/article-byline` | `skin` = `fable` | content | The "Updated" date in the byline, when the article was revised at least a day later. | **built** |
 
 #### Article: hero
 
 | Key | Type | Default | Read in | Visible when | Fieldset | Why | Status |
 |---|---|---|---|---|---|---|---|
-| `fable_article_hero` | boolean | on | `article` | `skin` = `fable` | content | The large picture under the byline. | new |
-| `fable_article_hero_caption` | boolean | on | `article` | `skin` = `fable`; `fable_article_hero` = on | content | The caption and credit under the hero. | new |
+| `fable_article_hero` | boolean | on | `article` | `skin` = `fable` | content | The large picture under the byline. | **built** |
+| `fable_article_hero_caption` | boolean | on | `article` | `skin` = `fable`; `fable_article_hero` = on | content | The caption and credit under the hero. | **built** |
 | `fable_article_hero_ratio` | select: `16:10`, `16:9` | `16:10` | `article` | `skin` = `fable`; `fable_article_hero` = on | content | The hero's shape: 16:10 (the drawing's hero) or 16:9 (its in-text figure). | new |
-| `fable_article_fields_before` | boolean | on | `article` | `skin` = `fable` | content | The custom fields set to show before the body (the drawing's "Reviewed by" line is such a field). | new |
+| `fable_article_fields_before` | boolean | on | `article` | `skin` = `fable` | content | The custom fields set to show before the body (the drawing's "Reviewed by" line is such a field). | **built** |
 
 #### Article: body
 
 | Key | Type | Default | Read in | Visible when | Fieldset | Why | Status |
 |---|---|---|---|---|---|---|---|
-| `show_contents` | boolean | on | `partials/article-body` | `skin` = `fable` | content | The "In this story" list in the rail, built from the body's h2 headings (articles and pages). | read now |
+| `show_contents` | boolean | on | `partials/article-body` | `skin` = `fable` | content | The "In this story" list in the rail, built from the body's h2 headings (articles and pages). | **built** |
 | `contents_min_headings` | select: `2`, `3`, `4` | `2` | `partials/article-body` | `skin` = `fable`; `show_contents` = on | content | The fewest h2 headings that earn the list. | read now |
-| `article_lede` | boolean | on | `partials/article-body` | `skin` = `fable` | content | The first paragraph set larger, as the drawing's lede. | read now |
-| `fable_article_inline_related` | boolean | on | `article` | `skin` = `fable` | content | The small "Related" card inside the body (in the drawing, after the second paragraph). | new |
-| `fable_article_fields_after` | boolean | on | `article` | `skin` = `fable` | content | The custom fields set to show after the body. | new |
-| `fable_article_after_content` | boolean | on | `article` | `skin` = `fable` | content | The `after-content` region (a callout, button or featured posts) under the body. | new |
+| `article_lede` | boolean | on | `partials/article-body` | `skin` = `fable` | content | The first paragraph set larger, as the drawing's lede. | **built** |
+| `fable_article_inline_related` | boolean | off | `article` | `skin` = `fable` | content | The small "Related" card inside the body, after its second block (it is in the drawing; off by default so the page stays as it is until someone chooses it). | **built** |
+| `fable_article_fields_after` | boolean | on | `article` | `skin` = `fable` | content | The custom fields set to show after the body. | **built** |
+| `fable_article_after_content` | boolean | on | `article` | `skin` = `fable` | content | The `after-content` region (a callout, button or featured posts) under the body. | **built** |
 
 #### Article: ads
 
 | Key | Type | Default | Read in | Visible when | Fieldset | Why | Status |
 |---|---|---|---|---|---|---|---|
-| `fable_article_ad_leaderboard` | boolean | on | `article` | `skin` = `fable`; `show_ads` = on | content | The leaderboard above the article (region `ad-leaderboard`). | new |
-| `fable_article_ad_in_article` | boolean | on | `article` | `skin` = `fable`; `show_ads` = on | content | The ad inside the body (region `ad-in-article`). | new |
+| `fable_article_ad_leaderboard` | boolean | on | `article` | `skin` = `fable`; `show_ads` = on | content | The leaderboard above the article (region `ad-leaderboard`). | **built** |
+| `fable_article_ad_in_article` | boolean | on | `article` | `skin` = `fable`; `show_ads` = on | content | The ad inside the body (region `ad-in-article`). | **built** |
 | `ad_in_article_after` | select: `3`, `4`, `6`, `8` | `4` | `partials/article-body` | `skin` = `fable`; `show_ads` = on; `fable_article_ad_in_article` = on | content | The in-article ad sits after this many top-level blocks of the body. | read now |
 | `ad_in_article_min` | select: `6`, `8`, `10` | `8` | `partials/article-body` | `skin` = `fable`; `show_ads` = on; `fable_article_ad_in_article` = on | content | The fewest blocks a body needs before the ad goes inside it. | read now |
-| `fable_article_ad_second` | boolean | on | `article` | `skin` = `fable`; `show_ads` = on | content | The second ad after the body (region `ad-in-article-2`). | new |
-| `fable_article_ad_half_page` | boolean | on | `article` | `skin` = `fable`; `show_ads` = on | content | The sticky half-page ad beside the article on screens from 1440px (region `ad-half-page`). | new |
+| `fable_article_ad_second` | boolean | on | `article` | `skin` = `fable`; `show_ads` = on | content | The second ad after the body (region `ad-in-article-2`). | **built** |
+| `fable_article_ad_half_page` | boolean | on | `article` | `skin` = `fable`; `show_ads` = on | content | The sticky half-page ad beside the article on screens from 1440px (region `ad-half-page`). | **built** |
 
 #### Article: Read next
 
 | Key | Type | Default | Read in | Visible when | Fieldset | Why | Status |
 |---|---|---|---|---|---|---|---|
-| `show_read_next` | boolean | on | `partials/article-readnext` | `skin` = `fable` | content | The "Read next" strip after the body. | read now |
+| `show_read_next` | boolean | on | `partials/article-readnext` | `skin` = `fable` | content | The "Read next" strip after the body. | **built** |
 | `fable_read_next_source` | select: `same_section`, `newest` | `same_section` | `partials/article-readnext` | `skin` = `fable`; `show_read_next` = on | content | A story from the same section (as built) or simply the newest story. *When Teme can: A single template gets `related` only; only `same_section` is storable.* | **waits**: latest items on an article page |
 | `fable_read_next_count` | select: `1`, `2`, `3` | `1` | `partials/article-readnext` | `skin` = `fable`; `show_read_next` = on | content | How many stories the strip offers (the drawing: one). | new |
-| `fable_read_next_reason` | boolean | on | `partials/article-readnext` | `skin` = `fable`; `show_read_next` = on | content | The small line giving the reason or byline under the "Read next" headline. | new |
+| `fable_read_next_reason` | boolean | on | `partials/article-readnext` | `skin` = `fable`; `show_read_next` = on | content | The small line giving the reason or byline under the "Read next" headline. | **built** |
 
 #### Article: tags
 
@@ -386,41 +386,41 @@ Every block of every Fable page has its own switch; every presentational choice 
 
 | Key | Type | Default | Read in | Visible when | Fieldset | Why | Status |
 |---|---|---|---|---|---|---|---|
-| `fable_author_card_avatar` | boolean | on | `partials/article-authors` | `skin` = `fable`; `show_author_card` = on | content | The initials circle in the card. | new |
-| `fable_author_card_bio` | boolean | on | `partials/article-authors` | `skin` = `fable`; `show_author_card` = on | content | The author's bio in the card. | new |
-| `fable_author_card_link` | boolean | on | `partials/article-authors` | `skin` = `fable`; `show_author_card` = on | content | The "More from ..." link to the author's page. | new |
+| `fable_author_card_avatar` | boolean | on | `partials/article-authors` | `skin` = `fable`; `show_author_card` = on | content | The initials circle in the card. | **built** |
+| `fable_author_card_bio` | boolean | on | `partials/article-authors` | `skin` = `fable`; `show_author_card` = on | content | The author's bio in the card. | **built** |
+| `fable_author_card_link` | boolean | on | `partials/article-authors` | `skin` = `fable`; `show_author_card` = on | content | The "More from ..." link to the author's page. | **built** |
 
 #### Article: related
 
 | Key | Type | Default | Read in | Visible when | Fieldset | Why | Status |
 |---|---|---|---|---|---|---|---|
-| `show_related` | boolean | on | `partials/article-related` | `skin` = `fable` | content | The "Keep reading" row of related stories under the article. | read now |
+| `show_related` | boolean | on | `partials/article-related` | `skin` = `fable` | content | The "Keep reading" row of related stories under the article. | **built** |
 | `related_heading` | text | `Keep reading` | `partials/article-related` | `skin` = `fable`; `show_related` = on | content | The row's heading. | read now |
 | `fable_related_count` | select: `2`, `3`, `4`, `6` | `3` | `partials/article-related` | `skin` = `fable`; `show_related` = on | content | How many stories the row shows (it can only show as many as Teme relates). | new |
-| `fable_related_more_link` | boolean | on | `partials/article-related` | `skin` = `fable`; `show_related` = on | content | The "All [section]" link at the right of the heading. | new |
+| `fable_related_more_link` | boolean | on | `partials/article-related` | `skin` = `fable`; `show_related` = on | content | The "All [section]" link at the right of the heading. | **built** |
 
 #### Comments
 
 | Key | Type | Default | Read in | Visible when | Fieldset | Why | Status |
 |---|---|---|---|---|---|---|---|
 | `fable_comments_placement` | select: `below`, `rail` | `below` | `partials/comments-thread` | `skin` = `fable`; `show_comments` = on | content | Below the author card (the drawing) or in the rail; "hidden" is `show_comments` off. The rail is a 17rem column, a poor home for a thread: listed only so the owner can strike it. | new |
-| `fable_comments_avatar` | boolean | on | `partials/comment-card` | `skin` = `fable`; `show_comments` = on | content | The initials circle beside each comment. | new |
-| `fable_comments_author_badge` | boolean | on | `partials/comment-card` | `skin` = `fable`; `show_comments` = on | content | The "Author" badge on a credited author's comment (the drawing). | new |
+| `fable_comments_avatar` | boolean | on | `partials/comment-card` | `skin` = `fable`; `show_comments` = on | content | The initials circle beside each comment. | **built** |
+| `fable_comments_author_badge` | boolean | on | `partials/comment-card` | `skin` = `fable`; `show_comments` = on | content | The "Author" badge on a credited author's comment (the drawing). | **built** |
 | `comments_page_title` | text | `Comments on “:title”` | `comments` | `skin` = `fable` | content | The h1 of a later page of a thread; :title is the story's title. | read now |
 
 #### Page
 
 | Key | Type | Default | Read in | Visible when | Fieldset | Why | Status |
 |---|---|---|---|---|---|---|---|
-| `fable_page_breadcrumb` | boolean | on | `page` | `skin` = `fable` | content | The breadcrumb above a page's title. | new |
-| `fable_page_standfirst` | boolean | on | `page` | `skin` = `fable` | content | The standfirst under a page's title. | new |
-| `show_updated` | boolean | on | `page` | `skin` = `fable` | content | The "Last updated" line under the title. | read now |
-| `fable_page_hero` | boolean | on | `page` | `skin` = `fable` | content | The featured picture under the title. | new |
-| `fable_page_fields` | boolean | on | `page` | `skin` = `fable` | content | The custom fields set to show on a page. | new |
-| `page_lede` | boolean | on | `page` | `skin` = `fable` | content | The first paragraph set larger. | read now |
-| `show_children` | boolean | on | `page` | `skin` = `fable` | content | The list of pages under this one. | read now |
+| `fable_page_breadcrumb` | boolean | on | `page` | `skin` = `fable` | content | The breadcrumb above a page's title. | **built** |
+| `fable_page_standfirst` | boolean | on | `page` | `skin` = `fable` | content | The standfirst under a page's title. | **built** |
+| `show_updated` | boolean | on | `page` | `skin` = `fable` | content | The "Last updated" line under the title. | **built** |
+| `fable_page_hero` | boolean | on | `page` | `skin` = `fable` | content | The featured picture under the title. | **built** |
+| `fable_page_fields` | boolean | on | `page` | `skin` = `fable` | content | The custom fields set to show on a page. | **built** |
+| `page_lede` | boolean | on | `page` | `skin` = `fable` | content | The first paragraph set larger. | **built** |
+| `show_children` | boolean | on | `page` | `skin` = `fable` | content | The list of pages under this one. | **built** |
 | `children_heading` | text | `In this section` | `page` | `skin` = `fable`; `show_children` = on | content | That list's heading. | read now |
-| `show_page_comments` | boolean | on | `page` | `skin` = `fable` | content | Comments under pages, when Teme gives them a thread. | read now |
+| `show_page_comments` | boolean | on | `page` | `skin` = `fable` | content | Comments under pages, when Teme gives them a thread. | **built** |
 
 
 ### Archives, authors, search, 404 and errors (fieldset archive)
@@ -429,36 +429,36 @@ Every block of every Fable page has its own switch; every presentational choice 
 
 | Key | Type | Default | Read in | Visible when | Fieldset | Why | Status |
 |---|---|---|---|---|---|---|---|
-| `fable_archive_breadcrumb` | boolean | on | `archive` | `skin` = `fable` | archive | The breadcrumb above the section name. | new |
-| `fable_archive_kind_label` | boolean | on | `archive` | `skin` = `fable` | archive | The small label ("Section", "Topic", "Writer") above the title. | new |
-| `fable_archive_description` | boolean | on | `archive` | `skin` = `fable` | archive | The section's description under the title. | new |
-| `archive_header_image` | boolean | on | `archive` | `skin` = `fable` | archive | The section's own picture beside the header, when it has one. | read now |
-| `archive_topic_chips` | boolean | on | `archive` | `skin` = `fable` | archive | The section's topics as chips under the description. | read now |
-| `fable_archive_chip_all` | boolean | on | `archive` | `skin` = `fable`; `archive_topic_chips` = on | archive | The "All" chip that starts the row of topics. | new |
+| `fable_archive_breadcrumb` | boolean | on | `archive` | `skin` = `fable` | archive | The breadcrumb above the section name. | **built** |
+| `fable_archive_kind_label` | boolean | on | `archive` | `skin` = `fable` | archive | The small label ("Section", "Topic", "Writer") above the title. | **built** |
+| `fable_archive_description` | boolean | on | `archive` | `skin` = `fable` | archive | The section's description under the title. | **built** |
+| `archive_header_image` | boolean | on | `archive` | `skin` = `fable` | archive | The section's own picture beside the header, when it has one. | **built** |
+| `archive_topic_chips` | boolean | on | `archive` | `skin` = `fable` | archive | The section's topics as chips under the description. | **built** |
+| `fable_archive_chip_all` | boolean | on | `archive` | `skin` = `fable`; `archive_topic_chips` = on | archive | The "All" chip that starts the row of topics. | **built** |
 | `fable_archive_story_count` | boolean | on | `archive` | `skin` = `fable` | archive | The "32 stories" count beside the title (the drawing). *When Teme can: A listing knows only this page's items, never the total.* | **waits**: counts |
 
 #### Archive: ads
 
 | Key | Type | Default | Read in | Visible when | Fieldset | Why | Status |
 |---|---|---|---|---|---|---|---|
-| `archive_ads` | boolean | on | `archive` | `skin` = `fable`; `show_ads` = on | archive | Both advertisement slots on listings (leaderboard and in-feed). | read now |
-| `fable_archive_ad_leaderboard` | boolean | on | `archive` | `skin` = `fable`; `archive_ads` = on; `show_ads` = on | archive | The leaderboard under the header. | new |
-| `fable_archive_ad_in_feed` | boolean | on | `archive` | `skin` = `fable`; `archive_ads` = on; `show_ads` = on | archive | The wide ad at the end of the grid. | new |
+| `archive_ads` | boolean | on | `archive` | `skin` = `fable`; `show_ads` = on | archive | Both advertisement slots on listings (leaderboard and in-feed). | **built** |
+| `fable_archive_ad_leaderboard` | boolean | on | `archive` | `skin` = `fable`; `archive_ads` = on; `show_ads` = on | archive | The leaderboard under the header. | **built** |
+| `fable_archive_ad_in_feed` | boolean | on | `archive` | `skin` = `fable`; `archive_ads` = on; `show_ads` = on | archive | The wide ad at the end of the grid. | **built** |
 
 #### Archive: lead story
 
 | Key | Type | Default | Read in | Visible when | Fieldset | Why | Status |
 |---|---|---|---|---|---|---|---|
-| `archive_lead_story` | boolean | on | `archive` | `skin` = `fable` | archive | The first story of page 1 set large above the grid. | read now |
-| `fable_archive_lead_standfirst` | boolean | on | `archive` | `skin` = `fable`; `archive_lead_story` = on | archive | The standfirst under the lead story's headline. | new |
-| `fable_archive_lead_byline` | boolean | on | `archive` | `skin` = `fable`; `archive_lead_story` = on | archive | The byline under the lead story. | new |
+| `archive_lead_story` | boolean | on | `archive` | `skin` = `fable` | archive | The first story of page 1 set large above the grid. | **built** |
+| `fable_archive_lead_standfirst` | boolean | on | `archive` | `skin` = `fable`; `archive_lead_story` = on | archive | The standfirst under the lead story's headline. | **built** |
+| `fable_archive_lead_byline` | boolean | on | `archive` | `skin` = `fable`; `archive_lead_story` = on | archive | The byline under the lead story. | **built** |
 
 #### Archive: story grid
 
 | Key | Type | Default | Read in | Visible when | Fieldset | Why | Status |
 |---|---|---|---|---|---|---|---|
 | `fable_archive_list_heading` | text | `All stories in :title` | `archive` | `skin` = `fable` | archive | The heading over the grid; :title is the section's name. | new |
-| `archive_layout_toggle` | boolean | on | `archive` | `skin` = `fable` | archive | The reader's grid / list buttons. | read now |
+| `archive_layout_toggle` | boolean | on | `archive` | `skin` = `fable` | archive | The reader's grid / list buttons. | **built** |
 | `fable_archive_layout` | select: `grid`, `list` | `grid` | `archive` | `skin` = `fable` | archive | The layout a reader sees first (the drawing: grid). | new |
 | `fable_archive_columns` | select: `3`, `4` | `3` | `archive` | `skin` = `fable` | archive | Columns of the grid on wide screens (the drawing: 3). | new |
 | `fable_archive_sort_toggle` | boolean | on | `archive` | `skin` = `fable` | archive | The "Newest / Quick reads" switch (the drawing). *When Teme can: A listing has one order, newest first.* | **waits**: sort |
@@ -467,14 +467,14 @@ Every block of every Fable page has its own switch; every presentational choice 
 
 | Key | Type | Default | Read in | Visible when | Fieldset | Why | Status |
 |---|---|---|---|---|---|---|---|
-| `fable_author_breadcrumb` | boolean | on | `author` | `skin` = `fable` | archive | The breadcrumb ("Our writers / Name") above the profile. | new |
-| `author_show_portrait` | boolean | on | `author` | `skin` = `fable` | archive | The writer's portrait or initials beside the name. | read now |
-| `fable_author_kicker` | boolean | on | `author` | `skin` = `fable` | archive | The small "Writer" label above the name. | new |
-| `fable_author_bio` | boolean | on | `author` | `skin` = `fable` | archive | The writer's bio under the name. | new |
+| `fable_author_breadcrumb` | boolean | on | `author` | `skin` = `fable` | archive | The breadcrumb ("Our writers / Name") above the profile. | **built** |
+| `author_show_portrait` | boolean | on | `author` | `skin` = `fable` | archive | The writer's portrait or initials beside the name. | **built** |
+| `fable_author_kicker` | boolean | on | `author` | `skin` = `fable` | archive | The small "Writer" label above the name. | **built** |
+| `fable_author_bio` | boolean | on | `author` | `skin` = `fable` | archive | The writer's bio under the name. | **built** |
 | `fable_author_role` | boolean | on | `author` | `skin` = `fable` | archive | The role line ("Animals editor") under the name. *When Teme can: Teme's Person has no role or job title.* | **waits**: author role |
 | `fable_author_email` | boolean | on | `author` | `skin` = `fable` | archive | The "Email Imani" button. *When Teme can: Teme's listing subject gives no e-mail or links.* | **waits**: author e-mail and social links |
 | `fable_author_facts` | boolean | on | `author` | `skin` = `fable` | archive | The facts panel (covers, with us since, training, story count). *When Teme can: Teme gives none of these; they would be custom fields on the writer.* | **waits**: author facts |
-| `fable_author_stories` | boolean | on | `author` | `skin` = `fable` | archive | The writer's stories as rows under the profile. | new |
+| `fable_author_stories` | boolean | on | `author` | `skin` = `fable` | archive | The writer's stories as rows under the profile. | **built** |
 | `fable_author_stories_heading` | text | `Latest from :name` | `author` | `skin` = `fable`; `fable_author_stories` = on | archive | The heading over the stories; :name is the writer's name. | new |
 | `fable_author_sort_toggle` | boolean | on | `author` | `skin` = `fable`; `fable_author_stories` = on | archive | The "Newest / Quick reads" switch above the stories (the drawing). *When Teme can: A listing has one order, newest first.* | **waits**: sort |
 
@@ -482,36 +482,36 @@ Every block of every Fable page has its own switch; every presentational choice 
 
 | Key | Type | Default | Read in | Visible when | Fieldset | Why | Status |
 |---|---|---|---|---|---|---|---|
-| `fable_search_form` | boolean | on | `search` | `skin` = `fable` | archive | The search field under the results heading. | new |
-| `fable_search_count` | boolean | on | `search` | `skin` = `fable` | archive | The "N results" line. | new |
-| `fable_search_snippets` | boolean | on | `partials/card` | `skin` = `fable` | archive | The matched passage shown under each result, with the words marked. | new |
-| `search_show_sections` | boolean | on | `search` | `skin` = `fable` | archive | The section chips in the empty and no-result states. | read now |
+| `fable_search_form` | boolean | on | `search` | `skin` = `fable` | archive | The search field under the results heading. | **built** |
+| `fable_search_count` | boolean | on | `search` | `skin` = `fable` | archive | The "N results" line. | **built** |
+| `fable_search_snippets` | boolean | on | `partials/card` | `skin` = `fable` | archive | The matched passage shown under each result, with the words marked. | **built** |
+| `search_show_sections` | boolean | on | `search` | `skin` = `fable` | archive | The section chips in the empty and no-result states. | **built** |
 | `fable_search_facets` | boolean | on | `search` | `skin` = `fable` | archive | The "All" and section filter chips above the results (the drawing). *When Teme can: Teme gives no results by section.* | **waits**: counts |
 | `fable_search_sort_toggle` | boolean | on | `search` | `skin` = `fable` | archive | The "Newest / Quick reads" switch (the drawing). *When Teme can: A search has one relevance order.* | **waits**: sort |
 | `fable_search_most_read` | boolean | on | `search` | `skin` = `fable` | archive | "Most read this week" under the empty states (the drawing). *When Teme can: No view counts, so no popularity list.* | **waits**: counts |
-| `fable_search_ad_leaderboard` | boolean | off | `search` | `skin` = `fable`; `show_ads` = on | archive | A leaderboard under the search header; the drawing has no ad here, so off. | new |
-| `fable_search_ad_in_feed` | boolean | off | `search` | `skin` = `fable`; `show_ads` = on | archive | An ad inside the results list; the drawing has no ad here, so off. | new |
+| `fable_search_ad_leaderboard` | boolean | off | `search` | `skin` = `fable`; `show_ads` = on | archive | A leaderboard under the search header; the drawing has no ad here, so off. | **built** |
+| `fable_search_ad_in_feed` | boolean | off | `search` | `skin` = `fable`; `show_ads` = on | archive | An ad inside the results list; the drawing has no ad here, so off. | **built** |
 
 #### 404
 
 | Key | Type | Default | Read in | Visible when | Fieldset | Why | Status |
 |---|---|---|---|---|---|---|---|
-| `fable_404_big_number` | boolean | on | `notfound` | `skin` = `fable` | archive | The big "404" beside the message. | new |
+| `fable_404_big_number` | boolean | on | `notfound` | `skin` = `fable` | archive | The big "404" beside the message. | **built** |
 | `fable_404_title` | text | `That page has moved, or it was never here` | `notfound` | `skin` = `fable` | archive | The 404 headline. | new |
 | `fable_404_text` | text | `The link may be out of date or mistyped. Search for the story you wanted, or start again from the front page.` | `notfound` | `skin` = `fable` | archive | The line under the headline. | new |
-| `fable_404_search_form` | boolean | on | `notfound` | `skin` = `fable` | archive | The search field on the not-found page. | new |
-| `fable_404_home_button` | boolean | on | `notfound` | `skin` = `fable` | archive | The "Go to the home page" button. | new |
-| `notfound_show_sections` | boolean | on | `notfound` | `skin` = `fable` | archive | The section chips beside the way home. | read now |
+| `fable_404_search_form` | boolean | on | `notfound` | `skin` = `fable` | archive | The search field on the not-found page. | **built** |
+| `fable_404_home_button` | boolean | on | `notfound` | `skin` = `fable` | archive | The "Go to the home page" button. | **built** |
+| `notfound_show_sections` | boolean | on | `notfound` | `skin` = `fable` | archive | The section chips beside the way home. | **built** |
 | `fable_404_most_read` | boolean | on | `notfound` | `skin` = `fable` | archive | "Most read this week" under the message (the drawing). *When Teme can: A not-found template gets no stories and Teme keeps no view counts.* | **waits**: counts |
 
 #### Error pages
 
 | Key | Type | Default | Read in | Visible when | Fieldset | Why | Status |
 |---|---|---|---|---|---|---|---|
-| `fable_error_big_number` | boolean | on | `error` | `skin` = `fable` | archive | The big status number (403, 429, 500...) beside the message. | new |
-| `fable_error_home_button` | boolean | on | `error` | `skin` = `fable` | archive | The "Go to the home page" button. | new |
-| `fable_error_search_form` | boolean | off | `error` | `skin` = `fable` | archive | A search field on error pages; the current page has none and there is no drawing, so off. | new |
-| `fable_error_sections` | boolean | off | `error` | `skin` = `fable` | archive | Section chips on error pages; the current page has none and there is no drawing, so off. | new |
+| `fable_error_big_number` | boolean | on | `error` | `skin` = `fable` | archive | The big status number (403, 429, 500...) beside the message. | **built** |
+| `fable_error_home_button` | boolean | on | `error` | `skin` = `fable` | archive | The "Go to the home page" button. | **built** |
+| `fable_error_search_form` | boolean | off | `error` | `skin` = `fable` | archive | A search field on error pages; the current page has none and there is no drawing, so off. | **built** |
+| `fable_error_sections` | boolean | off | `error` | `skin` = `fable` | archive | Section chips on error pages; the current page has none and there is no drawing, so off. | **built** |
 
 
 ## Later: Strata

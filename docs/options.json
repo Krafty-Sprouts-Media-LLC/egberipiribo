@@ -92,16 +92,17 @@
       "key": "updated_after_days",
       "type": "select",
       "options": [
+        "1",
         "7",
         "14",
         "30"
       ],
-      "default": "7",
+      "default": "1",
       "fieldset": "site",
       "visibleWhen": {
         "show_updated_date": true
       },
-      "why": "How long after publishing an edit counts as an update (the WordPress rule is a fixed seven days, App\\post_display_date()).",
+      "why": "How long after publishing an edit counts as an update. Teme's own rule starts at one day, which Fable follows by default; Strata and Threads' WordPress rule is a fixed seven.",
       "readNow": false,
       "waits": null,
       "build": true
@@ -2939,12 +2940,12 @@
       "template": "article",
       "key": "fable_article_inline_related",
       "type": "boolean",
-      "default": true,
+      "default": false,
       "fieldset": "content",
       "visibleWhen": {
         "skin": "fable"
       },
-      "why": "The small \"Related\" card inside the body (in the drawing, after the second paragraph).",
+      "why": "The small \"Related\" card inside the body, after its second block (it is in the drawing; off by default so the page stays as it is until someone chooses it).",
       "readNow": false,
       "waits": null,
       "build": true

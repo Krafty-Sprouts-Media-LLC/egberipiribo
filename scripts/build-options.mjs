@@ -52,7 +52,7 @@ const visible = (row) => {
     const parts = Object.entries(row.visibleWhen ?? {}).map(([k, v]) => `\`${k}\` = ${Array.isArray(v) ? v.map((x) => `\`${x}\``).join(' or ') : typeof v === 'boolean' ? (v ? 'on' : 'off') : `\`${v}\``}`);
     return parts.join('; ');
 };
-const status = (row) => (row.waits ? `**waits**: ${esc(row.waits.feature)}${row.waits.issue ? ` ${row.waits.issue}` : ''}` : row.readNow ? 'read now' : 'new');
+const status = (row) => (row.build ? '**built**' : row.waits ? `**waits**: ${esc(row.waits.feature)}${row.waits.issue ? ` ${row.waits.issue}` : ''}` : row.readNow ? 'read now' : 'new');
 const table = (list) => {
     const head = '| Key | Type | Default | Read in | Visible when | Fieldset | Why | Status |\n|---|---|---|---|---|---|---|---|\n';
     return head + list.map((r) => `| \`${r.key}\` | ${typeText(r)} | ${show(r.default)} | \`${esc(r.template)}\` | ${visible(r) || 'always'} | ${r.fieldset} | ${esc(r.why)}${r.waits?.note ? ` *When Teme can: ${esc(r.waits.note)}*` : ''} | ${status(r)} |`).join('\n') + '\n';
@@ -70,7 +70,7 @@ const section = (title, list) => {
     for (const [group, items] of groupsOf(list)) out += `\n#### ${group}\n\n${table(items)}`;
     return `\n### ${title}\n${out}`;
 };
-const count = (list) => ({ total: list.length, readNow: list.filter((r) => r.readNow).length, waits: list.filter((r) => r.waits).length });
+const count = (list) => ({ total: list.length, readNow: list.filter((r) => r.readNow).length, waits: list.filter((r) => r.waits).length, built: list.filter((r) => r.build).length });
 
 // ---------------------------------------------------------------- document
 const skinRow = rows.find((r) => r.key === 'skin');
@@ -93,19 +93,19 @@ const all = count(rows);
 
 let md = `# OPTIONS: the theme settings, skin by skin
 
-**A proposal. Nothing here is built.** Fable ships with each default below fixed. For the owner to review.
+**A proposal, with a first set built.** The settings marked **built** are declared in \`teme-theme.json\` and read by the templates; every other row is still a proposal for later updates. Defaults reproduce the drawings, so the site looks unchanged until someone changes a setting.
 
 ${data.intro}
 
 ## Totals
 
-| | Settings | Read by a template now | New proposals | Waiting on a Teme feature |
+| | Settings | **Built** | Proposed, not built | Waiting on a Teme feature |
 |---|---|---|---|---|
-| Fable | ${count(fable).total} | ${count(fable).readNow} | ${count(fable).total - count(fable).readNow} | ${count(fable).waits} |
-| Shared by every skin | ${count(shared).total + 1} | ${count(shared).readNow} | ${count(shared).total + 1 - count(shared).readNow} | ${count(shared).waits} |
-| Later: Strata | ${count(strata).total} | 0 | ${count(strata).total} | ${count(strata).waits} |
-| Later: Threads | ${count(threads).total} | 0 | ${count(threads).total} | ${count(threads).waits} |
-| **All** | **${all.total}** | ${all.readNow} | ${all.total - all.readNow} | ${all.waits} |
+| Fable | ${count(fable).total} | ${count(fable).built} | ${count(fable).total - count(fable).built - count(fable).waits} | ${count(fable).waits} |
+| Shared by every skin (with the skin choice) | ${count(shared).total + 1} | ${count(shared).built + 1} | ${count(shared).total + 1 - count(shared).built - 1 - count(shared).waits} | ${count(shared).waits} |
+| Later: Strata | ${count(strata).total} | ${count(strata).built} | ${count(strata).total - count(strata).built - count(strata).waits} | ${count(strata).waits} |
+| Later: Threads | ${count(threads).total} | ${count(threads).built} | ${count(threads).total - count(threads).built - count(threads).waits} | ${count(threads).waits} |
+| **All** | **${all.total}** | **${all.built}** | ${all.total - all.built - all.waits} | ${all.waits} |
 
 Fable settings per template or partial: ${[...perTemplate].sort((a, b) => b[1] - a[1]).map(([t, n]) => `\`${t}\` ${n}`).join(' · ')}.
 

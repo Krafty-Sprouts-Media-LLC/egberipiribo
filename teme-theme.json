@@ -193,8 +193,8 @@
         {
             "key": "skin",
             "type": "select",
-            "label": "All skins: chooses the skin once more than one ships",
-            "description": "Chooses the skin once more than one ships (strata and threads are added to the options by the update that builds them). Today there is one option, so the setting is not shown. Strata and Threads are listed as options for the structure; only fable exists in this release.",
+            "label": "All skins: which skin draws the site",
+            "description": "Chooses the skin that draws every page. Only Fable is available in this release, so the setting stays hidden.",
             "fieldset": "site",
             "options": {
                 "fable": "Fable"
@@ -204,39 +204,40 @@
         {
             "key": "show_ads",
             "type": "boolean",
-            "label": "All skins: master switch that hides every ad region at once without emptying them",
-            "description": "Master switch that hides every ad region at once without emptying them. Used by Fable, Strata and Threads. WordPress has no master switch, only the three per-placement switches below.",
+            "label": "Ads: show advertisement slots",
+            "description": "Turn off to hide every advertisement slot at once, without emptying the regions an editor filled.",
             "fieldset": "site",
             "default": true
         },
         {
             "key": "show_newsletter",
             "type": "boolean",
-            "label": "All skins: turns the newsletter band on or off",
-            "description": "Turns the newsletter band on or off (Strata footer, Threads home band and Subscribe page). WordPress: egberipiribo_newsletter_enabled, default off; the drawings show the band so it defaults on.",
+            "label": "Newsletter: show the sign-up band",
+            "description": "Turn off to remove the newsletter band and the buttons that point to it.",
             "fieldset": "site",
             "default": true
         },
         {
             "key": "show_updated_date",
             "type": "boolean",
-            "label": "All skins: prints \"Updated <date>\" in place of the publish date once a post…",
-            "description": "Prints \"Updated <date>\" in place of the publish date once a post was edited well after publishing (WordPress: post_display_date(), always on). Strata and Threads singles.",
+            "label": "Article byline: show Updated for edited stories",
+            "description": "Lets a story show an Updated date once it was edited after it was published; turn it off to never show one.",
             "fieldset": "site",
             "default": true
         },
         {
             "key": "updated_after_days",
             "type": "select",
-            "label": "All skins: how long after publishing an edit counts as an update",
-            "description": "How long after publishing an edit counts as an update (the WordPress rule is a fixed seven days, App\\post_display_date()).",
+            "label": "Article byline: days before an edit counts as Updated",
+            "description": "A story shows an Updated date only when it was edited at least this many days after it was published.",
             "fieldset": "site",
             "options": {
-                "7": "7",
-                "14": "14",
-                "30": "30"
+                "1": "After 1 day",
+                "7": "After 7 days",
+                "14": "After 14 days",
+                "30": "After 30 days"
             },
-            "default": "7",
+            "default": "1",
             "visible_when": {
                 "show_updated_date": true
             }
@@ -244,40 +245,40 @@
         {
             "key": "show_comments",
             "type": "boolean",
-            "label": "All skins: shows or hides the comment list and form on posts",
-            "description": "Shows or hides the comment list and form on posts. Used by Fable, Strata and Threads (WordPress shows them whenever the post allows comments).",
+            "label": "Comments: show comments on stories",
+            "description": "Shows the comments and the comment form under stories; turn it off to hide them everywhere.",
             "fieldset": "content",
             "default": true
         },
         {
             "key": "show_reading_time",
             "type": "boolean",
-            "label": "All skins: \"N min read\" figure",
-            "description": "The \"N min read\" figure (Strata byline and cards, Threads kicker, lead and rows). WordPress always prints it.",
+            "label": "Article byline: show the reading time",
+            "description": "Shows how many minutes a story takes to read, such as \"5 min read\".",
             "fieldset": "content",
             "default": true
         },
         {
             "key": "show_tags",
             "type": "boolean",
-            "label": "All skins: tag chips under a post",
-            "description": "The tag chips under a post. Strata and Threads (WordPress: egberipiribo_strata_tags_enabled and egberipiribo_single_tags_enabled, both default on).",
+            "label": "Article: show the tags under the story",
+            "description": "Shows the \"Filed under\" tags below a story.",
             "fieldset": "content",
             "default": true
         },
         {
             "key": "show_author_card",
             "type": "boolean",
-            "label": "All skins: author bio box under a post",
-            "description": "The author bio box under a post. Strata and Threads (WordPress: egberipiribo_strata_author_box_enabled and egberipiribo_single_author_bio_enabled, both default on).",
+            "label": "Article author card: show the author card",
+            "description": "Shows a box about each author below the story, when they have a bio or a page.",
             "fieldset": "content",
             "default": true
         },
         {
             "key": "fable_footer_newsletter",
             "type": "boolean",
-            "label": "Footer: dark sign-up band above the footer",
-            "description": "The dark sign-up band above the footer (the drawing has it on every page); off removes the band and the rail and menu buttons that point to it.",
+            "label": "Newsletter: show the band above the footer",
+            "description": "Shows the dark sign-up band above the footer; off also removes the rail and menu buttons that point to it.",
             "fieldset": "site",
             "default": true,
             "visible_when": {
@@ -287,8 +288,8 @@
         {
             "key": "fable_search_panel",
             "type": "boolean",
-            "label": "Search: search overlay opened by the search buttons or \"/\"",
-            "description": "The search overlay opened by the search buttons or \"/\" (the drawing); off makes the buttons plain links to the search page.",
+            "label": "Search: open a panel from the search buttons",
+            "description": "Opens the search panel over the page; off makes the search buttons plain links to the search page.",
             "fieldset": "site",
             "default": true,
             "visible_when": {
@@ -298,8 +299,8 @@
         {
             "key": "fable_search_shortcut",
             "type": "boolean",
-            "label": "Search: \"/\" key hint in the rail search button and the keyboard shortcut…",
-            "description": "The \"/\" key hint in the rail search button and the keyboard shortcut itself.",
+            "label": "Search: show the \"/\" key hint and shortcut",
+            "description": "Shows the \"/\" hint on the rail's search button and lets readers press the key to open the search.",
             "fieldset": "site",
             "default": true,
             "visible_when": {
@@ -310,8 +311,8 @@
         {
             "key": "show_share",
             "type": "boolean",
-            "label": "Share: share buttons on articles, at the byline and after the tags",
-            "description": "The share buttons on articles, at the byline and after the tags.",
+            "label": "Share: show buttons on articles",
+            "description": "Shows the share buttons on articles, at the byline and after the tags.",
             "fieldset": "site",
             "default": true,
             "visible_when": {
@@ -321,8 +322,8 @@
         {
             "key": "fable_share_facebook",
             "type": "boolean",
-            "label": "Share: facebook button",
-            "description": "A Facebook button (in the drawing).",
+            "label": "Share: Facebook",
+            "description": "Shows a button that shares the article on Facebook.",
             "fieldset": "site",
             "default": true,
             "visible_when": {
@@ -333,8 +334,8 @@
         {
             "key": "fable_share_x",
             "type": "boolean",
-            "label": "Share: x button",
-            "description": "An X button (in the drawing).",
+            "label": "Share: X",
+            "description": "Shows a button that shares the article on X.",
             "fieldset": "site",
             "default": true,
             "visible_when": {
@@ -345,8 +346,8 @@
         {
             "key": "fable_share_email",
             "type": "boolean",
-            "label": "Share: share-by-email button",
-            "description": "A share-by-email button (in the drawing).",
+            "label": "Share: email",
+            "description": "Shows a button that opens a new email with the article's link.",
             "fieldset": "site",
             "default": true,
             "visible_when": {
@@ -357,8 +358,8 @@
         {
             "key": "fable_share_copy",
             "type": "boolean",
-            "label": "Share: copy-link button",
-            "description": "The copy-link button (in the drawing).",
+            "label": "Share: copy link",
+            "description": "Shows a button that copies the article's link.",
             "fieldset": "site",
             "default": true,
             "visible_when": {
@@ -369,8 +370,8 @@
         {
             "key": "fable_share_pinterest",
             "type": "boolean",
-            "label": "Share: pinterest button",
-            "description": "A Pinterest button; the template draws it today but the drawing has none, so the default is off.",
+            "label": "Share: Pinterest",
+            "description": "Shows a button that shares the article on Pinterest.",
             "fieldset": "site",
             "default": false,
             "visible_when": {
@@ -381,8 +382,8 @@
         {
             "key": "fable_share_linkedin",
             "type": "boolean",
-            "label": "Share: linkedIn button for a business or news audience",
-            "description": "A LinkedIn button for a business or news audience.",
+            "label": "Share: LinkedIn",
+            "description": "Shows a button that shares the article on LinkedIn, for a business or news audience.",
             "fieldset": "site",
             "default": false,
             "visible_when": {
@@ -393,8 +394,8 @@
         {
             "key": "fable_share_whatsapp",
             "type": "boolean",
-            "label": "Share: whatsApp button, the main way stories travel on phones in many…",
-            "description": "A WhatsApp button, the main way stories travel on phones in many countries.",
+            "label": "Share: WhatsApp",
+            "description": "Shows a button that shares the article on WhatsApp, the main way stories travel on phones in many countries.",
             "fieldset": "site",
             "default": false,
             "visible_when": {
@@ -405,8 +406,8 @@
         {
             "key": "fable_share_telegram",
             "type": "boolean",
-            "label": "Share: telegram button",
-            "description": "A Telegram button.",
+            "label": "Share: Telegram",
+            "description": "Shows a button that shares the article on Telegram.",
             "fieldset": "site",
             "default": false,
             "visible_when": {
@@ -417,8 +418,8 @@
         {
             "key": "fable_share_reddit",
             "type": "boolean",
-            "label": "Share: reddit button",
-            "description": "A Reddit button.",
+            "label": "Share: Reddit",
+            "description": "Shows a button that shares the article on Reddit.",
             "fieldset": "site",
             "default": false,
             "visible_when": {
@@ -429,8 +430,8 @@
         {
             "key": "fable_share_native",
             "type": "boolean",
-            "label": "Share: phone's own share sheet",
-            "description": "The phone's own share sheet (navigator.share), shown only on devices that offer it.",
+            "label": "Share: the phone's own share sheet",
+            "description": "Shows a button that opens the phone's own share sheet, only on devices that offer one.",
             "fieldset": "site",
             "default": false,
             "visible_when": {
@@ -441,14 +442,14 @@
         {
             "key": "fable_share_placement",
             "type": "select",
-            "label": "Share: where the buttons sit: at the byline",
-            "description": "Where the buttons sit: at the byline (top), after the tags (bottom), both (the drawing) or a floating rail down the side.",
+            "label": "Share: where the buttons sit",
+            "description": "Puts the buttons at the byline, after the tags, in both places or in a floating column beside the article on wide screens.",
             "fieldset": "site",
             "options": {
                 "top": "At the byline",
                 "bottom": "After the tags",
-                "both": "Both (drawing)",
-                "floating": "Floating rail"
+                "both": "At the byline and after the tags",
+                "floating": "Floating column beside the article"
             },
             "default": "both",
             "visible_when": {
@@ -459,12 +460,12 @@
         {
             "key": "fable_share_style",
             "type": "select",
-            "label": "Share: round icon buttons only",
-            "description": "Round icon buttons only (the drawing) or icons with their network name.",
+            "label": "Share: button style",
+            "description": "Shows round icon buttons only, or icons with the name of each network.",
             "fieldset": "site",
             "options": {
                 "icons": "Icons only",
-                "labels": "Icons with labels"
+                "labels": "Icons with names"
             },
             "default": "icons",
             "visible_when": {
@@ -475,8 +476,8 @@
         {
             "key": "fable_share_label",
             "type": "text",
-            "label": "Share: line before the bottom row of buttons",
-            "description": "The line before the bottom row of buttons.",
+            "label": "Share: line before the buttons",
+            "description": "The line printed before the row of buttons after the tags; leave it empty for none.",
             "fieldset": "site",
             "default": "Share this story",
             "visible_when": {
@@ -487,8 +488,8 @@
         {
             "key": "pattern",
             "type": "select",
-            "label": "Pattern: icon pattern laid over the brand-colour areas",
-            "description": "The icon pattern laid over the brand-colour areas (the pattern samples); off keeps every area solid, as the seven main drawings are.",
+            "label": "Pattern: icon set",
+            "description": "Lays a pattern of small icons over the brand-colour areas; None keeps every area solid.",
             "fieldset": "site",
             "options": {
                 "none": "None",
@@ -506,7 +507,7 @@
             "key": "pattern_strength",
             "type": "select",
             "label": "Pattern: how visible the icons are",
-            "description": "How visible the icons are.",
+            "description": "Sets how strongly the icons show against the colour behind them.",
             "fieldset": "site",
             "options": {
                 "subtle": "Subtle",
@@ -527,13 +528,13 @@
         {
             "key": "pattern_density",
             "type": "select",
-            "label": "Pattern: how tightly the icons repeat",
-            "description": "How tightly the icons repeat (the samples: open, even, tight).",
+            "label": "Pattern: how close the icons sit",
+            "description": "Sets how tightly the icons repeat: open, even or tight.",
             "fieldset": "site",
             "options": {
-                "sparse": "Sparse",
-                "regular": "Regular",
-                "dense": "Dense"
+                "sparse": "Open",
+                "regular": "Even",
+                "dense": "Tight"
             },
             "default": "regular",
             "visible_when": {
@@ -549,8 +550,8 @@
         {
             "key": "pattern_accent",
             "type": "color",
-            "label": "Pattern: one icon in seven takes this colour",
-            "description": "One icon in seven takes this colour (pattern sample 2 uses #ffd23f); empty keeps every icon white.",
+            "label": "Pattern: accent colour",
+            "description": "The colour one icon in seven takes; leave it empty to keep every icon white.",
             "fieldset": "site",
             "default": "",
             "visible_when": {
@@ -566,12 +567,12 @@
         {
             "key": "fable_pattern_colour",
             "type": "select",
-            "label": "Pattern: icon colour as in sample 2: white with one accent icon, all…",
-            "description": "Icon colour as in sample 2: white with one accent icon, all accent, or all white.",
+            "label": "Pattern: icon colours",
+            "description": "Chooses white icons with one accent icon in seven, all accent icons, or all white icons. It needs an accent colour.",
             "fieldset": "site",
             "options": {
-                "mixed": "White + accent",
-                "accent": "All accent",
+                "mixed": "White with one accent icon",
+                "accent": "All accent colour",
                 "white": "All white"
             },
             "default": "mixed",
@@ -588,13 +589,13 @@
         {
             "key": "fable_pattern_layout",
             "type": "select",
-            "label": "Pattern: scattered and turned icons, straight rows, or straight rows with…",
-            "description": "Scattered and turned icons, straight rows, or straight rows with dots between (sample 2).",
+            "label": "Pattern: icon layout",
+            "description": "Scatters and turns the icons, lays them in straight rows, or adds dots between the straight rows.",
             "fieldset": "site",
             "options": {
                 "scatter": "Scattered",
-                "grid": "Straight",
-                "dots": "With dots"
+                "grid": "Straight rows",
+                "dots": "Straight rows with dots"
             },
             "default": "scatter",
             "visible_when": {
@@ -610,8 +611,8 @@
         {
             "key": "fable_pattern_style",
             "type": "select",
-            "label": "Pattern: outline or solid icons",
-            "description": "Outline or solid icons (the samples' icon style).",
+            "label": "Pattern: icon style",
+            "description": "Draws the icons as outlines or as solid shapes.",
             "fieldset": "site",
             "options": {
                 "regular": "Outline",
@@ -631,8 +632,8 @@
         {
             "key": "fable_pattern_rail",
             "type": "boolean",
-            "label": "Pattern: pattern on the rail",
-            "description": "The pattern on the rail (both samples do).",
+            "label": "Pattern: show on the rail",
+            "description": "Shows the pattern on the side rail on wide screens.",
             "fieldset": "site",
             "default": true,
             "visible_when": {
@@ -648,8 +649,8 @@
         {
             "key": "fable_pattern_phone_header",
             "type": "boolean",
-            "label": "Pattern: pattern on the small-screen header",
-            "description": "The pattern on the small-screen header (both samples do).",
+            "label": "Pattern: show on the phone header",
+            "description": "Shows the pattern on the header of small screens.",
             "fieldset": "site",
             "default": true,
             "visible_when": {
@@ -665,8 +666,8 @@
         {
             "key": "fable_pattern_footer",
             "type": "boolean",
-            "label": "Pattern: pattern on the footer",
-            "description": "The pattern on the footer (both samples do).",
+            "label": "Pattern: show on the footer",
+            "description": "Shows the pattern on the footer.",
             "fieldset": "site",
             "default": true,
             "visible_when": {
@@ -682,8 +683,8 @@
         {
             "key": "fable_pattern_long_read",
             "type": "boolean",
-            "label": "Pattern: pattern on the home page's long read",
-            "description": "The pattern on the home page's long read (built today whenever `pattern` is on; this adds only the off switch).",
+            "label": "Pattern: show on the home long read",
+            "description": "Shows the pattern behind the long read block on the home page.",
             "fieldset": "site",
             "default": true,
             "visible_when": {
@@ -699,8 +700,8 @@
         {
             "key": "fable_pattern_sections",
             "type": "boolean",
-            "label": "Pattern: pattern on section headings",
-            "description": "The pattern on section headings; not in the samples, so off.",
+            "label": "Pattern: show on section headings",
+            "description": "Shows the pattern behind section headings.",
             "fieldset": "site",
             "default": false,
             "visible_when": {
@@ -716,8 +717,8 @@
         {
             "key": "fable_pattern_404",
             "type": "boolean",
-            "label": "Pattern: pattern behind the big 404 number",
-            "description": "The pattern behind the big 404 number; not in the samples, so off.",
+            "label": "Pattern: show behind the 404 number",
+            "description": "Shows the pattern behind the big 404 on the page-not-found screen.",
             "fieldset": "site",
             "default": false,
             "visible_when": {
@@ -733,8 +734,8 @@
         {
             "key": "fable_home_title_visible",
             "type": "boolean",
-            "label": "Home: show the h1 on the page",
-            "description": "Show the h1 on the page; off keeps it for assistive technology and search engines but hides it (a page must keep one h1).",
+            "label": "Home: show the page title",
+            "description": "Show the title at the top of the home page. When off, it is hidden from view but kept for screen readers and search engines.",
             "fieldset": "latest",
             "default": true,
             "visible_when": {
@@ -744,8 +745,8 @@
         {
             "key": "show_story_count",
             "type": "boolean",
-            "label": "Home: \"N stories on this page\" beside the title",
-            "description": "\"N stories on this page\" beside the title.",
+            "label": "Home: show the story count",
+            "description": "Show \"N stories on this page\" beside the home page title.",
             "fieldset": "latest",
             "default": true,
             "visible_when": {
@@ -755,8 +756,8 @@
         {
             "key": "fable_home_top_stories",
             "type": "boolean",
-            "label": "Home: ranked \"Top stories\" strip above the page",
-            "description": "The ranked \"Top stories\" strip above the page (the drawing's first band).",
+            "label": "Home: show the top stories strip",
+            "description": "Show the ranked strip of top stories above the home page.",
             "fieldset": "latest",
             "default": true,
             "visible_when": {
@@ -766,8 +767,8 @@
         {
             "key": "fable_home_top_stories_rank",
             "type": "boolean",
-            "label": "Home: big rank numbers before each headline",
-            "description": "The big rank numbers before each headline (1, 2, 3...).",
+            "label": "Home: top stories strip numbers",
+            "description": "Show the big number before each headline in the top stories strip.",
             "fieldset": "latest",
             "default": true,
             "visible_when": {
@@ -778,8 +779,8 @@
         {
             "key": "fable_home_cover",
             "type": "boolean",
-            "label": "Home: cover story",
-            "description": "The cover story (the lead) with its picture and overlapping headline card.",
+            "label": "Home: show the cover story",
+            "description": "Show the cover story with its picture and headline card at the top of the home page.",
             "fieldset": "latest",
             "default": true,
             "visible_when": {
@@ -789,8 +790,8 @@
         {
             "key": "fable_home_cover_kicker",
             "type": "boolean",
-            "label": "Home: section name above the cover headline",
-            "description": "The section name above the cover headline.",
+            "label": "Home: cover story section name",
+            "description": "Show the section name above the cover story headline.",
             "fieldset": "latest",
             "default": true,
             "visible_when": {
@@ -801,8 +802,8 @@
         {
             "key": "fable_home_cover_standfirst",
             "type": "boolean",
-            "label": "Home: standfirst under the cover headline",
-            "description": "The standfirst under the cover headline.",
+            "label": "Home: cover story standfirst",
+            "description": "Show the short summary under the cover story headline.",
             "fieldset": "latest",
             "default": true,
             "visible_when": {
@@ -813,8 +814,8 @@
         {
             "key": "fable_home_cover_byline",
             "type": "boolean",
-            "label": "Home: byline under the cover story",
-            "description": "The byline under the cover story.",
+            "label": "Home: cover story byline",
+            "description": "Show the author and date under the cover story.",
             "fieldset": "latest",
             "default": true,
             "visible_when": {
@@ -825,8 +826,8 @@
         {
             "key": "fable_home_also_today",
             "type": "boolean",
-            "label": "Home: \"Also today\" row of small stories under the cover",
-            "description": "The \"Also today\" row of small stories under the cover.",
+            "label": "Home: show Also today",
+            "description": "Show the row of small stories under the cover story. When off, the newest stories it would have shown move into the grid.",
             "fieldset": "latest",
             "default": true,
             "visible_when": {
@@ -836,8 +837,8 @@
         {
             "key": "fable_home_also_today_kicker",
             "type": "boolean",
-            "label": "Home: section name above each small headline",
-            "description": "The section name above each small headline.",
+            "label": "Home: Also today section names",
+            "description": "Show the section name above each small headline in Also today.",
             "fieldset": "latest",
             "default": true,
             "visible_when": {
@@ -848,8 +849,8 @@
         {
             "key": "fable_home_also_today_thumb",
             "type": "boolean",
-            "label": "Home: small square picture beside each headline",
-            "description": "The small square picture beside each headline.",
+            "label": "Home: Also today pictures",
+            "description": "Show the small square picture beside each headline in Also today.",
             "fieldset": "latest",
             "default": true,
             "visible_when": {
@@ -860,8 +861,8 @@
         {
             "key": "fable_home_ad_leaderboard",
             "type": "boolean",
-            "label": "Home: 728 x 90 leaderboard under Also today",
-            "description": "The 728 x 90 leaderboard under Also today (region `ad-leaderboard`).",
+            "label": "Home: show the wide ad under Also today",
+            "description": "Show the wide advertisement spot under Also today. It also needs the site-wide ads switch to be on.",
             "fieldset": "latest",
             "default": true,
             "visible_when": {
@@ -872,8 +873,8 @@
         {
             "key": "fable_home_ad_in_feed",
             "type": "boolean",
-            "label": "Home: wide advertisement inside the story grid",
-            "description": "The wide advertisement inside the story grid (region `ad-in-feed`).",
+            "label": "Home: show the ad inside the story grid",
+            "description": "Show the advertisement spot inside the grid of stories. It also needs the site-wide ads switch to be on.",
             "fieldset": "latest",
             "default": true,
             "visible_when": {
@@ -884,8 +885,8 @@
         {
             "key": "fable_home_ad_rectangle",
             "type": "boolean",
-            "label": "Home: 336 x 280 rectangle beside Most read",
-            "description": "The 336 x 280 rectangle beside Most read (region `ad-rectangle`).",
+            "label": "Home: show the ad beside Most read",
+            "description": "Show the box advertisement spot beside Most read. It also needs the site-wide ads switch to be on.",
             "fieldset": "latest",
             "default": true,
             "visible_when": {
@@ -896,8 +897,8 @@
         {
             "key": "fable_home_long_read",
             "type": "boolean",
-            "label": "Home: brand-colour \"long read\" block",
-            "description": "The brand-colour \"long read\" block (region `home-long-read`; its story and heading are the editor's).",
+            "label": "Home: show the long read block",
+            "description": "Show the coloured long read block of the home page.",
             "fieldset": "latest",
             "default": true,
             "visible_when": {
@@ -907,8 +908,8 @@
         {
             "key": "fable_home_grid",
             "type": "boolean",
-            "label": "Home: \"More to explore\" grid of stories with its pages",
-            "description": "The \"More to explore\" grid of stories with its pages.",
+            "label": "Home: show the story grid",
+            "description": "Show the More to explore grid of stories, with its page links.",
             "fieldset": "latest",
             "default": true,
             "visible_when": {
@@ -918,8 +919,8 @@
         {
             "key": "show_layout_toggle",
             "type": "boolean",
-            "label": "Home: reader's grid / list buttons above the grid",
-            "description": "The reader's grid / list buttons above the grid.",
+            "label": "Home: story grid layout buttons",
+            "description": "Let readers switch the story grid between a grid and a list.",
             "fieldset": "latest",
             "default": true,
             "visible_when": {
@@ -930,8 +931,8 @@
         {
             "key": "fable_home_sections",
             "type": "boolean",
-            "label": "Home: \"From the sections\" band of up to four section lists",
-            "description": "The \"From the sections\" band of up to four section lists (region `home-sections`).",
+            "label": "Home: show From the sections",
+            "description": "Show the From the sections band of up to four section lists.",
             "fieldset": "latest",
             "default": true,
             "visible_when": {
@@ -941,8 +942,8 @@
         {
             "key": "fable_home_most_read",
             "type": "boolean",
-            "label": "Home: \"Most read\" ranked list beside its advertisement",
-            "description": "The \"Most read\" ranked list beside its advertisement (region `home-most-read`).",
+            "label": "Home: show Most read",
+            "description": "Show the Most read list near the bottom of the home page.",
             "fieldset": "latest",
             "default": true,
             "visible_when": {
@@ -952,8 +953,8 @@
         {
             "key": "fable_home_most_read_rank",
             "type": "boolean",
-            "label": "Home: ranking numbers beside each story",
-            "description": "The ranking numbers beside each story.",
+            "label": "Home: Most read numbers",
+            "description": "Show the number beside each story in Most read.",
             "fieldset": "latest",
             "default": true,
             "visible_when": {
@@ -964,8 +965,8 @@
         {
             "key": "show_reading_progress",
             "type": "boolean",
-            "label": "Article: thin reading bar across the top",
-            "description": "The thin reading bar across the top.",
+            "label": "Article: show the reading progress bar",
+            "description": "Shows a thin bar across the top of the page that fills as the reader scrolls down a story.",
             "fieldset": "content",
             "default": true,
             "visible_when": {
@@ -975,8 +976,8 @@
         {
             "key": "fable_article_breadcrumb",
             "type": "boolean",
-            "label": "Article: breadcrumb above the headline",
-            "description": "The breadcrumb above the headline (Strata has the same switch).",
+            "label": "Article: show the breadcrumb",
+            "description": "Shows the trail of links (Home, section, story) above the headline.",
             "fieldset": "content",
             "default": true,
             "visible_when": {
@@ -986,8 +987,8 @@
         {
             "key": "fable_article_kicker",
             "type": "boolean",
-            "label": "Article: section name above the headline when there is no breadcrumb",
-            "description": "The section name above the headline when there is no breadcrumb.",
+            "label": "Article: show the section name above the headline",
+            "description": "Shows the story's section above the headline when the breadcrumb is not shown.",
             "fieldset": "content",
             "default": true,
             "visible_when": {
@@ -997,8 +998,8 @@
         {
             "key": "fable_article_standfirst",
             "type": "boolean",
-            "label": "Article: standfirst",
-            "description": "The standfirst (deck) under the headline.",
+            "label": "Article: show the standfirst under the headline",
+            "description": "Shows the short summary (excerpt) under the headline when the story has one.",
             "fieldset": "content",
             "default": true,
             "visible_when": {
@@ -1008,8 +1009,8 @@
         {
             "key": "fable_byline_avatar",
             "type": "boolean",
-            "label": "Article: author's initials circle beside the byline",
-            "description": "The author's initials circle beside the byline.",
+            "label": "Article byline: show the author's initials",
+            "description": "Shows a circle with the lead author's initials beside the byline.",
             "fieldset": "content",
             "default": true,
             "visible_when": {
@@ -1019,8 +1020,8 @@
         {
             "key": "fable_byline_authors",
             "type": "boolean",
-            "label": "Article: \"By\" and the author names",
-            "description": "\"By\" and the author names.",
+            "label": "Article byline: show the author names",
+            "description": "Shows \"By\" and the names of the story's authors in the byline.",
             "fieldset": "content",
             "default": true,
             "visible_when": {
@@ -1030,8 +1031,8 @@
         {
             "key": "fable_byline_date",
             "type": "boolean",
-            "label": "Article: publication date in the byline",
-            "description": "The publication date in the byline.",
+            "label": "Article byline: show the publication date",
+            "description": "Shows the date the story was published in the byline.",
             "fieldset": "content",
             "default": true,
             "visible_when": {
@@ -1041,8 +1042,8 @@
         {
             "key": "fable_article_show_updated",
             "type": "boolean",
-            "label": "Article: \"Updated\" date in the byline, when the article was revised at…",
-            "description": "The \"Updated\" date in the byline, when the article was revised at least a day later.",
+            "label": "Article byline: show the Updated date",
+            "description": "Shows the date a story was updated, after the publication date, when it was changed after publishing.",
             "fieldset": "content",
             "default": true,
             "visible_when": {
@@ -1052,8 +1053,8 @@
         {
             "key": "fable_article_hero",
             "type": "boolean",
-            "label": "Article: large picture under the byline",
-            "description": "The large picture under the byline.",
+            "label": "Article hero: show the large picture",
+            "description": "Shows the story's featured picture, large, under the byline.",
             "fieldset": "content",
             "default": true,
             "visible_when": {
@@ -1063,8 +1064,8 @@
         {
             "key": "fable_article_hero_caption",
             "type": "boolean",
-            "label": "Article: caption and credit under the hero",
-            "description": "The caption and credit under the hero.",
+            "label": "Article hero: show the caption and credit",
+            "description": "Shows the picture's caption and credit under the large picture.",
             "fieldset": "content",
             "default": true,
             "visible_when": {
@@ -1075,8 +1076,8 @@
         {
             "key": "fable_article_fields_before",
             "type": "boolean",
-            "label": "Article: custom fields set to show before the body",
-            "description": "The custom fields set to show before the body (the drawing's \"Reviewed by\" line is such a field).",
+            "label": "Article: show custom fields before the text",
+            "description": "Shows the custom fields you set to appear before the story's text, such as a \"Reviewed by\" line.",
             "fieldset": "content",
             "default": true,
             "visible_when": {
@@ -1086,8 +1087,8 @@
         {
             "key": "show_contents",
             "type": "boolean",
-            "label": "Article: \"In this story\" list in the rail, built from the body's h2 headings",
-            "description": "The \"In this story\" list in the rail, built from the body's h2 headings (articles and pages).",
+            "label": "Article: show the In this story list",
+            "description": "Shows a list of the story's headings in the side rail so readers can jump to a part (stories and pages).",
             "fieldset": "content",
             "default": true,
             "visible_when": {
@@ -1097,8 +1098,8 @@
         {
             "key": "article_lede",
             "type": "boolean",
-            "label": "Article: first paragraph set larger, as the drawing's lede",
-            "description": "The first paragraph set larger, as the drawing's lede.",
+            "label": "Article: set the first paragraph larger",
+            "description": "Sets the first paragraph of a story in larger type, as an introduction.",
             "fieldset": "content",
             "default": true,
             "visible_when": {
@@ -1108,10 +1109,10 @@
         {
             "key": "fable_article_inline_related",
             "type": "boolean",
-            "label": "Article: small \"Related\" card inside the body",
-            "description": "The small \"Related\" card inside the body (in the drawing, after the second paragraph).",
+            "label": "Article: show a Related card inside the text",
+            "description": "Shows one related story as a small card inside the text, after its second paragraph.",
             "fieldset": "content",
-            "default": true,
+            "default": false,
             "visible_when": {
                 "skin": "fable"
             }
@@ -1119,8 +1120,8 @@
         {
             "key": "fable_article_fields_after",
             "type": "boolean",
-            "label": "Article: custom fields set to show after the body",
-            "description": "The custom fields set to show after the body.",
+            "label": "Article: show custom fields after the text",
+            "description": "Shows the custom fields you set to appear after the story's text.",
             "fieldset": "content",
             "default": true,
             "visible_when": {
@@ -1130,8 +1131,8 @@
         {
             "key": "fable_article_after_content",
             "type": "boolean",
-            "label": "Article: `after-content` region",
-            "description": "The `after-content` region (a callout, button or featured posts) under the body.",
+            "label": "Article: show the area under the text",
+            "description": "Shows the After content area, where you can place a callout, a button or featured posts, under the story.",
             "fieldset": "content",
             "default": true,
             "visible_when": {
@@ -1141,8 +1142,8 @@
         {
             "key": "fable_article_ad_leaderboard",
             "type": "boolean",
-            "label": "Article: leaderboard above the article",
-            "description": "The leaderboard above the article (region `ad-leaderboard`).",
+            "label": "Article ads: show the top banner",
+            "description": "Shows the wide ad area above the story (the ad-leaderboard region), while ads are on.",
             "fieldset": "content",
             "default": true,
             "visible_when": {
@@ -1153,8 +1154,8 @@
         {
             "key": "fable_article_ad_in_article",
             "type": "boolean",
-            "label": "Article: ad inside the body",
-            "description": "The ad inside the body (region `ad-in-article`).",
+            "label": "Article ads: show the ad inside the text",
+            "description": "Shows the ad area inside the story's text (the ad-in-article region), while ads are on.",
             "fieldset": "content",
             "default": true,
             "visible_when": {
@@ -1165,8 +1166,8 @@
         {
             "key": "fable_article_ad_second",
             "type": "boolean",
-            "label": "Article: second ad after the body",
-            "description": "The second ad after the body (region `ad-in-article-2`).",
+            "label": "Article ads: show the ad after the text",
+            "description": "Shows the second ad area after the story's text (the ad-in-article-2 region), while ads are on.",
             "fieldset": "content",
             "default": true,
             "visible_when": {
@@ -1177,8 +1178,8 @@
         {
             "key": "fable_article_ad_half_page",
             "type": "boolean",
-            "label": "Article: sticky half-page ad beside the article on screens from 1440px",
-            "description": "The sticky half-page ad beside the article on screens from 1440px (region `ad-half-page`).",
+            "label": "Article ads: show the tall ad beside the story",
+            "description": "Shows the tall ad area beside the story on screens 1440 pixels wide and up (the ad-half-page region), while ads are on.",
             "fieldset": "content",
             "default": true,
             "visible_when": {
@@ -1189,8 +1190,8 @@
         {
             "key": "show_read_next",
             "type": "boolean",
-            "label": "Article: \"Read next\" strip after the body",
-            "description": "The \"Read next\" strip after the body.",
+            "label": "Article read next: show the Read next strip",
+            "description": "Shows one related story as a Read next strip after the text.",
             "fieldset": "content",
             "default": true,
             "visible_when": {
@@ -1200,8 +1201,8 @@
         {
             "key": "fable_read_next_reason",
             "type": "boolean",
-            "label": "Article: small line giving the reason or byline under the \"Read next\" headline",
-            "description": "The small line giving the reason or byline under the \"Read next\" headline.",
+            "label": "Article read next: show the reason line",
+            "description": "Shows the small line under the Read next headline that says why the story is suggested.",
             "fieldset": "content",
             "default": true,
             "visible_when": {
@@ -1212,8 +1213,8 @@
         {
             "key": "fable_author_card_avatar",
             "type": "boolean",
-            "label": "Article: initials circle in the card",
-            "description": "The initials circle in the card.",
+            "label": "Article author card: show the initials",
+            "description": "Shows a circle with the author's initials in the author card.",
             "fieldset": "content",
             "default": true,
             "visible_when": {
@@ -1224,8 +1225,8 @@
         {
             "key": "fable_author_card_bio",
             "type": "boolean",
-            "label": "Article: author's bio in the card",
-            "description": "The author's bio in the card.",
+            "label": "Article author card: show the bio",
+            "description": "Shows the author's bio in the author card.",
             "fieldset": "content",
             "default": true,
             "visible_when": {
@@ -1236,8 +1237,8 @@
         {
             "key": "fable_author_card_link",
             "type": "boolean",
-            "label": "Article: \"More from ...\" link to the author's page",
-            "description": "The \"More from ...\" link to the author's page.",
+            "label": "Article author card: show the More from link",
+            "description": "Shows the \"More from ...\" link to the author's page in the author card.",
             "fieldset": "content",
             "default": true,
             "visible_when": {
@@ -1248,8 +1249,8 @@
         {
             "key": "show_related",
             "type": "boolean",
-            "label": "Article: \"Keep reading\" row of related stories under the article",
-            "description": "The \"Keep reading\" row of related stories under the article.",
+            "label": "Article related: show the Keep reading row",
+            "description": "Shows a row of related stories under the article.",
             "fieldset": "content",
             "default": true,
             "visible_when": {
@@ -1259,8 +1260,8 @@
         {
             "key": "fable_related_more_link",
             "type": "boolean",
-            "label": "Article: \"All [section]\" link at the right of the heading",
-            "description": "The \"All [section]\" link at the right of the heading.",
+            "label": "Article related: show the All section link",
+            "description": "Shows the link to the story's whole section at the right of the row's heading.",
             "fieldset": "content",
             "default": true,
             "visible_when": {
@@ -1271,8 +1272,8 @@
         {
             "key": "fable_comments_avatar",
             "type": "boolean",
-            "label": "Comments: initials circle beside each comment",
-            "description": "The initials circle beside each comment.",
+            "label": "Comments: show the initials circle",
+            "description": "Shows a circle with the writer's initials beside each comment.",
             "fieldset": "content",
             "default": true,
             "visible_when": {
@@ -1283,8 +1284,8 @@
         {
             "key": "fable_comments_author_badge",
             "type": "boolean",
-            "label": "Comments: \"Author\" badge on a credited author's comment",
-            "description": "The \"Author\" badge on a credited author's comment (the drawing).",
+            "label": "Comments: show the Author badge",
+            "description": "Shows an Author badge on a comment written by one of the story's authors.",
             "fieldset": "content",
             "default": true,
             "visible_when": {
@@ -1295,8 +1296,8 @@
         {
             "key": "fable_page_breadcrumb",
             "type": "boolean",
-            "label": "Page: breadcrumb above a page's title",
-            "description": "The breadcrumb above a page's title.",
+            "label": "Page: show the breadcrumb",
+            "description": "Shows the trail of links above a page's title.",
             "fieldset": "content",
             "default": true,
             "visible_when": {
@@ -1306,8 +1307,8 @@
         {
             "key": "fable_page_standfirst",
             "type": "boolean",
-            "label": "Page: standfirst under a page's title",
-            "description": "The standfirst under a page's title.",
+            "label": "Page: show the standfirst under the title",
+            "description": "Shows the page's short summary under its title when it has one.",
             "fieldset": "content",
             "default": true,
             "visible_when": {
@@ -1317,8 +1318,8 @@
         {
             "key": "show_updated",
             "type": "boolean",
-            "label": "Page: \"Last updated\" line under the title",
-            "description": "The \"Last updated\" line under the title.",
+            "label": "Page: show the Last updated line",
+            "description": "Shows when the page was last updated, under its title.",
             "fieldset": "content",
             "default": true,
             "visible_when": {
@@ -1328,8 +1329,8 @@
         {
             "key": "fable_page_hero",
             "type": "boolean",
-            "label": "Page: featured picture under the title",
-            "description": "The featured picture under the title.",
+            "label": "Page: show the featured picture",
+            "description": "Shows the page's featured picture under its title.",
             "fieldset": "content",
             "default": true,
             "visible_when": {
@@ -1339,8 +1340,8 @@
         {
             "key": "fable_page_fields",
             "type": "boolean",
-            "label": "Page: custom fields set to show on a page",
-            "description": "The custom fields set to show on a page.",
+            "label": "Page: show custom fields",
+            "description": "Shows the custom fields you set to appear on a page.",
             "fieldset": "content",
             "default": true,
             "visible_when": {
@@ -1350,8 +1351,8 @@
         {
             "key": "page_lede",
             "type": "boolean",
-            "label": "Page: first paragraph set larger",
-            "description": "The first paragraph set larger.",
+            "label": "Page: set the first paragraph larger",
+            "description": "Sets the first paragraph of a page in larger type, as an introduction.",
             "fieldset": "content",
             "default": true,
             "visible_when": {
@@ -1361,8 +1362,8 @@
         {
             "key": "show_children",
             "type": "boolean",
-            "label": "Page: list of pages under this one",
-            "description": "The list of pages under this one.",
+            "label": "Page: show the pages under this one",
+            "description": "Shows a list of the pages that sit under this page.",
             "fieldset": "content",
             "default": true,
             "visible_when": {
@@ -1372,8 +1373,8 @@
         {
             "key": "show_page_comments",
             "type": "boolean",
-            "label": "Page: comments under pages, when Teme gives them a thread",
-            "description": "Comments under pages, when Teme gives them a thread.",
+            "label": "Page: show comments",
+            "description": "Shows comments under a page, when the page has a comment thread.",
             "fieldset": "content",
             "default": true,
             "visible_when": {
@@ -1383,8 +1384,8 @@
         {
             "key": "fable_archive_breadcrumb",
             "type": "boolean",
-            "label": "Archive: breadcrumb above the section name",
-            "description": "The breadcrumb above the section name.",
+            "label": "Archive: show the breadcrumb",
+            "description": "The trail of links above the section name.",
             "fieldset": "archive",
             "default": true,
             "visible_when": {
@@ -1394,8 +1395,8 @@
         {
             "key": "fable_archive_kind_label",
             "type": "boolean",
-            "label": "Archive: small label",
-            "description": "The small label (\"Section\", \"Topic\", \"Writer\") above the title.",
+            "label": "Archive: show the kind label",
+            "description": "The small label (Section, Topic, Writer) above the title.",
             "fieldset": "archive",
             "default": true,
             "visible_when": {
@@ -1405,7 +1406,7 @@
         {
             "key": "fable_archive_description",
             "type": "boolean",
-            "label": "Archive: section's description under the title",
+            "label": "Archive: show the description",
             "description": "The section's description under the title.",
             "fieldset": "archive",
             "default": true,
@@ -1416,7 +1417,7 @@
         {
             "key": "archive_header_image",
             "type": "boolean",
-            "label": "Archive: section's own picture beside the header, when it has one",
+            "label": "Archive: show the header picture",
             "description": "The section's own picture beside the header, when it has one.",
             "fieldset": "archive",
             "default": true,
@@ -1427,7 +1428,7 @@
         {
             "key": "archive_topic_chips",
             "type": "boolean",
-            "label": "Archive: section's topics as chips under the description",
+            "label": "Archive: show the topic chips",
             "description": "The section's topics as chips under the description.",
             "fieldset": "archive",
             "default": true,
@@ -1438,8 +1439,8 @@
         {
             "key": "fable_archive_chip_all",
             "type": "boolean",
-            "label": "Archive: \"All\" chip that starts the row of topics",
-            "description": "The \"All\" chip that starts the row of topics.",
+            "label": "Archive: show the All chip",
+            "description": "The All chip that starts the row of topics.",
             "fieldset": "archive",
             "default": true,
             "visible_when": {
@@ -1450,8 +1451,8 @@
         {
             "key": "archive_ads",
             "type": "boolean",
-            "label": "Archive: both advertisement slots on listings",
-            "description": "Both advertisement slots on listings (leaderboard and in-feed).",
+            "label": "Archive: show advertisements",
+            "description": "Both advertisement slots on listings; turn off to remove both.",
             "fieldset": "archive",
             "default": true,
             "visible_when": {
@@ -1462,8 +1463,8 @@
         {
             "key": "fable_archive_ad_leaderboard",
             "type": "boolean",
-            "label": "Archive: leaderboard under the header",
-            "description": "The leaderboard under the header.",
+            "label": "Archive: show the leaderboard ad",
+            "description": "The wide advertisement under the header.",
             "fieldset": "archive",
             "default": true,
             "visible_when": {
@@ -1475,8 +1476,8 @@
         {
             "key": "fable_archive_ad_in_feed",
             "type": "boolean",
-            "label": "Archive: wide ad at the end of the grid",
-            "description": "The wide ad at the end of the grid.",
+            "label": "Archive: show the ad at the end of the grid",
+            "description": "The wide advertisement after the last story of the grid.",
             "fieldset": "archive",
             "default": true,
             "visible_when": {
@@ -1488,7 +1489,7 @@
         {
             "key": "archive_lead_story",
             "type": "boolean",
-            "label": "Archive: first story of page 1 set large above the grid",
+            "label": "Archive: show the lead story",
             "description": "The first story of page 1 set large above the grid.",
             "fieldset": "archive",
             "default": true,
@@ -1499,8 +1500,8 @@
         {
             "key": "fable_archive_lead_standfirst",
             "type": "boolean",
-            "label": "Archive: standfirst under the lead story's headline",
-            "description": "The standfirst under the lead story's headline.",
+            "label": "Archive: show the lead standfirst",
+            "description": "Show the standfirst under the lead story's headline.",
             "fieldset": "archive",
             "default": true,
             "visible_when": {
@@ -1511,8 +1512,8 @@
         {
             "key": "fable_archive_lead_byline",
             "type": "boolean",
-            "label": "Archive: byline under the lead story",
-            "description": "The byline under the lead story.",
+            "label": "Archive: show the lead byline",
+            "description": "Show the byline under the lead story.",
             "fieldset": "archive",
             "default": true,
             "visible_when": {
@@ -1523,8 +1524,8 @@
         {
             "key": "archive_layout_toggle",
             "type": "boolean",
-            "label": "Archive: reader's grid / list buttons",
-            "description": "The reader's grid / list buttons.",
+            "label": "Archive: show the grid and list buttons",
+            "description": "Lets the reader switch the stories between a grid and a list.",
             "fieldset": "archive",
             "default": true,
             "visible_when": {
@@ -1534,8 +1535,8 @@
         {
             "key": "fable_author_breadcrumb",
             "type": "boolean",
-            "label": "Author: breadcrumb",
-            "description": "The breadcrumb (\"Our writers / Name\") above the profile.",
+            "label": "Author: show the breadcrumb",
+            "description": "The trail of links above the writer's profile.",
             "fieldset": "archive",
             "default": true,
             "visible_when": {
@@ -1545,8 +1546,8 @@
         {
             "key": "author_show_portrait",
             "type": "boolean",
-            "label": "Author: writer's portrait or initials beside the name",
-            "description": "The writer's portrait or initials beside the name.",
+            "label": "Author: show the portrait",
+            "description": "The writer's picture, or their initials, beside the name.",
             "fieldset": "archive",
             "default": true,
             "visible_when": {
@@ -1556,8 +1557,8 @@
         {
             "key": "fable_author_kicker",
             "type": "boolean",
-            "label": "Author: small \"Writer\" label above the name",
-            "description": "The small \"Writer\" label above the name.",
+            "label": "Author: show the Writer label",
+            "description": "The small Writer label above the name.",
             "fieldset": "archive",
             "default": true,
             "visible_when": {
@@ -1567,7 +1568,7 @@
         {
             "key": "fable_author_bio",
             "type": "boolean",
-            "label": "Author: writer's bio under the name",
+            "label": "Author: show the bio",
             "description": "The writer's bio under the name.",
             "fieldset": "archive",
             "default": true,
@@ -1578,7 +1579,7 @@
         {
             "key": "fable_author_stories",
             "type": "boolean",
-            "label": "Author: writer's stories as rows under the profile",
+            "label": "Author: show the writer's stories",
             "description": "The writer's stories as rows under the profile.",
             "fieldset": "archive",
             "default": true,
@@ -1589,7 +1590,7 @@
         {
             "key": "fable_search_form",
             "type": "boolean",
-            "label": "Search: search field under the results heading",
+            "label": "Search: show the search field",
             "description": "The search field under the results heading.",
             "fieldset": "archive",
             "default": true,
@@ -1600,8 +1601,8 @@
         {
             "key": "fable_search_count",
             "type": "boolean",
-            "label": "Search: \"N results\" line",
-            "description": "The \"N results\" line.",
+            "label": "Search: show the result count",
+            "description": "The line that says how many results were found.",
             "fieldset": "archive",
             "default": true,
             "visible_when": {
@@ -1611,8 +1612,8 @@
         {
             "key": "fable_search_snippets",
             "type": "boolean",
-            "label": "Search: matched passage shown under each result, with the words marked",
-            "description": "The matched passage shown under each result, with the words marked.",
+            "label": "Search: show the matched passage",
+            "description": "The passage that matched, with the words marked, under each result.",
             "fieldset": "archive",
             "default": true,
             "visible_when": {
@@ -1622,8 +1623,8 @@
         {
             "key": "search_show_sections",
             "type": "boolean",
-            "label": "Search: section chips in the empty and no-result states",
-            "description": "The section chips in the empty and no-result states.",
+            "label": "Search: show the section chips",
+            "description": "Section chips on the empty and no-result pages.",
             "fieldset": "archive",
             "default": true,
             "visible_when": {
@@ -1633,8 +1634,8 @@
         {
             "key": "fable_search_ad_leaderboard",
             "type": "boolean",
-            "label": "Search: leaderboard under the search header",
-            "description": "A leaderboard under the search header; the drawing has no ad here, so off.",
+            "label": "Search: show a leaderboard ad",
+            "description": "A wide advertisement under the search header.",
             "fieldset": "archive",
             "default": false,
             "visible_when": {
@@ -1645,8 +1646,8 @@
         {
             "key": "fable_search_ad_in_feed",
             "type": "boolean",
-            "label": "Search: ad inside the results list",
-            "description": "An ad inside the results list; the drawing has no ad here, so off.",
+            "label": "Search: show an ad in the results",
+            "description": "An advertisement at the end of the results list.",
             "fieldset": "archive",
             "default": false,
             "visible_when": {
@@ -1657,8 +1658,8 @@
         {
             "key": "fable_404_big_number",
             "type": "boolean",
-            "label": "404 page: big \"404\" beside the message",
-            "description": "The big \"404\" beside the message.",
+            "label": "Not found: show the big 404",
+            "description": "The large 404 beside the message.",
             "fieldset": "archive",
             "default": true,
             "visible_when": {
@@ -1668,8 +1669,8 @@
         {
             "key": "fable_404_search_form",
             "type": "boolean",
-            "label": "404 page: search field on the not-found page",
-            "description": "The search field on the not-found page.",
+            "label": "Not found: show the search field",
+            "description": "A search field on the page-not-found page.",
             "fieldset": "archive",
             "default": true,
             "visible_when": {
@@ -1679,8 +1680,8 @@
         {
             "key": "fable_404_home_button",
             "type": "boolean",
-            "label": "404 page: \"Go to the home page\" button",
-            "description": "The \"Go to the home page\" button.",
+            "label": "Not found: show the home button",
+            "description": "The Go to the home page button.",
             "fieldset": "archive",
             "default": true,
             "visible_when": {
@@ -1690,8 +1691,8 @@
         {
             "key": "notfound_show_sections",
             "type": "boolean",
-            "label": "404 page: section chips beside the way home",
-            "description": "The section chips beside the way home.",
+            "label": "Not found: show the section chips",
+            "description": "Section chips beside the way home.",
             "fieldset": "archive",
             "default": true,
             "visible_when": {
@@ -1701,8 +1702,8 @@
         {
             "key": "fable_error_big_number",
             "type": "boolean",
-            "label": "Error pages: big status number",
-            "description": "The big status number (403, 429, 500...) beside the message.",
+            "label": "Error page: show the big number",
+            "description": "The large status number (403, 429, 500) beside the message.",
             "fieldset": "archive",
             "default": true,
             "visible_when": {
@@ -1712,8 +1713,8 @@
         {
             "key": "fable_error_home_button",
             "type": "boolean",
-            "label": "Error pages: \"Go to the home page\" button",
-            "description": "The \"Go to the home page\" button.",
+            "label": "Error page: show the home button",
+            "description": "The Go to the home page button.",
             "fieldset": "archive",
             "default": true,
             "visible_when": {
@@ -1723,8 +1724,8 @@
         {
             "key": "fable_error_search_form",
             "type": "boolean",
-            "label": "Error pages: search field on error pages",
-            "description": "A search field on error pages; the current page has none and there is no drawing, so off.",
+            "label": "Error page: show the search field",
+            "description": "A search field on error pages.",
             "fieldset": "archive",
             "default": false,
             "visible_when": {
@@ -1734,8 +1735,8 @@
         {
             "key": "fable_error_sections",
             "type": "boolean",
-            "label": "Error pages: section chips on error pages",
-            "description": "Section chips on error pages; the current page has none and there is no drawing, so off.",
+            "label": "Error page: show the section chips",
+            "description": "Section chips on error pages.",
             "fieldset": "archive",
             "default": false,
             "visible_when": {

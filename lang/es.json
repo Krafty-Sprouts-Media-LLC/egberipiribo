@@ -121,5 +121,20 @@
     "Your comment": "Tu comentario",
     "and": "y",
     "comments": "comentarios",
-    "to :name": "a :name"
+    "to :name": "a :name",
+    "Facebook": "Facebook",
+    "LinkedIn": "LinkedIn",
+    "Pinterest": "Pinterest",
+    "Reddit": "Reddit",
+    "Telegram": "Telegram",
+    "WhatsApp": "WhatsApp",
+    "X": "X",
+    "Email": "Correo",
+    "Related": "Relacionado",
+    "Share": "Compartir",
+    "Share on LinkedIn": "Compartir en LinkedIn",
+    "Share on Reddit": "Compartir en Reddit",
+    "Share on Telegram": "Compartir en Telegram",
+    "Share on WhatsApp": "Compartir en WhatsApp",
+    "Share with your apps": "Compartir con tus apps"
 }
