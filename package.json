@@ -1,0 +1,24 @@
+{
+    "name": "@krafty-sprouts/egberipiribo",
+    "private": true,
+    "type": "module",
+    "version": "0.1.0",
+    "description": "Egberipiribo, a multi-skin theme for Teme. Ships the Fable skin.",
+    "scripts": {
+        "build": "vite build",
+        "dev": "vite",
+        "icons": "node scripts/build-icons.mjs"
+    },
+    "dependencies": {
+        "@alpinejs/csp": "^3.14.9",
+        "@fontsource-variable/bricolage-grotesque": "^5.2.0",
+        "@fontsource-variable/literata": "^5.2.0"
+    },
+    "devDependencies": {
+        "@phosphor-icons/core": "^2.1.1",
+        "@tailwindcss/vite": "^4.1.11",
+        "laravel-vite-plugin": "^2.0.0",
+        "tailwindcss": "^4.1.11",
+        "vite": "^7.0.0"
+    }
+}

@@ -1,0 +1,8 @@
+{
+    "name": "krafty-sprouts/egberipiribo",
+    "description": "Egberipiribo, a multi-skin theme for Teme by Krafty Sprouts Media. Ships the Fable skin: a rail, a front page that leads deeper, and stories set for long reading.",
+    "type": "teme-theme",
+    "license": "MIT",
+    "version": "0.1.0",
+    "authors": [{ "name": "Krafty Sprouts Media, LLC", "homepage": "https://kraftysprouts.com" }]
+}

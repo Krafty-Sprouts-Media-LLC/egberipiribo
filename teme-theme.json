@@ -1,0 +1,156 @@
+{
+    "$schema": "../../teme-dev/packages/teme-contracts/schema/teme-theme.schema.json",
+    "manifest": 1,
+    "code": "egberipiribo",
+    "name": "Egberipiribo",
+    "version": "0.1.0",
+    "description": "A multi-skin publishing theme. Ships Fable: a colour rail with the site's sections, a front page that leads deeper, and stories set for long reading.",
+    "author": "Krafty Sprouts Media, LLC",
+    "author_url": "https://kraftysprouts.com",
+    "homepage": "https://kraftysprouts.com",
+    "license": "MIT",
+    "requires": { "teme": ">=0.8.0-alpha.1 <1.0" },
+    "title_separator": "·",
+    "per_page": 12,
+    "breadcrumbs": true,
+    "layout": { "content": 720, "wide": 1248, "full": null },
+    "images": {
+        "cover": "(min-width: 64rem) 1000px, 100vw",
+        "hero": "(min-width: 64rem) 1000px, 100vw",
+        "content": "(min-width: 48rem) 720px, 100vw",
+        "wide": "(min-width: 64rem) 1000px, 100vw",
+        "card": "(min-width: 80rem) 260px, (min-width: 40rem) 45vw, 116px",
+        "thumb": "(min-width: 64rem) 272px, (min-width: 40rem) 45vw, 116px",
+        "square": "96px",
+        "tile": "(min-width: 64rem) 300px, 100vw",
+        "avatar": "160px"
+    },
+    "fonts": [
+        {
+            "family": "Bricolage Grotesque",
+            "file": "fonts/bricolage-grotesque-latin-wdth-normal.woff2",
+            "weight": "200 800",
+            "style": "normal",
+            "preload": true
+        },
+        {
+            "family": "Bricolage Grotesque",
+            "file": "fonts/bricolage-grotesque-latin-ext-wdth-normal.woff2",
+            "weight": "200 800",
+            "style": "normal"
+        },
+        {
+            "family": "Literata",
+            "file": "fonts/literata-latin-wght-normal.woff2",
+            "weight": "200 900",
+            "style": "normal"
+        },
+        {
+            "family": "Literata",
+            "file": "fonts/literata-latin-ext-wght-normal.woff2",
+            "weight": "200 900",
+            "style": "normal"
+        },
+        {
+            "family": "Literata",
+            "file": "fonts/literata-latin-wght-italic.woff2",
+            "weight": "200 900",
+            "style": "italic"
+        },
+        {
+            "family": "Literata",
+            "file": "fonts/literata-latin-ext-wght-italic.woff2",
+            "weight": "200 900",
+            "style": "italic"
+        }
+    ],
+    "tokens": {
+        "base": "#ffffff",
+        "contrast": "#121317",
+        "accent": "#2135d8",
+        "on-accent": "#ffffff",
+        "body": "#2b2d33",
+        "muted": "#5d6068",
+        "rule": "#e2e3e8",
+        "surface": "#f2f3f7",
+        "font-display": "\"Bricolage Grotesque\", \"Arial Narrow\", Arial, sans-serif",
+        "font-sans": "\"Bricolage Grotesque\", system-ui, -apple-system, \"Segoe UI\", sans-serif",
+        "font-serif": "\"Literata\", Georgia, serif",
+        "radius-box": "10px"
+    },
+    "navigations": {
+        "primary": "Sections (the rail)",
+        "footer": "Footer: company",
+        "network": "Footer: our network",
+        "social": "Social links"
+    },
+    "regions": {
+        "after-content": {
+            "label": "After the article",
+            "cards": ["callout", "button", "site-code", "featured-posts"],
+            "max": 5
+        },
+        "newsletter": {
+            "label": "Footer: newsletter sign-up",
+            "cards": ["site-code", "button"],
+            "max": 2
+        },
+        "home-also-today": {
+            "label": "Front page: also today (three stories beside the cover)",
+            "cards": ["featured-posts"],
+            "max": 1
+        },
+        "home-long-read": {
+            "label": "Front page: the long read (one story in the brand colour)",
+            "cards": ["featured-posts"],
+            "max": 1
+        },
+        "home-sections": {
+            "label": "Front page: from the sections (up to four featured lists)",
+            "cards": ["featured-posts"],
+            "max": 4
+        },
+        "home-most-read": {
+            "label": "Front page: most read (a ranked list)",
+            "cards": ["featured-posts"],
+            "max": 1
+        },
+        "ad-leaderboard": {
+            "label": "Advertisement: leaderboard (728 × 90)",
+            "cards": ["site-code"],
+            "max": 1
+        },
+        "ad-in-feed": {
+            "label": "Advertisement: in the feed (970 × 250)",
+            "cards": ["site-code"],
+            "max": 1
+        },
+        "ad-rectangle": {
+            "label": "Advertisement: rectangle beside most read (336 × 280)",
+            "cards": ["site-code"],
+            "max": 1
+        },
+        "ad-in-article": {
+            "label": "Advertisement: in the article, first (300 × 250)",
+            "cards": ["site-code"],
+            "max": 1
+        },
+        "ad-in-article-2": {
+            "label": "Advertisement: in the article, second (300 × 250)",
+            "cards": ["site-code"],
+            "max": 1
+        },
+        "ad-half-page": {
+            "label": "Advertisement: half page beside the article (300 × 600)",
+            "cards": ["site-code"],
+            "max": 1
+        }
+    },
+    "assets": {
+        "manifest": "public/build/manifest.json",
+        "entries": ["assets/css/theme.css", "assets/js/theme.js"]
+    },
+    "composers": [],
+    "speculation": true,
+    "cards": { "replaces": [] }
+}

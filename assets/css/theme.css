@@ -1,0 +1,27 @@
+/**
+ * The theme's one stylesheet.
+ *
+ * Tailwind CSS 4, placed inside core's `teme.theme` cascade layer so it sits
+ * after core's `teme.core` and the plugins' `teme.plugins` (and so the tokens
+ * core writes, which are unlayered, always win). Its parts are sub-layers in
+ * Tailwind's own order: theme variables, the reset, the skin's components, then
+ * utilities. Fonts and the skin's styles are imported below; a later update
+ * adds another skin as one more import.
+ *
+ * @package   egberipiribo
+ * @since     0.1.0
+ * @copyright Krafty Sprouts Media, LLC
+ * @license   MIT
+ */
+
+@layer teme.theme.theme, teme.theme.base, teme.theme.components, teme.theme.utilities;
+
+@import 'tailwindcss/theme.css' layer(teme.theme.theme);
+@import 'tailwindcss/preflight.css' layer(teme.theme.base);
+@import './fonts.css';
+@import './skins/fable.css';
+@import 'tailwindcss/utilities.css' layer(teme.theme.utilities);
+
+/* Class names are read from the views and the scripts, and nowhere else. */
+@source '../../views';
+@source '../js';
