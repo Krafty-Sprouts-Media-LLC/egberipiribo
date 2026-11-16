@@ -11,7 +11,7 @@
     @since   0.1.0
 --}}
 <x-teme::document>
-    <div x-data="fableShell" :class="shellClass" @keydown.escape.window="closeAll" @keydown.window="onSlash">
+    <div data-skin="fable" x-data="fableShell" :class="shellClass" @keydown.escape.window="closeAll" @keydown.window="onSlash">
         <div x-ref="top" class="absolute top-0 h-[70vh] w-px pointer-events-none" aria-hidden="true"></div>
 
         @yield('progress')

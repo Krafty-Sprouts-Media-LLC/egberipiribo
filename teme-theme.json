@@ -135,42 +135,42 @@
             "max": 1
         },
         "ad-leaderboard": {
-            "label": "Advertisement: leaderboard (728 × 90)",
+            "label": "Header banner: ad below the top of every page (728 × 90)",
             "cards": [
                 "site-code"
             ],
             "max": 1
         },
         "ad-in-feed": {
-            "label": "Advertisement: in the feed (970 × 250)",
+            "label": "In-feed banner: ad between rows of stories (970 × 250)",
             "cards": [
                 "site-code"
             ],
             "max": 1
         },
         "ad-rectangle": {
-            "label": "Advertisement: rectangle beside most read (336 × 280)",
+            "label": "Most-read side ad (336 × 280)",
             "cards": [
                 "site-code"
             ],
             "max": 1
         },
         "ad-in-article": {
-            "label": "Advertisement: in the article, first (300 × 250)",
+            "label": "In-article ad, first (300 × 250)",
             "cards": [
                 "site-code"
             ],
             "max": 1
         },
         "ad-in-article-2": {
-            "label": "Advertisement: in the article, second (300 × 250)",
+            "label": "In-article ad, second (300 × 250)",
             "cards": [
                 "site-code"
             ],
             "max": 1
         },
         "ad-half-page": {
-            "label": "Advertisement: half page beside the article (300 × 600)",
+            "label": "Article side column ad (300 × 600)",
             "cards": [
                 "site-code"
             ],
