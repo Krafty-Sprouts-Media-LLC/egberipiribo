@@ -20,6 +20,9 @@
 @import 'tailwindcss/preflight.css' layer(teme.theme.base);
 @import './fonts.css';
 @import './skins/fable.css';
+@import './skins/fable-home.css';
+@import './skins/fable-article.css';
+@import './skins/fable-listing.css';
 @import 'tailwindcss/utilities.css' layer(teme.theme.utilities);
 
 /* Class names are read from the views and the scripts, and nowhere else. */

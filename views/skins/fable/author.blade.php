@@ -6,6 +6,8 @@
 --}}
 @extends('theme::skins.fable.layout')
 
+@section('template', 'author')
+
 @section('main')
     <h1 class="hed hed-page py-8">{{ $page->title ?? $page->subject?->title ?? $site->name }}</h1>
 @endsection

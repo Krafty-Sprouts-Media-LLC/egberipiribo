@@ -1,6 +1,7 @@
 {{--
     Fable: the frame of every page. Core's document, then the page shell (rail, small-screen header, canvas, search
     panel, back to top). A page fills these sections:
+      - template   the kind of page, written on <main> as data-template (home, article, page, archive, ...)
       - main       the page's one <main>, its content (required)
       - before     what sits above <main>, inside the canvas (the top stories strip, an advertisement)
       - toc        the "In this story" list in the rail, an article only
@@ -21,7 +22,7 @@
         <div class="lg:ml-[17rem]">
             @yield('before')
 
-            <main id="main" class="wrap" tabindex="-1">
+            <main id="main" class="wrap" tabindex="-1" data-template="@yield('template')">
                 @yield('main')
             </main>
 

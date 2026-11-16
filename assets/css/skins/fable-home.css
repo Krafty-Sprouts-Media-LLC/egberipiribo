@@ -1,0 +1,11 @@
+/**
+ * Fable skin: styles only the home pages need, beyond the shared ones in fable.css.
+ *
+ * @package   egberipiribo
+ * @since     0.1.0
+ * @copyright Krafty Sprouts Media, LLC
+ * @license   MIT
+ */
+
+@layer teme.theme.components {
+}
