@@ -49,6 +49,10 @@
   @media (min-width: 48rem) {
     .region-also-today .fp-list { grid-template-columns: repeat(3, minmax(0, 1fr)); }
   }
+  /* Settings: "Also today" without the section names or without the small pictures (the editor's list too). */
+  .region-also-today.no-kicker .kicker { display: none; }
+  .region-also-today.no-thumb .card .media { display: none; }
+  .region-also-today.no-thumb .card { grid-template-columns: minmax(0, 1fr); }
 
   /* ---- The long read: the brand colour carries it, the picture beside the words ---- */
   .region-long-read { position: relative; --lr-pic: 46%; margin-top: 2.5rem; border-radius: 14px; overflow: hidden; background-color: var(--color-rail); color: #fff; }
@@ -115,11 +119,16 @@
   .region-most-read .card-title { margin-top: 0; font-size: 1.0938rem; line-height: 1.2; letter-spacing: -0.012em; }
   .region-most-read .fp-item:first-child .card::before { font-size: 3.25rem; }
   .region-most-read .fp-item:first-child .card-title { font-size: clamp(1.5rem, 1.25rem + .9vw, 2rem); font-stretch: 80%; line-height: 1.06; letter-spacing: -0.022em; }
+  /* Setting: "Most read" without the numbers. */
+  .region-most-read.no-rank .card::before { display: none; }
+  .region-most-read.no-rank .card { grid-template-columns: minmax(0, 1fr); }
   @media (min-width: 40rem) {
     .region-most-read .fp-list { grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: 2.5rem; }
     .region-most-read .fp-item:first-child { grid-column: 1 / -1; }
   }
   @media (min-width: 64rem) {
     .home-most:has(.ad-body > *) { grid-template-columns: minmax(0, 1fr) 336px; column-gap: 3rem; }
+    /* Setting: "Most read" off leaves the advertisement alone in the frame: one column, as wide as the advertisement. */
+    .home-most.home-most-solo:has(.ad-body > *) { grid-template-columns: minmax(0, 336px); }
   }
 }

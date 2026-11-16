@@ -1,0 +1,82 @@
+{
+  "fable_home_title_visible": {
+    "label": "Home: show the page title",
+    "description": "Show the title at the top of the home page. When off, it is hidden from view but kept for screen readers and search engines."
+  },
+  "show_story_count": {
+    "label": "Home: show the story count",
+    "description": "Show \"N stories on this page\" beside the home page title."
+  },
+  "fable_home_top_stories": {
+    "label": "Home: show the top stories strip",
+    "description": "Show the ranked strip of top stories above the home page."
+  },
+  "fable_home_top_stories_rank": {
+    "label": "Home: top stories strip numbers",
+    "description": "Show the big number before each headline in the top stories strip."
+  },
+  "fable_home_cover": {
+    "label": "Home: show the cover story",
+    "description": "Show the cover story with its picture and headline card at the top of the home page."
+  },
+  "fable_home_cover_kicker": {
+    "label": "Home: cover story section name",
+    "description": "Show the section name above the cover story headline."
+  },
+  "fable_home_cover_standfirst": {
+    "label": "Home: cover story standfirst",
+    "description": "Show the short summary under the cover story headline."
+  },
+  "fable_home_cover_byline": {
+    "label": "Home: cover story byline",
+    "description": "Show the author and date under the cover story."
+  },
+  "fable_home_also_today": {
+    "label": "Home: show Also today",
+    "description": "Show the row of small stories under the cover story. When off, the newest stories it would have shown move into the grid."
+  },
+  "fable_home_also_today_kicker": {
+    "label": "Home: Also today section names",
+    "description": "Show the section name above each small headline in Also today."
+  },
+  "fable_home_also_today_thumb": {
+    "label": "Home: Also today pictures",
+    "description": "Show the small square picture beside each headline in Also today."
+  },
+  "fable_home_ad_leaderboard": {
+    "label": "Home: show the wide ad under Also today",
+    "description": "Show the wide advertisement spot under Also today. It also needs the site-wide ads switch to be on."
+  },
+  "fable_home_ad_in_feed": {
+    "label": "Home: show the ad inside the story grid",
+    "description": "Show the advertisement spot inside the grid of stories. It also needs the site-wide ads switch to be on."
+  },
+  "fable_home_ad_rectangle": {
+    "label": "Home: show the ad beside Most read",
+    "description": "Show the box advertisement spot beside Most read. It also needs the site-wide ads switch to be on."
+  },
+  "fable_home_long_read": {
+    "label": "Home: show the long read block",
+    "description": "Show the coloured long read block of the home page."
+  },
+  "fable_home_grid": {
+    "label": "Home: show the story grid",
+    "description": "Show the More to explore grid of stories, with its page links."
+  },
+  "show_layout_toggle": {
+    "label": "Home: story grid layout buttons",
+    "description": "Let readers switch the story grid between a grid and a list."
+  },
+  "fable_home_sections": {
+    "label": "Home: show From the sections",
+    "description": "Show the From the sections band of up to four section lists."
+  },
+  "fable_home_most_read": {
+    "label": "Home: show Most read",
+    "description": "Show the Most read list near the bottom of the home page."
+  },
+  "fable_home_most_read_rank": {
+    "label": "Home: Most read numbers",
+    "description": "Show the number beside each story in Most read."
+  }
+}

@@ -12,7 +12,9 @@
     four lists), home-most-read. The advertisement slots are the regions ad-leaderboard, ad-in-feed and
     ad-rectangle; each slot hides itself while empty.
 
-    Choices a later update can turn into theme settings (read once, below; the default is the drawing's):
+    Settings this template reads (once, below; the default is the drawing's). A switch that is off draws nothing of
+    its block, wrapper included; a sub-option is ignored while its parent switch is off. The wrapper classes
+    no-kicker, no-thumb and no-rank tell fable-home.css to leave a part out of an editor's region list:
       front_title          text, "Today on :site"  the title on the home page; :site is the site's name
       posts_title          text, "Latest stories"  the title of a posts page that has no title of its own
       grid_title           text, "More to explore" the heading above the grid of stories
@@ -25,6 +27,25 @@
       pattern_strength     subtle, medium or bold, subtle: how visible the pattern's icons are
       pattern_density      sparse, regular or dense, regular: how close together the pattern's icons sit
       pattern_accent       colour #rrggbb or empty, empty: one icon in seven takes this colour, the rest are white
+      fable_home_title_visible      on/off, on  the title is seen; off hides it but keeps the page's one h1 for assistive technology
+      fable_home_top_stories        on/off, on  the top stories strip above the page
+      fable_home_top_stories_rank   on/off, on  the big rank numbers before each headline of the strip
+      fable_home_cover              on/off, on  the cover story (its story then shows only in the strip)
+      fable_home_cover_kicker       on/off, on  the section name above the cover headline
+      fable_home_cover_standfirst   on/off, on  the standfirst under the cover headline
+      fable_home_cover_byline       on/off, on  the byline under the cover story
+      fable_home_also_today         on/off, on  "Also today" and the editor's region that replaces it. Off: the newest
+                                                stories it would have taken return to the grid; pinned ones show only in the strip
+      fable_home_also_today_kicker  on/off, on  the section name above each small headline (editor's list too)
+      fable_home_also_today_thumb   on/off, on  the small square picture beside each headline (editor's list too)
+      fable_home_ad_leaderboard     on/off, on  the ad-leaderboard slot under "Also today" (show_ads is the master, in partials/ad)
+      fable_home_ad_in_feed         on/off, on  the ad-in-feed slot inside the grid
+      fable_home_ad_rectangle       on/off, on  the ad-rectangle slot beside "Most read"
+      fable_home_long_read          on/off, on  the long read block (region home-long-read)
+      fable_home_grid               on/off, on  the grid "More to explore" with its layout switch, in-feed slot and pages
+      fable_home_sections           on/off, on  "From the sections" (region home-sections)
+      fable_home_most_read          on/off, on  "Most read" (region home-most-read)
+      fable_home_most_read_rank     on/off, on  the rank numbers beside each "Most read" story
 
     @package egberipiribo
     @since   0.1.0
@@ -45,6 +66,26 @@
     $patternDensity = $themeSettings['pattern_density'] ?? 'regular';
     $patternAccent = $themeSettings['pattern_accent'] ?? '';
 
+    // A sub-option counts only while its parent switch is on.
+    $titleVisible = (bool) ($themeSettings['fable_home_title_visible'] ?? true);
+    $showTopStories = (bool) ($themeSettings['fable_home_top_stories'] ?? true);
+    $showTopStoriesRank = $showTopStories && (bool) ($themeSettings['fable_home_top_stories_rank'] ?? true);
+    $showCover = (bool) ($themeSettings['fable_home_cover'] ?? true);
+    $showCoverKicker = $showCover && (bool) ($themeSettings['fable_home_cover_kicker'] ?? true);
+    $showCoverStandfirst = $showCover && (bool) ($themeSettings['fable_home_cover_standfirst'] ?? true);
+    $showCoverByline = $showCover && (bool) ($themeSettings['fable_home_cover_byline'] ?? true);
+    $showAlsoToday = (bool) ($themeSettings['fable_home_also_today'] ?? true);
+    $showAlsoTodayKicker = $showAlsoToday && (bool) ($themeSettings['fable_home_also_today_kicker'] ?? true);
+    $showAlsoTodayThumb = $showAlsoToday && (bool) ($themeSettings['fable_home_also_today_thumb'] ?? true);
+    $showAdLeaderboard = (bool) ($themeSettings['fable_home_ad_leaderboard'] ?? true);
+    $showAdInFeed = (bool) ($themeSettings['fable_home_ad_in_feed'] ?? true);
+    $showAdRectangle = (bool) ($themeSettings['fable_home_ad_rectangle'] ?? true);
+    $showLongRead = (bool) ($themeSettings['fable_home_long_read'] ?? true);
+    $showGrid = (bool) ($themeSettings['fable_home_grid'] ?? true);
+    $showSections = (bool) ($themeSettings['fable_home_sections'] ?? true);
+    $showMostRead = (bool) ($themeSettings['fable_home_most_read'] ?? true);
+    $showMostReadRank = $showMostRead && (bool) ($themeSettings['fable_home_most_read_rank'] ?? true);
+
     $title = $isFront ? $frontTitle : ($page->feed->subject?->title ?? $postsTitle);
 
     // The stories on this page. The lead and the pinned stories exist on page 1 only.
@@ -54,10 +95,14 @@
     $firstPage = $lead !== null;
     $storyCount = ($firstPage ? 1 : 0) + count($pinned) + count($feed);
 
+    // With the title hidden and no count beside it, the header keeps only the (screen-reader) h1 and a top space.
+    $headerShowsSomething = $titleVisible || ($showStoryCount && $storyCount > 0);
+
     // "Also today": the pinned stories; with none pinned, the newest of the feed, which the grid then leaves out.
+    // With "Also today" switched off nothing takes them, so they stay in the grid.
     $alsoToday = [];
     $gridItems = $feed;
-    if ($firstPage) {
+    if ($firstPage && $showAlsoToday) {
         if ($pinned !== []) {
             $alsoToday = $pinned;
         } else {
@@ -67,7 +112,7 @@
     }
 
     // The top stories strip: the lead, the pinned stories, then the newest of the feed.
-    $topStories = $firstPage ? array_slice([$lead, ...$pinned, ...$feed], 0, max(0, $topStoriesCount)) : [];
+    $topStories = $firstPage && $showTopStories ? array_slice([$lead, ...$pinned, ...$feed], 0, max(0, $topStoriesCount)) : [];
 
     // The icon pattern, one tile as a CSS value (empty while the pattern is off).
     $patternTile = trim(view('theme::skins.fable.partials.home-pattern', [
@@ -89,7 +134,9 @@
                 <ol class="flex gap-x-8">
                     @foreach ($topStories as $item)
                         <li class="story shrink-0 flex items-baseline gap-2.5 max-w-[19rem]">
-                            <span class="rank text-[1.375rem]" aria-hidden="true">{{ $loop->iteration }}</span>
+                            @if ($showTopStoriesRank)
+                                <span class="rank text-[1.375rem]" aria-hidden="true">{{ $loop->iteration }}</span>
+                            @endif
                             <span class="hed text-[.9375rem] font-semibold leading-snug [text-wrap:wrap] line-clamp-2"><a href="{{ $item->url }}">{{ $item->title }}</a></span>
                         </li>
                     @endforeach
@@ -101,8 +148,8 @@
 
 @section('main')
     {{-- The title, and how many stories this page holds --}}
-    <header class="pt-8 pb-6 flex flex-wrap items-end justify-between gap-x-8 gap-y-3">
-        <h1 class="hed hed-page">{{ $title }}</h1>
+    <header class="{{ $headerShowsSomething ? 'pt-8 pb-6 flex flex-wrap items-end justify-between gap-x-8 gap-y-3' : 'pt-8' }}">
+        <h1 class="hed hed-page{{ $titleVisible ? '' : ' sr-only' }}">{{ $title }}</h1>
         @if ($showStoryCount && $storyCount > 0)
             <p class="meta pb-1.5">{{ trans_choice(':count story on this page|:count stories on this page', $storyCount, ['count' => $storyCount]) }}</p>
         @endif
@@ -116,7 +163,7 @@
         </div>
     @endif
 
-    @if ($firstPage)
+    @if ($firstPage && $showCover)
         {{-- Cover story: the headline card sits over the picture --}}
         <article class="story" aria-label="{{ __('Cover story') }}">
             @if ($lead->image !== null)
@@ -125,49 +172,62 @@
                 </div>
             @endif
             <div class="relative bg-white {{ $lead->image !== null ? 'pt-5 sm:-mt-24 sm:mr-[12%] lg:mr-[30%] sm:pt-7 sm:pr-9 sm:rounded-tr-[var(--radius-box)]' : 'border-t border-ink pt-6' }}">
-                @if ($lead->kicker !== null)
+                @if ($showCoverKicker && $lead->kicker !== null)
                     <p class="kicker">{{ $lead->kicker->name }}</p>
                 @endif
                 <h2 class="hed hed-xl mt-2.5"><a href="{{ $lead->url }}">{{ $lead->title }}</a></h2>
-                @if ($lead->standfirst !== null && $lead->standfirst !== '')
+                @if ($showCoverStandfirst && $lead->standfirst !== null && $lead->standfirst !== '')
                     <p class="deck text-[1.125rem] mt-3.5 max-w-[38rem]">{{ $lead->standfirst }}</p>
                 @endif
-                <p class="meta mt-3.5">@include('theme::skins.fable.partials.byline', ['authors' => $lead->authors, 'publishedText' => $lead->publishedText, 'published' => $lead->published])</p>
+                @if ($showCoverByline)
+                    <p class="meta mt-3.5">@include('theme::skins.fable.partials.byline', ['authors' => $lead->authors, 'publishedText' => $lead->publishedText, 'published' => $lead->published])</p>
+                @endif
             </div>
         </article>
+    @endif
 
+    @if ($firstPage && $showAlsoToday)
         {{-- Also today: the pinned stories, or the newest of the feed. An editor's list in the region replaces it. --}}
         @if ($alsoToday !== [])
             <section class="home-also-today grid md:grid-cols-3 gap-x-8 gap-y-6 mt-9 pt-7 border-t border-ink" aria-label="{{ __('Also today') }}">
                 @foreach ($alsoToday as $item)
-                    <article class="story grid {{ $item->image !== null ? 'grid-cols-[minmax(0,1fr)_6rem]' : 'grid-cols-1' }} gap-4 items-start">
+                    @php
+                        $thumb = $showAlsoTodayThumb && $item->image !== null;
+                    @endphp
+                    <article class="story grid {{ $thumb ? 'grid-cols-[minmax(0,1fr)_6rem]' : 'grid-cols-1' }} gap-4 items-start">
                         <div>
-                            @if ($item->kicker !== null)
+                            @if ($showAlsoTodayKicker && $item->kicker !== null)
                                 <p class="kicker">{{ $item->kicker->name }}</p>
                             @endif
                             <h2 class="hed hed-sm mt-1.5"><a href="{{ $item->url }}">{{ $item->title }}</a></h2>
                             <p class="meta mt-2">@include('theme::skins.fable.partials.byline', ['authors' => $item->authors, 'publishedText' => $item->publishedText, 'published' => $item->published])</p>
                         </div>
-                        @if ($item->image !== null)
+                        @if ($thumb)
                             <div class="media aspect-square"><x-teme::image :id="$item->image->id" context="square" :decorative="true" /></div>
                         @endif
                     </article>
                 @endforeach
             </section>
         @endif
-        <div class="home-slot region-also-today"><x-teme::region name="home-also-today" /></div>
+        <div class="home-slot region-also-today{{ $showAlsoTodayKicker ? '' : ' no-kicker' }}{{ $showAlsoTodayThumb ? '' : ' no-thumb' }}"><x-teme::region name="home-also-today" /></div>
+    @endif
 
+    @if ($firstPage)
         {{-- Advertisement: leaderboard --}}
-        @include('theme::skins.fable.partials.ad', ['region' => 'ad-leaderboard', 'class' => 'mt-10'])
+        @if ($showAdLeaderboard)
+            @include('theme::skins.fable.partials.ad', ['region' => 'ad-leaderboard', 'class' => 'mt-10'])
+        @endif
 
         {{-- The long read: the brand colour carries it --}}
-        <div class="home-slot region-long-read on-rail{{ $patternTile !== '' ? ' patterned' : '' }}"@if ($patternTile !== '') style="--fable-pattern: {{ $patternTile }}"@endif>
-            <x-teme::region name="home-long-read" />
-        </div>
+        @if ($showLongRead)
+            <div class="home-slot region-long-read on-rail{{ $patternTile !== '' ? ' patterned' : '' }}"@if ($patternTile !== '') style="--fable-pattern: {{ $patternTile }}"@endif>
+                <x-teme::region name="home-long-read" />
+            </div>
+        @endif
     @endif
 
     {{-- The grid: every other story of this page, with the layout switch --}}
-    @if ($gridItems !== [])
+    @if ($showGrid && $gridItems !== [])
         <section class="pt-12 pb-4" aria-labelledby="grid-title" x-data="layoutToggle">
             <div class="flex flex-wrap items-center justify-between gap-x-6 gap-y-4 border-t border-ink pt-5">
                 <h2 id="grid-title" class="hed hed-lg">{{ $gridTitle }}</h2>
@@ -182,7 +242,7 @@
             <div class="home-feed mt-7" :class="listClass">
                 @foreach ($gridItems as $item)
                     @include('theme::skins.fable.partials.card', ['item' => $item, 'level' => 3, 'bind' => ':class="rowClass"'])
-                    @if ($loop->iteration === $feedAdAfter || ($loop->last && $loop->count < $feedAdAfter))
+                    @if ($showAdInFeed && ($loop->iteration === $feedAdAfter || ($loop->last && $loop->count < $feedAdAfter)))
                         {{-- Advertisement: in the feed, across the row in both layouts --}}
                         @include('theme::skins.fable.partials.ad', ['region' => 'ad-in-feed', 'class' => 'home-feed-ad col-span-full'])
                     @endif
@@ -191,18 +251,27 @@
 
             @include('theme::skins.fable.partials.pagination', ['pagination' => $page->feed->pagination])
         </section>
-    @elseif ($page->feed->pagination->previous !== null || $page->feed->pagination->next !== null)
+    @elseif ($showGrid && ($page->feed->pagination->previous !== null || $page->feed->pagination->next !== null))
         @include('theme::skins.fable.partials.pagination', ['pagination' => $page->feed->pagination])
     @endif
 
     @if ($firstPage)
         {{-- From the sections: up to four lists, each filed under a section by the editor --}}
-        <div class="home-slot region-sections"><x-teme::region name="home-sections" /></div>
+        @if ($showSections)
+            @include('theme::skins.fable.partials.pattern', ['area' => 'sections', 'mode' => 'band'])
+            <div class="home-slot region-sections"><x-teme::region name="home-sections" /></div>
+        @endif
 
-        {{-- Most read: an editor's ranked list, with the last advertisement beside it --}}
-        <div class="home-most">
-            <div class="home-slot region-most-read"><x-teme::region name="home-most-read" /></div>
-            @include('theme::skins.fable.partials.ad', ['region' => 'ad-rectangle'])
-        </div>
+        {{-- Most read: an editor's ranked list, with the last advertisement beside it. The frame goes when both are off. --}}
+        @if ($showMostRead || $showAdRectangle)
+            <div class="home-most{{ $showMostRead ? '' : ' home-most-solo' }}">
+                @if ($showMostRead)
+                    <div class="home-slot region-most-read{{ $showMostReadRank ? '' : ' no-rank' }}"><x-teme::region name="home-most-read" /></div>
+                @endif
+                @if ($showAdRectangle)
+                    @include('theme::skins.fable.partials.ad', ['region' => 'ad-rectangle'])
+                @endif
+            </div>
+        @endif
     @endif
 @endsection
