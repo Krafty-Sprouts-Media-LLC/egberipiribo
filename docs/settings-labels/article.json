@@ -1,0 +1,180 @@
+{
+    "show_reading_progress": {
+        "label": "Article: show the reading progress bar",
+        "description": "Shows a thin bar across the top of the page that fills as the reader scrolls down a story."
+    },
+    "fable_article_breadcrumb": {
+        "label": "Article: show the breadcrumb",
+        "description": "Shows the trail of links (Home, section, story) above the headline."
+    },
+    "fable_article_kicker": {
+        "label": "Article: show the section name above the headline",
+        "description": "Shows the story's section above the headline when the breadcrumb is not shown."
+    },
+    "fable_article_standfirst": {
+        "label": "Article: show the standfirst under the headline",
+        "description": "Shows the short summary (excerpt) under the headline when the story has one."
+    },
+    "fable_byline_avatar": {
+        "label": "Article byline: show the author's initials",
+        "description": "Shows a circle with the lead author's initials beside the byline."
+    },
+    "fable_byline_authors": {
+        "label": "Article byline: show the author names",
+        "description": "Shows \"By\" and the names of the story's authors in the byline."
+    },
+    "fable_byline_date": {
+        "label": "Article byline: show the publication date",
+        "description": "Shows the date the story was published in the byline."
+    },
+    "fable_article_show_updated": {
+        "label": "Article byline: show the Updated date",
+        "description": "Shows the date a story was updated, after the publication date, when it was changed after publishing."
+    },
+    "show_reading_time": {
+        "label": "Article byline: show the reading time",
+        "description": "Shows how many minutes a story takes to read, such as \"5 min read\"."
+    },
+    "show_updated_date": {
+        "label": "Article byline: show Updated for edited stories",
+        "description": "Lets a story show an Updated date once it was edited after it was published; turn it off to never show one."
+    },
+    "updated_after_days": {
+        "label": "Article byline: days before an edit counts as Updated",
+        "description": "A story shows an Updated date only when it was edited at least this many days after it was published.",
+        "optionLabels": {
+            "1": "After 1 day",
+            "7": "After 7 days",
+            "14": "After 14 days",
+            "30": "After 30 days"
+        }
+    },
+    "fable_article_hero": {
+        "label": "Article hero: show the large picture",
+        "description": "Shows the story's featured picture, large, under the byline."
+    },
+    "fable_article_hero_caption": {
+        "label": "Article hero: show the caption and credit",
+        "description": "Shows the picture's caption and credit under the large picture."
+    },
+    "fable_article_fields_before": {
+        "label": "Article: show custom fields before the text",
+        "description": "Shows the custom fields you set to appear before the story's text, such as a \"Reviewed by\" line."
+    },
+    "fable_article_fields_after": {
+        "label": "Article: show custom fields after the text",
+        "description": "Shows the custom fields you set to appear after the story's text."
+    },
+    "show_contents": {
+        "label": "Article: show the In this story list",
+        "description": "Shows a list of the story's headings in the side rail so readers can jump to a part (stories and pages)."
+    },
+    "article_lede": {
+        "label": "Article: set the first paragraph larger",
+        "description": "Sets the first paragraph of a story in larger type, as an introduction."
+    },
+    "fable_article_inline_related": {
+        "label": "Article: show a Related card inside the text",
+        "description": "Shows one related story as a small card inside the text, after its second paragraph."
+    },
+    "fable_article_after_content": {
+        "label": "Article: show the area under the text",
+        "description": "Shows the After content area, where you can place a callout, a button or featured posts, under the story."
+    },
+    "fable_article_ad_leaderboard": {
+        "label": "Article ads: show the top banner",
+        "description": "Shows the wide ad area above the story (the ad-leaderboard region), while ads are on."
+    },
+    "fable_article_ad_in_article": {
+        "label": "Article ads: show the ad inside the text",
+        "description": "Shows the ad area inside the story's text (the ad-in-article region), while ads are on."
+    },
+    "fable_article_ad_second": {
+        "label": "Article ads: show the ad after the text",
+        "description": "Shows the second ad area after the story's text (the ad-in-article-2 region), while ads are on."
+    },
+    "fable_article_ad_half_page": {
+        "label": "Article ads: show the tall ad beside the story",
+        "description": "Shows the tall ad area beside the story on screens 1440 pixels wide and up (the ad-half-page region), while ads are on."
+    },
+    "show_read_next": {
+        "label": "Article read next: show the Read next strip",
+        "description": "Shows one related story as a Read next strip after the text."
+    },
+    "fable_read_next_reason": {
+        "label": "Article read next: show the reason line",
+        "description": "Shows the small line under the Read next headline that says why the story is suggested."
+    },
+    "show_tags": {
+        "label": "Article: show the tags under the story",
+        "description": "Shows the \"Filed under\" tags below a story."
+    },
+    "show_author_card": {
+        "label": "Article author card: show the author card",
+        "description": "Shows a box about each author below the story, when they have a bio or a page."
+    },
+    "fable_author_card_avatar": {
+        "label": "Article author card: show the initials",
+        "description": "Shows a circle with the author's initials in the author card."
+    },
+    "fable_author_card_bio": {
+        "label": "Article author card: show the bio",
+        "description": "Shows the author's bio in the author card."
+    },
+    "fable_author_card_link": {
+        "label": "Article author card: show the More from link",
+        "description": "Shows the \"More from ...\" link to the author's page in the author card."
+    },
+    "show_related": {
+        "label": "Article related: show the Keep reading row",
+        "description": "Shows a row of related stories under the article."
+    },
+    "fable_related_more_link": {
+        "label": "Article related: show the All section link",
+        "description": "Shows the link to the story's whole section at the right of the row's heading."
+    },
+    "show_comments": {
+        "label": "Comments: show comments on stories",
+        "description": "Shows the comments and the comment form under stories; turn it off to hide them everywhere."
+    },
+    "fable_comments_avatar": {
+        "label": "Comments: show the initials circle",
+        "description": "Shows a circle with the writer's initials beside each comment."
+    },
+    "fable_comments_author_badge": {
+        "label": "Comments: show the Author badge",
+        "description": "Shows an Author badge on a comment written by one of the story's authors."
+    },
+    "fable_page_breadcrumb": {
+        "label": "Page: show the breadcrumb",
+        "description": "Shows the trail of links above a page's title."
+    },
+    "fable_page_standfirst": {
+        "label": "Page: show the standfirst under the title",
+        "description": "Shows the page's short summary under its title when it has one."
+    },
+    "show_updated": {
+        "label": "Page: show the Last updated line",
+        "description": "Shows when the page was last updated, under its title."
+    },
+    "fable_page_hero": {
+        "label": "Page: show the featured picture",
+        "description": "Shows the page's featured picture under its title."
+    },
+    "fable_page_fields": {
+        "label": "Page: show custom fields",
+        "description": "Shows the custom fields you set to appear on a page."
+    },
+    "page_lede": {
+        "label": "Page: set the first paragraph larger",
+        "description": "Sets the first paragraph of a page in larger type, as an introduction."
+    },
+    "show_children": {
+        "label": "Page: show the pages under this one",
+        "description": "Shows a list of the pages that sit under this page."
+    },
+    "show_page_comments": {
+        "label": "Page: show comments",
+        "description": "Shows comments under a page, when the page has a comment thread."
+    }
+}

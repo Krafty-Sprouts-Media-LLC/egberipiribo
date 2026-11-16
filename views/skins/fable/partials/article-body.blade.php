@@ -10,8 +10,15 @@
     $after top-level blocks, so the body is cut between two blocks (read from the HTML's tags, never inside one); a
     shorter body, or one the scan cannot read, gets the ad after it instead.
 
+    Inline related card: when the article has one to offer ($inline, a related entry: ['item' => ListingItem, ...]), it
+    sits inside the body after its second top-level block (the drawing's place), when the body has at least three;
+    a shorter body, or one the scan cannot read, gets the card after it. When both the card and the ad cut the body,
+    the card comes first.
+
     Takes $html (the body), $lede (whether the first paragraph is set as the lede), $ads (whether to draw the ad),
-    $after, $min (the fewest top-level blocks that earn a cut), $contents and $contentsMin.
+    $after, $min (the fewest top-level blocks that earn a cut), $contents and $contentsMin (the template reads show_contents,
+    contents_min_headings, article_lede and the ad switches and passes them; this partial reads no setting itself),
+    and optionally $inline (the related entry for the card, or null).
 
     @package egberipiribo
     @since   0.1.0
@@ -49,7 +56,8 @@
     $depth = 0;
     $ok = true;
     $void = ['area', 'base', 'br', 'col', 'embed', 'hr', 'img', 'input', 'link', 'meta', 'source', 'track', 'wbr'];
-    if (($ads ?? true) && preg_match_all('/<(\/?)([a-zA-Z][a-zA-Z0-9-]*)\b[^>]*?(\/?)>/s', $html, $tags, PREG_SET_ORDER | PREG_OFFSET_CAPTURE)) {
+    $inlineEntry = $inline ?? null;
+    if ((($ads ?? true) || $inlineEntry !== null) && preg_match_all('/<(\/?)([a-zA-Z][a-zA-Z0-9-]*)\b[^>]*?(\/?)>/s', $html, $tags, PREG_SET_ORDER | PREG_OFFSET_CAPTURE)) {
         foreach ($tags as $tag) {
             $name = strtolower($tag[2][0]);
             $end = $tag[0][1] + strlen($tag[0][0]);
@@ -71,22 +79,53 @@
             }
         }
     }
-    $cut = null;
-    if ($ok && $depth === 0 && count($ends) >= max(3, (int) ($min ?? 8))) {
-        $cut = $ends[min((int) ($after ?? 4), count($ends) - 2) - 1] ?? null;
+    // Where the body is cut, in order, and what goes at each cut ('inline' = the related card, 'ad' = the ad).
+    $marks = [];
+    $atEnd = [];
+    $readable = $ok && $depth === 0;
+    if ($inlineEntry !== null) {
+        if ($readable && count($ends) >= 3) {
+            $marks[] = [$ends[1], 'inline'];
+        } else {
+            $atEnd[] = 'inline';
+        }
     }
+    if ($ads ?? true) {
+        $adAt = $readable && count($ends) >= max(3, (int) ($min ?? 8)) ? ($ends[min((int) ($after ?? 4), count($ends) - 2) - 1] ?? null) : null;
+        if ($adAt !== null) {
+            $marks[] = [$adAt, 'ad'];
+        } else {
+            $atEnd[] = 'ad';
+        }
+    }
+    usort($marks, static fn (array $one, array $two): int => [$one[0], $one[1] === 'inline' ? 0 : 1] <=> [$two[0], $two[1] === 'inline' ? 0 : 1]);
+
+    // The body in pieces, each with what follows it.
+    $pieces = [];
+    $from = 0;
+    foreach ($marks as [$at, $kind]) {
+        if ($pieces !== [] && $at === $from) {
+            // Two things at one cut: the second follows the first, with no empty block between.
+            $pieces[count($pieces) - 1]['then'][] = $kind;
+
+            continue;
+        }
+        $pieces[] = ['html' => substr($html, $from, $at - $from), 'then' => [$kind]];
+        $from = $at;
+    }
+    $pieces[] = ['html' => substr($html, $from), 'then' => $atEnd];
     $proseClass = 'prose'.(($lede ?? true) ? ' prose-lede' : '');
 @endphp
-@if ($cut !== null)
-    <div class="{{ $proseClass }}">{!! substr($html, 0, $cut) !!}</div>
-    @include('theme::skins.fable.partials.ad', ['region' => 'ad-in-article', 'class' => 'my-10'])
-    <div class="prose prose-cont">{!! substr($html, $cut) !!}</div>
-@else
-    <div class="{{ $proseClass }}">{!! $html !!}</div>
-    @if ($ads ?? true)
-        @include('theme::skins.fable.partials.ad', ['region' => 'ad-in-article', 'class' => 'my-10'])
-    @endif
-@endif
+@foreach ($pieces as $piece)
+    <div class="{{ $loop->first ? $proseClass : 'prose prose-cont' }}">{!! $piece['html'] !!}</div>
+    @foreach ($piece['then'] as $kind)
+        @if ($kind === 'inline')
+            @include('theme::skins.fable.partials.article-inline-related', ['entry' => $inlineEntry])
+        @else
+            @include('theme::skins.fable.partials.ad', ['region' => 'ad-in-article', 'class' => 'my-10'])
+        @endif
+    @endforeach
+@endforeach
 @if (count($toc) >= max(1, (int) ($contentsMin ?? 2)))
     {{-- The rail is drawn from the layout once the page is, so it can be filled from here. --}}
     @section('toc')

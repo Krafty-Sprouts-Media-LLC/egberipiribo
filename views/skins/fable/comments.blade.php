@@ -5,8 +5,9 @@
 
     Takes $page (CommentsPageView: ->title, ->url, ->kicker, ->comments), $site.
 
-    Choices a later update can turn into theme settings (read once, below; the default is the drawing's):
+    Settings this template reads (once, below; the default is the drawing's, and the manifest's):
       comments_page_title  text, "Comments on “:title”"  the page's h1; :title is the story's title
+      show_comments        on/off, on                    the site-wide comments switch: off leaves the page without its thread
 
     @package egberipiribo
     @since   0.1.0
@@ -15,6 +16,7 @@
 
 @php
     $commentsPageTitle = $themeSettings['comments_page_title'] ?? __('Comments on “:title”');
+    $showComments = (bool) ($themeSettings['show_comments'] ?? true);
 @endphp
 
 @section('template', 'comments')
@@ -32,6 +34,8 @@
             </p>
         </header>
 
-        @include('theme::skins.fable.partials.comments-thread', ['comments' => $page->comments])
+        @if ($showComments)
+            @include('theme::skins.fable.partials.comments-thread', ['comments' => $page->comments])
+        @endif
     </div>
 @endsection
