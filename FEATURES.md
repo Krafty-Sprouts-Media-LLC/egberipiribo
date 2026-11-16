@@ -475,4 +475,5 @@ All **later**; none has Blade. Demos are standalone HTML (Tailwind and Alpine fr
 | B | 0 | 0 | 45 | 8 | 53 |
 | C | 0 | 0 | 63 | 17 | 80 |
 | D | 0 | 0 | 14 | 0 | 14 |
-| **All** | 16 | 107 | 123 | 51 | 297 |
+| E (Fable) | 17 | 25 | 1 | 3 | 46 |
+| **All** | 33 | 132 | 124 | 54 | 343 |
