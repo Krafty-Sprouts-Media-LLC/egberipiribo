@@ -6,7 +6,7 @@ declare(strict_types=1);
  * Seeds the shared teme-dev site with demo stories for Fable's screenshots and audit. DEV TOOL ONLY: it is not part
  * of the theme and is never shipped. It reaches into Teme's own Operations because an outside developer has no
  * public way to put content, menus and regions into a site except the admin (which needs a sign-in) or the
- * management API (which needs a key); that is recorded as finding W-13 in FINDINGS.md. The Operations and their
+ * management API (which needs a key); that is recorded as finding #13 in FINDINGS.md. The Operations and their
  * inputs are used exactly as the temecms theme's seed script uses them.
  *
  * Run from the teme-dev folder, and only while holding the dev-site lock (teme-plugins/.teme-dev.lock):
@@ -138,7 +138,7 @@ if (in_array('content', $steps, true)) {
             continue;
         }
         $mid = $state['media'][$pic] ?? throw new RuntimeException('Run the media step first.');
-        // A media field stores {"id": <media id>}: the handbook does not say so (FINDINGS.md, W-14).
+        // A media field stores {"id": <media id>}: the handbook does not say so (FINDINGS.md, #14).
         $fields = [F_EXCERPT => $deck, F_STICKY => $sticky, F_IMAGE => ['id' => $mid]];
         /** @var Content $c */
         $c = $as(fn () => app(CreateDraft::class)->execute(new CreateDraftInput('post', $title, ['type' => 'doc', 'content' => [['type' => 'paragraph']]], $fields, $aid)), "Drafting $key");

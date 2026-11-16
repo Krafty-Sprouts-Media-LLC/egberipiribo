@@ -9,7 +9,7 @@ template reads yet: it needs one `$themeSettings[...] ?? default` line at the to
 How to read the tables:
 
 - **Type** is what Teme can store today: `select`, `boolean`, `text` or `color`. Teme has no number type, so a count is a `select`
-  of the few sensible values (FINDINGS W-7).
+  of the few sensible values (FINDINGS #7).
 - **Fieldset** is one of the four Teme offers (`site`, `latest`, `content`, `archive`).
 - **Default** is what Fable does now, taken from the drawing.
 - **Where** names the template that reads the key.
@@ -20,7 +20,7 @@ How to read the tables:
 
 | Key | Type | Default | Where | Why an administrator wants it |
 |---|---|---|---|---|
-| `skin` | select: `fable` (later `strata`, `threads`) | `fable` | every dispatcher in `views/templates` | Chooses the skin once more skins ship. Needs the token wall solved first (FINDINGS W-6). |
+| `skin` | select: `fable` (later `strata`, `threads`) | `fable` | every dispatcher in `views/templates` | Chooses the skin once more skins ship. Needs the token wall solved first (FINDINGS #6). |
 | `show_ads` † | boolean | on | ad slots (`partials/ad`) | One switch that hides every ad region without emptying them, for a clean page while testing or for a sponsor-free week. |
 | `show_rail_tagline` † | boolean | on | `partials/rail` | The tagline under the wordmark is long on some sites. |
 | `search_placeholder` | text | "Search stories, sections and writers" | search panel, search and 404 forms | Sites that are not stories-and-writers want their own words. |
@@ -92,9 +92,9 @@ samples do) means moving `home-pattern` to a shared partial, then reading `patte
 
 These would be useful but need a Teme feature first (FINDINGS has the detail):
 
-- **A number** for items per page, columns and counts (W-7): the selects above stand in.
+- **A number** for items per page, columns and counts (#7): the selects above stand in.
 - **A logo** (image) and **a list** (social links, "our network"): menus carry the lists; no image setting exists.
-- **Per-skin tokens** (W-6): a `skin` setting can switch templates but not the colours and fonts that belong to a skin.
+- **Per-skin tokens** (#6): a `skin` setting can switch templates but not the colours and fonts that belong to a skin.
 - **A category or story picker** for "Also today", "The long read" and "From the sections": regions with Featured posts cards
   carry these, edited in the admin, not under Design.
 
