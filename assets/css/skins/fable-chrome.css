@@ -1,0 +1,12 @@
+/**
+ * Fable skin: styles for the shared chrome's settings (share placements, the pattern, the rail and footer variants),
+ * beyond the shared ones in fable.css.
+ *
+ * @package   egberipiribo
+ * @since     0.1.0
+ * @copyright Krafty Sprouts Media, LLC
+ * @license   MIT
+ */
+
+@layer teme.theme.components {
+}
