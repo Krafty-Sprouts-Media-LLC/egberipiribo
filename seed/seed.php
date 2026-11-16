@@ -66,7 +66,7 @@ $say = static function (string $line): void {
     fwrite(STDOUT, $line."\n");
 };
 
-$admin = \App\Models\User::query()->orderBy('id')->firstOrFail();
+$admin = \App\Models\User::query()->where('email', 'admin@example.test')->first() ?? \App\Models\User::query()->orderBy('id')->firstOrFail();
 $actor = new Person($admin->id, $admin->name, $admin->email, 'administrator');
 $as = static fn (Closure $step, string $what): mixed => (new Acting)->as($actor, $step, $what);
 $aid = (string) $admin->id;

@@ -6,11 +6,12 @@ skin, **Fable**, built from its nine drawings. The Strata and Threads skins and 
 
 ## Status in one paragraph
 
-The theme is built, committed (15 commits, nothing pushed) and passes `php artisan teme:theme:check egberipiribo` and its own 19
-tests. An axe-core, overflow and one-`h1` audit passes on six pages at 1280 and 375 pixels. **It has not been run live on the shared
-dev site**: the temecms.com theme session had that site's active theme and asked me not to switch it, so the audit and screenshots
-below come from pages the test kit rendered, and the demo content on the dev site has never been drawn by this theme. How to switch it
-on is at the end.
+The theme is built, committed (nothing pushed) and passes `php artisan teme:theme:check egberipiribo` and its own 19 tests. It was run
+live on the shared dev site, in two short turns with the lock, after the temecms.com theme session agreed: Fable was made the active theme,
+audited in a real browser (axe-core, sideways scroll, one `h1`, console errors) on six pages at 1280 and 375 pixels with the demo content,
+and then `temecms` was put back and the lock released each time. **All six pages pass at both widths.** The first live run found a 12 px
+sideways overflow at 375 on a static page (core's wide-picture margins spilling past the phone's edge); it is fixed in
+`assets/css/skins/fable-article.css` and re-verified. The site is back on the temecms theme; how to look at Fable again is at the end.
 
 ## What works
 
@@ -47,9 +48,11 @@ on is at the end.
 | The icon-pattern option is applied to the front page's long read only, and is off | The drawings' seven main pages are solid; the samples are opt-in | FEATURES E22; OPTIONS.md |
 | Dark mode | The drawings have none | FEATURES E45 |
 
-**Not verified**: the page's real content security policy against this theme (Alpine's CSP build ran without errors in a browser with no policy; the
-public policy for `data:` images and inline styles is undocumented, finding 19); filled regions, menus, categories and pictures drawn by this theme on a real
-site; the demo seed's output as a page.
+**Verified live** (Fable active on teme-dev, real page headers, no console errors): Alpine's CSP build runs under Teme's page policy, fonts and the build load from
+`/themes/egberipiribo/`, menus, pictures, pinned stories, the `home-sections` and `home-most-read` regions, pagination and the rail all draw.
+**Not verified**: the icon pattern option (off by default; the policy for `data:` images and inline styles is undocumented, finding 19); the ad, newsletter,
+long-read and also-today regions filled with content (the live site had none of them filled); categories, authors' portraits and comments (the demo site has no
+categories, and the kit and seed cannot make portraits or comments); the author, error and index pages and the three comment pages on a live site.
 
 ## Totals
 
@@ -68,13 +71,13 @@ site; the demo seed's output as a page.
 | FINDINGS.md | 23 entries (docs missing or wrong, and walls) |
 | DECISIONS.md | 28 entries |
 | Translations | 7 languages × 123 sentences |
-| Commits | 15, nothing pushed |
+| Commits | 17, nothing pushed |
 
 ## Screenshots
 
-In `docs/screenshots/`, taken at 1280 and 375 pixels by `scripts/audit.mjs`. **They are layout-only**: the pages were rendered by the test kit, which
-can make bare posts only, so they show no pictures, menus, categories or filled regions (a bare story card is a grey tile). They are not what an owner's
-site will look like.
+In `docs/screenshots/`, taken at 1280 and 375 pixels by `scripts/audit.mjs` **on the live dev site** with Fable active and the seeded demo content (pictures are
+generated colour fields, not photographs). The site's name, tagline and the static page's words belong to the temecms theme's site ("Teme", "Made to create."): this
+theme drew them. Home is the posts page `/blog/`, because the site's front page is a static page; the "Page" row is that static page.
 
 | Page | 1280 | 375 |
 |---|---|---|
@@ -85,8 +88,10 @@ site will look like.
 | Search | ![](docs/screenshots/search-1280.png) | ![](docs/screenshots/search-375.png) |
 | 404 | ![](docs/screenshots/notfound-1280.png) | ![](docs/screenshots/notfound-375.png) |
 
-The audit result for those pages is `docs/audit.json`: every page 200 (the kit's response), one `h1`, 0 px sideways overflow, 0 axe violations, 0 console errors.
-Author, error and index pages and the three comment pages are covered by their tests but not by screenshots, because the kit cannot reach them with data.
+The audit result for those pages is `docs/audit.json`: every page one `h1`, 0 px sideways overflow, 0 axe violations (the 404 page's one console line is the browser
+noting the 404 status). Author, error and index pages and the three comment pages are covered by their tests but not by screenshots, because the demo site has no
+authors with pages or comments. An earlier layout-only audit on kit-rendered snapshots (`scripts/serve-snapshots.mjs`, `tests/SnapshotTest.php`) remains for when the shared
+site is busy.
 
 ## How to see it on teme-dev
 
@@ -95,11 +100,12 @@ teme-dev already knows the theme: its folder is in `TEME_THEME_PATHS` in `.env` 
 1. **Demo content is already there**: 16 stories (slugs `fable-demo-*`, four pinned), 8 pictures, menus bound to this theme's `primary`, `footer`, `network` and `social` slots,
    and two regions (`home-most-read`, `home-sections`). They show only when this theme is active. `seed/seed.php` is the dev-only script that made them; it uses Teme's own
    Operations (FINDINGS 13). To remove the stories, trash the posts whose address starts `fable-demo-` in the admin.
-2. **Activate it** under Site, Themes (check the other sessions using the dev site first: the temecms theme is active now and its owner asked to be told).
-   Taking turns on the shared site is by the lock file `teme-plugins/.teme-dev.lock`.
+2. **Activate it** under Site, Themes, or `php ../teme-themes/egberipiribo/seed/seed.php activate` from `teme-dev` (it acts as the site's administrator;
+   `restore <code>` puts another theme back). **The temecms theme is active now**, and the temecms.com session's home page and `/blog/` are the site's front and posts
+   pages: check with that session first and take the lock file `teme-plugins/.teme-dev.lock`; Fable draws them too. Do not change the front or posts page for a look.
 3. **Run the audit on the live site**, from the theme folder:
    ```bash
-   node scripts/audit.mjs http://127.0.0.1:8099 home=/ article=/fable-demo-cats/ archive=/?s=garden search=/?s=dog notfound=/nope/
+   node scripts/audit.mjs http://127.0.0.1:8099 home=/blog/ article=/fable-demo-cats/ page=/ archive=/2026/ search="/?s=dog" notfound=/nope/
    ```
    It writes screenshots and `docs/audit.json` and exits 1 on any axe violation, overflow or wrong `h1` count.
 4. **Tests and check** (from `teme-dev`, needs its PostgreSQL test database; do not run two test runs at once, FINDINGS 12):

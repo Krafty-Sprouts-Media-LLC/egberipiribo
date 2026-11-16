@@ -54,7 +54,8 @@
   .prose blockquote p + p { margin-top: .6em; }
   .prose blockquote footer, .prose blockquote cite { display: block; font-family: var(--font-sans); font-size: .875rem; font-style: normal; font-weight: 400; line-height: 1.4; color: var(--color-muted); margin-top: 1rem; }
   .prose img, .prose video { max-width: 100%; height: auto; border-radius: var(--radius-box); }
-  .prose figure { margin-block: 2em; }
+  /* Core sizes a wide or full-width picture with negative margins; inside Fable's centred column that spills past a phone's edge, so a figure never leaves its column. */
+  .prose figure { margin-block: 2em; margin-inline: 0; width: auto; max-width: 100%; }
   .prose hr { border: 0; border-top: 1px solid var(--color-rule); margin-block: 2.4em; }
   .prose pre { overflow-x: auto; background: var(--color-surface); border-radius: var(--radius-box); padding: 1rem 1.25rem; font-size: .9375rem; line-height: 1.5; }
   .prose code { font-size: .9em; background: var(--color-surface); border-radius: 4px; padding: .1em .35em; }
