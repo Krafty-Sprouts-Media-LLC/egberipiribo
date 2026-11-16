@@ -1,6 +1,13 @@
 /**
  * Fable skin: styles only the home pages need, beyond the shared ones in fable.css.
  *
+ * The theme draws every "featured posts" card the same way (a heading and a list of story cards, views/cards/
+ * featured-posts.blade.php) and cannot know which region it sits in. The home page puts each region in a wrapper
+ * (.region-also-today, .region-long-read, .region-sections, .region-most-read) and the rules here give the same list
+ * the look of the drawing's block: three small stories, the brand-colour long read, the four-column digest, the
+ * ranked list. Also here: the grid before the script runs, the slot that hides while its region is empty, and the
+ * icon pattern (.patterned) the long read can wear.
+ *
  * @package   egberipiribo
  * @since     0.1.0
  * @copyright Krafty Sprouts Media, LLC
@@ -8,4 +15,111 @@
  */
 
 @layer teme.theme.components {
+  /* ---- The featured list on its own (any region that has no wrapper rules): a heading, then compact cards ---- */
+  .card-featured-posts .fp-heading { font-size: 1.3125rem; line-height: 1.14; padding-top: 1rem; margin-bottom: 1rem; border-top: 1px solid var(--color-ink); }
+  .fp-list { display: grid; gap: 1.5rem; }
+  .fp-list .media:not(:has(img)), .fp-noimg .media { display: none; }
+  .fp-list .card:not(:has(img)), .fp-noimg .card { grid-template-columns: minmax(0, 1fr); }
+
+  /* A home block shows only while its region holds stories; the region draws nothing when empty. */
+  .home-slot:not(:has(.fp-item)) { display: none; }
+
+  /* ---- The grid "More to explore": stacked, then two and four columns of cards before the script runs ----
+     The reader's list view is recognised by its cards carrying .card-row, and then the feed is one column. */
+  .home-feed { display: grid; gap: 1.5rem; }
+  .home-feed > .home-feed-ad { padding-block: .5rem; }
+  @media (min-width: 40rem) {
+    .home-feed:not(:has(.card-row)) { grid-template-columns: repeat(2, minmax(0, 1fr)); row-gap: 2.5rem; }
+    .home-feed:not(:has(.card-row)) > .home-feed-ad { padding-block: 0; }
+    .home-feed:has(.card-row) > .home-feed-ad { padding-block: 1.75rem; border-bottom: 1px solid var(--color-rule); }
+  }
+  @media (min-width: 80rem) {
+    .home-feed:not(:has(.card-row)) { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+  }
+
+  /* ---- Also today: the editor's list in the region replaces the three stories drawn from the pinned posts ---- */
+  .home-also-today:has(+ .region-also-today .fp-item) { display: none; }
+  .region-also-today .card-featured-posts { margin-top: 2.25rem; padding-top: 1.75rem; border-top: 1px solid var(--color-ink); }
+  .region-also-today .fp-heading { padding-top: 0; border-top: 0; }
+  .region-also-today .fp-list { gap: 1.5rem 2rem; }
+  .region-also-today .card { display: grid; grid-template-columns: minmax(0, 1fr) 6rem; gap: 1rem; align-items: start; }
+  .region-also-today .card:not(:has(img)), .region-also-today .fp-noimg .card { grid-template-columns: minmax(0, 1fr); }
+  .region-also-today .card .media { order: 2; aspect-ratio: 1 / 1; margin-bottom: 0; }
+  .region-also-today .card-title { font-size: 1.0938rem; line-height: 1.2; margin-top: .375rem; }
+  @media (min-width: 48rem) {
+    .region-also-today .fp-list { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  }
+
+  /* ---- The long read: the brand colour carries it, the picture beside the words ---- */
+  .region-long-read { position: relative; --lr-pic: 46%; margin-top: 2.5rem; border-radius: 14px; overflow: hidden; background-color: var(--color-rail); color: #fff; }
+  .region-long-read .fp-item:nth-child(n+2) { display: none; }
+  .region-long-read .fp-heading { padding: 1.75rem 1.75rem 0; margin: 0; border: 0; font-size: .78rem; line-height: 1.2; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; color: rgb(255 255 255 / .8); }
+  .region-long-read .story { position: static; }
+  .region-long-read .card { display: flex; flex-direction: column-reverse; }
+  .region-long-read .card > div:last-child { padding: 1rem 1.75rem 1.75rem; }
+  .region-long-read .card-featured-posts:not(:has(.fp-heading)) .card > div:last-child { padding-top: 1.75rem; }
+  .region-long-read .kicker { color: rgb(255 255 255 / .8); }
+  .region-long-read .card-title { margin-top: 1rem; font-size: clamp(1.875rem, 1.35rem + 1.9vw, 2.875rem); font-weight: 800; font-stretch: 79%; line-height: 1.02; letter-spacing: -0.026em; }
+  .region-long-read .card-deck { display: block; max-width: 32rem; margin-top: 1rem; font-size: 1.125rem; color: rgb(255 255 255 / .85); }
+  .region-long-read .meta, .region-long-read .meta a { margin-top: 1rem; color: rgb(255 255 255 / .75); }
+  /* The drawing's white "Read the story" button, as a round arrow: the headline is the link, the arrow only points. */
+  .region-long-read .card > div:last-child::after { content: ""; display: block; width: 3rem; height: 3rem; margin-top: 1.75rem; border-radius: 999px; background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Ccircle cx='24' cy='24' r='24' fill='%23fff'/%3E%3Cpath transform='translate(12 12) scale(.09375)' d='M224.49,136.49l-72,72a12,12,0,0,1-17-17L187,140H40a12,12,0,0,1,0-24H187L135.51,64.48a12,12,0,0,1,17-17l72,72A12,12,0,0,1,224.49,136.49Z' fill='%23121317'/%3E%3C/svg%3E") center / 100% no-repeat; }
+  .region-long-read .card .media { position: static; margin: 0; border-radius: 0; aspect-ratio: 16 / 10; background-color: var(--color-rail-deep); }
+  .region-long-read .card .media img { width: 100%; height: 100%; }
+  @media (min-width: 40rem) {
+    .region-long-read .fp-heading { padding: 2.5rem 2.5rem 0; }
+    .region-long-read .card > div:last-child { padding: 1rem 2.5rem 2.5rem; }
+    .region-long-read .card-featured-posts:not(:has(.fp-heading)) .card > div:last-child { padding-top: 2.5rem; }
+  }
+  @media (min-width: 64rem) {
+    .region-long-read .fp-heading { padding: 3rem 3rem 0; }
+    .region-long-read .card > div:last-child { padding: 1rem 3rem 3rem; }
+    .region-long-read .card-featured-posts:not(:has(.fp-heading)) .card > div:last-child { padding-top: 3rem; }
+    .region-long-read:has(.media img) { min-height: 24rem; }
+    .region-long-read:has(.media img) .fp-heading { padding-inline-end: calc(var(--lr-pic) + 1.5rem); }
+    .region-long-read:has(.media img) .card > div:last-child { padding-inline-end: calc(var(--lr-pic) + 1.5rem); }
+    .region-long-read .card .media { position: absolute; inset-block: 0; inset-inline-end: 0; width: var(--lr-pic); aspect-ratio: auto; }
+  }
+
+  /* ---- The icon pattern: a solid area with the tile laid over its colour. The tile (--fable-pattern) is made by the
+          theme as an inline SVG; with no tile the variable is unset and the area stays solid. ---- */
+  .patterned { background-image: var(--fable-pattern, none); background-repeat: repeat; }
+
+  /* ---- From the sections: up to four lists side by side, the first story of each with its picture ---- */
+  .region-sections { padding-top: 1.5rem; padding-bottom: .5rem; }
+  .region-sections .teme-region { display: grid; gap: 2.5rem 2rem; }
+  .region-sections .fp-list { display: block; }
+  .region-sections .fp-heading { font-size: 1.3125rem; line-height: 1.14; padding-top: 1rem; margin-bottom: 1rem; }
+  .region-sections .fp-item + .fp-item { margin-top: 1rem; padding-top: 1rem; border-top: 1px solid var(--color-rule); }
+  .region-sections .card { display: block; }
+  .region-sections .kicker { display: none; }
+  .region-sections .card .media { aspect-ratio: 3 / 2; margin-bottom: .75rem; }
+  .region-sections .fp-item:not(:first-child) .media { display: none; }
+  .region-sections .card-title { margin-top: 0; font-size: 1.0938rem; line-height: 1.2; letter-spacing: -0.012em; }
+  @media (min-width: 40rem) {
+    .region-sections .teme-region { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  }
+  @media (min-width: 80rem) {
+    .region-sections .teme-region { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+  }
+
+  /* ---- Most read: a ranked list (the numbers are CSS counters, the order is the editor's), the ad beside it ---- */
+  .home-most { display: grid; gap: 2.5rem 3rem; padding-top: 2.5rem; padding-bottom: 3.5rem; }
+  .home-most:not(:has(.fp-item)):not(:has(.ad-body > *)) { display: none; }
+  .region-most-read .fp-heading { margin-bottom: 0; padding-top: 1.25rem; font-size: clamp(1.5rem, 1.25rem + .9vw, 2rem); font-stretch: 80%; line-height: 1.06; letter-spacing: -0.022em; }
+  .region-most-read .fp-list { counter-reset: rank; gap: 0; margin-top: .75rem; }
+  .region-most-read .fp-item { counter-increment: rank; border-bottom: 1px solid var(--color-rule); }
+  .region-most-read .card { display: grid; grid-template-columns: 2.5rem minmax(0, 1fr); gap: .75rem; align-items: start; padding-block: 1rem; }
+  .region-most-read .card::before { content: counter(rank); font-family: var(--font-display); font-weight: 800; font-stretch: 75%; font-size: 2.25rem; line-height: .85; font-variant-numeric: tabular-nums; color: var(--color-rail); }
+  .region-most-read .card .media, .region-most-read .kicker { display: none; }
+  .region-most-read .card-title { margin-top: 0; font-size: 1.0938rem; line-height: 1.2; letter-spacing: -0.012em; }
+  .region-most-read .fp-item:first-child .card::before { font-size: 3.25rem; }
+  .region-most-read .fp-item:first-child .card-title { font-size: clamp(1.5rem, 1.25rem + .9vw, 2rem); font-stretch: 80%; line-height: 1.06; letter-spacing: -0.022em; }
+  @media (min-width: 40rem) {
+    .region-most-read .fp-list { grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: 2.5rem; }
+    .region-most-read .fp-item:first-child { grid-column: 1 / -1; }
+  }
+  @media (min-width: 64rem) {
+    .home-most:has(.ad-body > *) { grid-template-columns: minmax(0, 1fr) 336px; column-gap: 3rem; }
+  }
 }

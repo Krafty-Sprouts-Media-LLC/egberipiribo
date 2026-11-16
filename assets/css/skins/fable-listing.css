@@ -1,6 +1,10 @@
 /**
  * Fable skin: styles only the listing pages need, beyond the shared ones in fable.css.
  *
+ * The archive's feed is a grid or a list the reader chooses; the script's classes (listClass) do the choosing, and
+ * the rules here are what the feed looks like before the script runs and what holds the advertisement slot in place
+ * in either layout. The author and search pages always show stories as rows.
+ *
  * @package   egberipiribo
  * @since     0.1.0
  * @copyright Krafty Sprouts Media, LLC
@@ -8,4 +12,28 @@
  */
 
 @layer teme.theme.components {
+  /* The archive feed before the script runs: stacked, then two and three columns of cards. The reader's list view
+     is recognised by its cards carrying .card-row, and then the feed is one column. */
+  .listing-feed { display: grid; gap: 1.5rem 1.5rem; }
+  @media (min-width: 40rem) {
+    .listing-feed:not(:has(.card-row)) { grid-template-columns: repeat(2, minmax(0, 1fr)); row-gap: 2.5rem; }
+    /* The in-feed advertisement spans the grid, or sits between the rows with rules in the list view. */
+    .listing-feed:not(:has(.card-row)) > .ad-slot { grid-column: 1 / -1; }
+    .listing-feed:has(.card-row) > .ad-slot { padding-block: 1.75rem; border-bottom: 1px solid var(--color-rule); }
+  }
+  @media (min-width: 80rem) {
+    .listing-feed:not(:has(.card-row)) { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  }
+
+  /* Stories as rows, as in the author and search drawings: a rule between them, the picture beside the words. */
+  .listing-rows { border-top: 1px solid var(--color-rule); }
+  .listing-rows > .card { padding-block: 1.25rem; border-bottom: 1px solid var(--color-rule); }
+  @media (min-width: 40rem) {
+    .listing-rows > .card { display: grid; grid-template-columns: 17rem minmax(0, 1fr); gap: 1.75rem; align-items: center; padding-block: 1.5rem; }
+    .listing-rows > .card .media { aspect-ratio: 16 / 10; margin-bottom: 0; }
+    .listing-rows > .card .card-title { font-size: 1.625rem; line-height: 1.1; }
+    .listing-rows > .card .card-deck { display: block; margin-top: .55rem; }
+  }
+  /* The marked words in a search snippet. */
+  .listing-rows .card-deck mark { background: color-mix(in oklab, var(--color-rail) 16%, transparent); color: inherit; border-radius: 3px; padding-inline: .1em; }
 }

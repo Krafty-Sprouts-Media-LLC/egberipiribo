@@ -1,5 +1,10 @@
 /**
- * Fable skin: styles only the article pages need, beyond the shared ones in fable.css.
+ * Fable skin: styles only the article, page and comment pages need, beyond the shared ones in fable.css.
+ *
+ * The drawing's body parts that carry a class in the drawing (the numbered steps, the pull quote, the
+ * lede) cannot come from Tiptap content, so core's own markup (a quote, an ordered list, the first
+ * paragraph) is styled to look like them. The comment thread and core's comment form are styled
+ * from their data-teme-* hooks and core's class names.
  *
  * @package   egberipiribo
  * @since     0.1.0
@@ -8,4 +13,132 @@
  */
 
 @layer teme.theme.components {
+  /* ---- The article's frame: the text column, and from 1440px the half-page ad column beside it ---- */
+  .article-main { max-width: 46rem; margin-inline: auto; }
+  .ad-side { display: none; }
+  @media (min-width: 90rem) {
+    .article-cols { display: grid; grid-template-columns: minmax(0, 46rem) 300px; column-gap: 3rem; justify-content: center; }
+    .article-cols > .article-main { margin-inline: 0; }
+    .ad-side { display: block; padding-top: 1.75rem; }
+    /* Without an ad in the column the text sits centred, as on a narrower screen. */
+    .article-cols:not(:has(.ad-side .ad-body > *)) { display: block; }
+    .article-cols:not(:has(.ad-side .ad-body > *)) > .article-main { margin-inline: auto; }
+  }
+  /* The after-content region draws nothing while it is empty; its space goes with it. */
+  .article-after:not(:has(> *)) { display: none; }
+  /* The body's second half, after the in-article ad: it follows the first on the prose rhythm when the ad is empty. */
+  .ad-slot:not(:has(.ad-body > *)) + .prose-cont { margin-top: 1.35em; }
+
+  /* ---- The body core builds, styled like the drawing's prose ---- */
+
+  /* The first paragraph reads as the drawing's lede, while the article leaves that choice on (.prose-lede). */
+  .prose-lede > p:first-child { font-size: 1.375rem; line-height: 1.5; color: var(--color-ink); }
+  .prose > :first-child { margin-top: 0; }
+  .prose h2 + *, .prose h3 + * { margin-top: .8em; }
+  .prose h3 { font-family: var(--font-display); font-weight: 800; font-stretch: 82%; font-size: clamp(1.3125rem, 1.2rem + .5vw, 1.5625rem); line-height: 1.12; letter-spacing: -0.02em; color: var(--color-ink); margin-top: 1.9em; scroll-margin-top: 5rem; text-wrap: balance; }
+  .prose h4 { font-family: var(--font-display); font-weight: 700; font-size: 1.125rem; line-height: 1.2; color: var(--color-ink); margin-top: 1.6em; }
+  .prose strong { color: var(--color-ink); }
+  .prose ul { list-style: none; }
+  .prose ul > li { position: relative; padding-left: 1.5rem; }
+  .prose ul > li::before { content: ""; position: absolute; left: .1rem; top: .65em; width: .5rem; height: .5rem; border-radius: 999px; background: var(--color-rail); }
+  .prose ol { list-style: none; counter-reset: step; }
+  .prose ol > li { position: relative; padding-left: 3.1rem; counter-increment: step; }
+  .prose ol > li::before { content: counter(step); position: absolute; left: 0; top: .12em; width: 2.1rem; height: 2.1rem; display: grid; place-items: center; border-radius: 999px; background: var(--color-rail); color: #fff; font-family: var(--font-display); font-weight: 800; font-size: 1rem; line-height: 1; }
+  .prose li + li { margin-top: .6em; }
+  .prose ol > li + li { margin-top: 1.1em; }
+  .prose li > p { margin: 0; }
+  .prose li > p + p, .prose li > ul, .prose li > ol { margin-top: .6em; }
+  /* A quote is the drawing's pull quote. */
+  .prose blockquote { margin-block: 2.4em; }
+  .prose blockquote p { font-family: var(--font-display); font-weight: 700; font-stretch: 80%; font-size: clamp(1.75rem, 1.4rem + 1.4vw, 2.5rem); line-height: 1.08; letter-spacing: -0.024em; color: var(--color-rail); text-wrap: balance; }
+  .prose blockquote p + p { margin-top: .6em; }
+  .prose blockquote footer, .prose blockquote cite { display: block; font-family: var(--font-sans); font-size: .875rem; font-style: normal; font-weight: 400; line-height: 1.4; color: var(--color-muted); margin-top: 1rem; }
+  .prose img, .prose video { max-width: 100%; height: auto; border-radius: var(--radius-box); }
+  .prose figure { margin-block: 2em; }
+  .prose hr { border: 0; border-top: 1px solid var(--color-rule); margin-block: 2.4em; }
+  .prose pre { overflow-x: auto; background: var(--color-surface); border-radius: var(--radius-box); padding: 1rem 1.25rem; font-size: .9375rem; line-height: 1.5; }
+  .prose code { font-size: .9em; background: var(--color-surface); border-radius: 4px; padding: .1em .35em; }
+  .prose pre code { background: none; padding: 0; }
+  .prose table { display: block; max-width: 100%; overflow-x: auto; border-collapse: collapse; font-family: var(--font-sans); font-size: .9375rem; }
+  .prose th, .prose td { border-bottom: 1px solid var(--color-rule); padding: .55rem .8rem; text-align: left; vertical-align: top; }
+  .prose th { color: var(--color-ink); font-weight: 700; }
+  .prose iframe { max-width: 100%; }
+
+  /* ---- Shown fields, as a plain definition list ---- */
+  .field-list { display: grid; gap: .85rem; font-family: var(--font-sans); font-size: .9375rem; border-block: 1px solid var(--color-rule); padding-block: 1rem; }
+  .field-list dt { font-size: .75rem; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; color: var(--color-muted); }
+  .field-list dd { margin: .15rem 0 0; color: var(--color-ink); }
+  .field-list a { color: var(--color-rail); text-decoration: underline; text-underline-offset: .16em; }
+  .field-list img { max-width: 16rem; height: auto; border-radius: var(--radius-box); }
+
+  /* ---- Comments ---- */
+
+  /* The initials picture: a pale tint of one of eight hues core chooses from the name. */
+  .c-avatar { background: var(--color-surface); color: var(--color-ink); background: oklch(.9 .06 var(--c-hue, 250)); font-family: var(--font-display); font-weight: 800; letter-spacing: .02em; }
+  .c-avatar[data-hue="0"] { --c-hue: 25; }
+  .c-avatar[data-hue="1"] { --c-hue: 70; }
+  .c-avatar[data-hue="2"] { --c-hue: 115; }
+  .c-avatar[data-hue="3"] { --c-hue: 160; }
+  .c-avatar[data-hue="4"] { --c-hue: 205; }
+  .c-avatar[data-hue="5"] { --c-hue: 250; }
+  .c-avatar[data-hue="6"] { --c-hue: 295; }
+  .c-avatar[data-hue="7"] { --c-hue: 340; }
+  .c-avatar.is-empty { background: none; box-shadow: inset 0 0 0 1.5px var(--color-rule); }
+
+  /* The thread and its replies: plain lists, replies stepping in under their comment. */
+  [data-teme-thread], [data-teme-replies] { list-style: none; margin: 0; padding: 0; }
+  [data-teme-thread] > li + li { margin-top: 1.75rem; }
+  [data-teme-replies] { display: grid; gap: 1.5rem; margin-top: 1.5rem; margin-left: clamp(.75rem, 5vw, 3.75rem); }
+  /* Past the fourth level replies stop stepping in, so a long exchange keeps its width on a phone. */
+  [data-teme-replies] [data-teme-replies] [data-teme-replies] [data-teme-replies] { margin-left: 0; }
+  .c-comment:target, [data-teme-comment]:target > .c-comment { scroll-margin-top: 5rem; }
+  .c-comment:target .c-body { background: var(--color-surface); border-radius: var(--radius-box); outline: 8px solid var(--color-surface); }
+  .c-state { font-size: .875rem; color: var(--color-muted); margin-bottom: .35rem; }
+  .c-removed, .c-ping { color: var(--color-muted); font-size: .9375rem; }
+  .comment-body { color: var(--color-body); line-height: 1.6; overflow-wrap: anywhere; }
+  .comment-body > * + * { margin-top: .7em; }
+  .comment-body a { color: var(--color-rail); text-decoration: underline; text-underline-offset: .16em; }
+  .comment-body blockquote { border-left: 3px solid var(--color-rule); padding-left: 1rem; color: var(--color-muted); }
+  .comment-body ul, .comment-body ol { padding-left: 1.25rem; }
+  .comment-body ul { list-style: disc; }
+  .comment-body ol { list-style: decimal; }
+  .comment-body code { font-size: .9em; background: var(--color-surface); border-radius: 4px; padding: .1em .35em; }
+  .c-actions { margin-top: .6rem; display: flex; gap: 1rem; font-size: .875rem; }
+  .teme-comment-edit { font-weight: 700; color: var(--color-muted); text-decoration: underline; text-underline-offset: 4px; }
+  .teme-comment-edit:hover { color: var(--color-ink); }
+
+  /* Core's comment form, as Fable sets it: the drawing's field, button and error looks on core's own classes. */
+  .teme-respond { display: grid; gap: 1.1rem; margin-top: 2.5rem; padding-top: 2rem; border-top: 1px solid var(--color-rule); }
+  [data-teme-comment] > .teme-respond { margin-top: 1.25rem; padding: 1.25rem; border: 0; border-radius: var(--radius-box); background: var(--color-surface); }
+  .teme-respond-title { font-family: var(--font-display); font-weight: 700; font-stretch: 84%; font-size: 1.3125rem; line-height: 1.14; letter-spacing: -0.018em; color: var(--color-ink); }
+  .teme-respond-title:focus { outline: none; }
+  .teme-replying, .teme-as { font-size: .9375rem; }
+  .teme-comment-form, .teme-guest { display: grid; gap: 1.1rem; font-family: var(--font-sans); }
+  .teme-field { display: grid; gap: .35rem; }
+  .teme-field label { font-size: .8125rem; font-weight: 700; }
+  .teme-optional { font-weight: 500; color: var(--color-muted); }
+  .teme-hint { font-size: .8125rem; color: var(--color-muted); }
+  .teme-field :is(input, textarea) { width: 100%; background: #fff; color: var(--color-ink); border: 1.5px solid #c9cbd3; border-radius: 10px; padding: .8rem .95rem; font-size: 1rem; line-height: 1.5; }
+  .teme-field textarea { min-height: 9rem; resize: vertical; }
+  .teme-field :is(input, textarea):focus { outline: none; border-color: var(--color-rail); box-shadow: 0 0 0 3px color-mix(in oklab, var(--color-rail) 18%, transparent); }
+  .teme-field [data-width="name"] { max-width: 22rem; }
+  .teme-field [data-width="address"] { max-width: 30rem; }
+  .teme-field [aria-invalid="true"] { border-color: #b3261e; }
+  .teme-error { font-size: .875rem; font-weight: 600; color: #b3261e; }
+  .teme-errors { padding: 1rem 1.25rem; border: 2px solid #b3261e; border-radius: var(--radius-box); }
+  .teme-errors > div { display: grid; gap: .5rem; }
+  .teme-errors :is(h2, h3, h4) { font-family: var(--font-display); font-weight: 700; font-size: 1.0625rem; line-height: 1.2; }
+  .teme-errors ul { list-style: none; display: grid; gap: .25rem; padding: 0; }
+  .teme-errors a { color: #b3261e; font-weight: 600; text-decoration: underline; }
+  .teme-remember { display: grid; gap: .25rem; }
+  .teme-remember label { display: flex; align-items: flex-start; gap: .55rem; font-size: .9375rem; }
+  .teme-remember input { flex: none; width: 1.25rem; height: 1.25rem; margin-top: .1rem; accent-color: var(--color-rail); }
+  .teme-remember .teme-hint { padding-left: 1.8rem; }
+  .teme-privacy { font-size: .8125rem; line-height: 1.5; color: var(--color-muted); }
+  .teme-privacy a { color: inherit; text-decoration: underline; }
+  .teme-submit { display: flex; flex-wrap: wrap; align-items: center; gap: .85rem; }
+  .teme-submit :is(button, input[type="submit"]) { display: inline-flex; align-items: center; justify-content: center; gap: .5rem; font-weight: 700; font-size: .9375rem; line-height: 1; padding: .9rem 1.3rem; border-radius: 999px; background: var(--color-rail); color: #fff; cursor: pointer; transition: background-color .2s ease; }
+  .teme-submit :is(button, input[type="submit"]):hover { background: var(--color-rail-deep); }
+  .teme-submit [aria-disabled="true"] { cursor: progress; opacity: .7; }
+  .teme-status { font-size: .9375rem; font-weight: 600; }
 }

@@ -6,7 +6,7 @@
     @since   0.1.0
 --}}
 @if ($pagination->previous !== null || $pagination->next !== null)
-    <nav class="flex flex-wrap items-center gap-2 mt-12" aria-label="{{ __('Pagination') }}">
+    <nav class="flex flex-wrap items-center gap-2 mt-12" aria-label="{{ __('Pages') }}">
         @if ($pagination->previous !== null)
             <a href="{{ $pagination->previous }}" class="page-num" rel="prev">@include('theme::icons.arrow-left')<span class="sr-only">{{ __('Previous page') }}</span></a>
         @else
