@@ -103,3 +103,24 @@ choice that could have gone another way is written here. Newest at the bottom of
     nothing (CSS `:has()` on `.ad-slot`), so no empty box shows and no space is reserved. A slot an editor fills
     reserves its height only by the ad's own markup, which is the editor's to size: the drawings' reserved heights
     existed to hide layout shift from a placeholder, and a placeholder is not allowed.
+
+## Verification and tooling decisions
+
+24. **Page agents.** The page templates were built by three parallel agents (home, article and comment pages, listings and
+    error pages) from one written brief, each owning separate files, with the lead owning the shared chrome, manifest, build
+    and commits. A fourth wrote the first draft of FEATURES.md and a fifth the seven translation files. The lead reviewed
+    each report, fixed the shared defects they found (the `Pagination` key clash, the archive's column count) and ran the
+    whole suite.
+25. **The demo seed reaches into Teme.** `seed/seed.php` is the one place the work calls Teme's own `App` Operations: an
+    outside developer has no public way to make menus, regions, media and posts in a site (FINDINGS #13). It is a dev tool,
+    outside the theme's templates, tests and manifest, and it is the same approach the temecms theme's seed uses. A test that
+    first did the same to give a post headings was rewritten to use only the public kit.
+26. **Two ways to audit.** `scripts/audit.mjs` runs axe-core, an overflow check and an h1 count in a real browser at 1280 and
+    375 pixels. It runs against the dev site when this theme is active there, and against `docs/snapshots` (pages the test kit
+    rendered, written by `tests/SnapshotTest.php` when `FABLE_SNAPSHOT=1`, served by `scripts/serve-snapshots.mjs`) when the
+    shared site is busy with another theme. Snapshots are layout-only: no pictures, menus or categories.
+27. **Translations.** `lang/{de,es,fr,hi,it,ja,pt_BR}.json`, the languages the default theme ships, for the 123 sentences in
+    the views; words shared with the default theme reuse its wording.
+28. **Taking turns on the dev site.** The temecms session's messages could be read only when its long turns ended, so the lock
+    file and its work in progress were the effective signals. Switching the active theme waits until its files have been quiet
+    for six minutes and the lock is free.
