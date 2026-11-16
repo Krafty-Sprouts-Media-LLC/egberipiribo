@@ -136,3 +136,31 @@ choice that could have gone another way is written here. Newest at the bottom of
 30. **No ad code or embed in a setting.** The WordPress theme kept ad code and a newsletter embed in text options. Those rows are
     dropped (the brief: ad plugins and the Custom HTML card fill the ad regions, never the theme); only on/off switches remain.
     The shared `show_ads` is the one master switch for every skin.
+
+## The first settings (built)
+
+31. **What was built.** 128 of OPTIONS.md's rows: `skin` (only `fable`), the 8 shared rows that were not waiting, every on/off switch of
+    the home page, article, page, comments, archive, author, search, 404 and error templates, the share row (master, ten networks,
+    placement, style, label), the whole pattern set (type, strength, density, accent, colour, layout, style and the six "apply to"
+    switches) and the shared chrome switches (ads master, newsletter band, search panel and its "/" shortcut). They are declared in
+    `teme-theme.json` by `scripts/build-settings.mjs` from the rows of `docs/options.json` marked `"build": true`; labels come from
+    `docs/settings-labels/*.json` ("Area: what it controls", at most 60 characters, so the long Settings, Design list sorts by prefix).
+    Everything else stays a proposal, as do the home-order selects and the rows marked "waits".
+32. **One read per setting, checked by script.** Each template reads its keys once at the top (`$themeSettings['key'] ?? <default>`) and lists
+    them in a "Settings this template reads" docblock. `scripts/check-settings.mjs` fails if a declared setting is read nowhere or a
+    template's fallback differs from the manifest default, so a template and the manifest cannot disagree about what "unchanged" means.
+33. **Defaults reproduce the drawings; where that moved the page, it is written here.** Pinterest share is off by default (the drawing has
+    Facebook, X, email and copy only; the Pinterest button was an earlier addition of the port). The "updated" rule defaults to one day
+    (Teme's own; WordPress's seven days stays the Strata and Threads default), and the inline "Related" card, which the drawing has but the
+    port had left out, is off by default so no page changes until someone switches it on. Every other default renders as before.
+34. **Pattern.** One partial (`partials/pattern`) builds the tile once and the page shell carries it as a custom property; the rail, phone header,
+    footer and long read only add the `patterned` class. The "section headers" and "404" areas, which the two samples do not show, draw a
+    brand-colour strip carrying the tile (`pattern-band`), above the archive, author and 404 headers and the front page's "from the
+    sections" slot (hidden while that region is empty). The pattern is off by default. The tile is set in an inline `style` attribute,
+    which a strict page policy could block; the pattern then stays solid (fails safe).
+35. **Switch interplay**: a block's sub-options count only while its switch is on; with the front page's grid off, its pagination goes too;
+    with "Also today" off its stories return to the grid; turning the search panel off makes the search buttons plain links and drops the
+    "/" shortcut; the newsletter band needs both of its switches, and takes the "Get our newsletter" buttons with it.
+36. **Tests reach into Teme once.** Proving that a setting changes a page needs a way to set a theme setting, which the public kit does not
+    have (FINDINGS 25). `tests/Support/settings.php` calls the two Operations the admin uses to save and publish design settings; it is the
+    only place the tests name Teme's own classes, and the only thing to replace when the kit gains a method.

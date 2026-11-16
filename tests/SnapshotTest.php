@@ -11,6 +11,8 @@ declare(strict_types=1);
  * @package egberipiribo
  * @since   0.1.0
  */
+require_once __DIR__.'/Support/settings.php';
+
 uses(Teme\Testing\TemeTestCase::class);
 
 it('writes page snapshots for the browser audit', function (): void {
@@ -56,5 +58,44 @@ it('writes page snapshots for the browser audit', function (): void {
         $html = $this->fetch($path)->getContent();
         file_put_contents($dir.'/'.$name.'.html', $html);
         expect($html)->toContain('data-template=');
+    }
+
+    // Variants with settings changed, for the audit and the screenshots of what a setting changes.
+    $variants = [
+        'v-pattern' => [
+            ['pattern' => 'pets', 'pattern_strength' => 'medium', 'fable_pattern_sections' => true, 'fable_pattern_404' => true],
+            ['home' => '/', 'archive' => '/'.date('Y').'/', 'notfound' => '/no-such-page-here/'],
+        ],
+        'v-share' => [
+            ['fable_share_placement' => 'floating', 'fable_share_style' => 'labels', 'fable_share_linkedin' => true, 'fable_share_whatsapp' => true, 'fable_share_native' => true],
+            ['article' => $pages['article']],
+        ],
+        'v-share-both' => [
+            ['fable_share_placement' => 'both', 'fable_share_style' => 'labels', 'fable_share_reddit' => true, 'fable_share_telegram' => true],
+            ['article' => $pages['article']],
+        ],
+        'v-minimal' => [
+            ['fable_home_top_stories' => false, 'fable_home_cover' => false, 'fable_home_also_today' => false, 'show_layout_toggle' => false, 'show_story_count' => false, 'fable_home_title_visible' => false, 'show_newsletter' => false],
+            ['home' => '/'],
+        ],
+        'v-article-lean' => [
+            ['show_reading_progress' => false, 'fable_article_breadcrumb' => false, 'fable_byline_avatar' => false, 'show_share' => false, 'show_author_card' => false, 'show_comments' => false, 'show_ads' => false, 'fable_article_inline_related' => true],
+            ['article' => $pages['article']],
+        ],
+        'v-listing-lean' => [
+            ['archive_lead_story' => false, 'archive_layout_toggle' => false, 'fable_archive_kind_label' => false, 'fable_search_form' => false, 'fable_search_count' => false, 'fable_404_big_number' => false],
+            ['archive' => '/'.date('Y').'/', 'search' => $pages['search'], 'notfound' => '/no-such-page-here/'],
+        ],
+    ];
+    foreach ($variants as $prefix => [$settings, $targets]) {
+        fableSettings($this, $settings);
+        foreach ($targets as $name => $path) {
+            $html = $this->fetch($path)->getContent();
+            file_put_contents($dir.'/'.$prefix.'-'.$name.'.html', $html);
+            expect($html)->toContain('data-template=')->and(substr_count($html, '<h1'))->toBe(1);
+        }
+        // Back to the defaults before the next variant.
+        $defaults = array_column(json_decode((string) file_get_contents(__DIR__.'/../teme-theme.json'), true)['settings'], 'default', 'key');
+        fableSettings($this, array_intersect_key($defaults, $settings));
     }
 });
