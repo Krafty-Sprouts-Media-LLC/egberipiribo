@@ -4,8 +4,9 @@
  * Ported from the Fable design drawings (skins/fable in the WordPress theme),
  * whose style block is the same in every page. The drawing's brand colour, the
  * "rail" colour, is the site's accent, so the accent set under Settings, Design
- * recolours the rail, the kickers, the links and the buttons. Every other colour
- * and each font comes from the manifest's tokens, as --teme-* properties.
+ * recolours the rail, the kickers, the links and the buttons. The colours and
+ * fonts come from the manifest's tokens (--teme-*); the few the manifest cannot
+ * carry (the text colour, the surface tint, the corner radius) are derived here.
  *
  * @package   egberipiribo
  * @since     0.1.0
@@ -18,14 +19,14 @@
     --color-rail: var(--teme-accent);
     --color-rail-deep: color-mix(in oklab, var(--teme-accent) 80%, black);
     --color-ink: var(--teme-contrast);
-    --color-body: var(--teme-body);
+    --color-body: color-mix(in oklab, var(--teme-contrast) 90%, var(--teme-base));
     --color-muted: var(--teme-muted);
     --color-rule: var(--teme-rule);
-    --color-surface: var(--teme-surface);
-    --font-display: var(--teme-font-display);
-    --font-sans: var(--teme-font-sans);
-    --font-serif: var(--teme-font-serif);
-    --radius-box: var(--teme-radius-box);
+    --color-surface: color-mix(in oklab, var(--teme-contrast) 5%, var(--teme-base));
+    --font-display: var(--teme-font-heading);
+    --font-sans: var(--teme-font-heading);
+    --font-serif: var(--teme-font-body);
+    --radius-box: 10px;
 }
 
 [x-cloak] { display: none !important; }
@@ -164,4 +165,12 @@
   .media img, .btn, .rail-link, .story .hed a { transition: none; }
   .story:hover .media img, .btn:active { transform: none; }
 }
+}
+
+/* Added for Teme: parts the drawings did not have, because their content comes from Teme. */
+@layer teme.theme.components {
+  /* The newsletter band shows only while its region holds something. The region draws nothing when empty. */
+  .newsletter-band:not(:has(.newsletter-slot > *)) { display: none; }
+  /* A region's own markup, restyled for the footer's dark ground. */
+  .newsletter-slot a { color: inherit; }
 }

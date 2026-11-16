@@ -9,11 +9,17 @@
     "author_url": "https://kraftysprouts.com",
     "homepage": "https://kraftysprouts.com",
     "license": "MIT",
-    "requires": { "teme": ">=0.8.0-alpha.1 <1.0" },
+    "requires": {
+        "teme": ">=0.8.0-alpha.1 <1.0"
+    },
     "title_separator": "·",
     "per_page": 12,
     "breadcrumbs": true,
-    "layout": { "content": 720, "wide": 1248, "full": null },
+    "layout": {
+        "content": 720,
+        "wide": 1248,
+        "full": null
+    },
     "images": {
         "cover": "(min-width: 64rem) 1000px, 100vw",
         "hero": "(min-width: 64rem) 1000px, 100vw",
@@ -69,14 +75,11 @@
         "contrast": "#121317",
         "accent": "#2135d8",
         "on-accent": "#ffffff",
-        "body": "#2b2d33",
         "muted": "#5d6068",
         "rule": "#e2e3e8",
-        "surface": "#f2f3f7",
-        "font-display": "\"Bricolage Grotesque\", \"Arial Narrow\", Arial, sans-serif",
-        "font-sans": "\"Bricolage Grotesque\", system-ui, -apple-system, \"Segoe UI\", sans-serif",
-        "font-serif": "\"Literata\", Georgia, serif",
-        "radius-box": "10px"
+        "font-heading": "\"Bricolage Grotesque\", \"Arial Narrow\", Arial, sans-serif",
+        "font-body": "\"Literata\", Georgia, serif",
+        "font-mono": "ui-monospace, SFMono-Regular, Menlo, monospace"
     },
     "navigations": {
         "primary": "Sections (the rail)",
@@ -87,70 +90,103 @@
     "regions": {
         "after-content": {
             "label": "After the article",
-            "cards": ["callout", "button", "site-code", "featured-posts"],
+            "cards": [
+                "callout",
+                "button",
+                "site-code",
+                "featured-posts"
+            ],
             "max": 5
         },
         "newsletter": {
             "label": "Footer: newsletter sign-up",
-            "cards": ["site-code", "button"],
+            "cards": [
+                "site-code",
+                "button"
+            ],
             "max": 2
         },
         "home-also-today": {
             "label": "Front page: also today (three stories beside the cover)",
-            "cards": ["featured-posts"],
+            "cards": [
+                "featured-posts"
+            ],
             "max": 1
         },
         "home-long-read": {
             "label": "Front page: the long read (one story in the brand colour)",
-            "cards": ["featured-posts"],
+            "cards": [
+                "featured-posts"
+            ],
             "max": 1
         },
         "home-sections": {
             "label": "Front page: from the sections (up to four featured lists)",
-            "cards": ["featured-posts"],
+            "cards": [
+                "featured-posts"
+            ],
             "max": 4
         },
         "home-most-read": {
             "label": "Front page: most read (a ranked list)",
-            "cards": ["featured-posts"],
+            "cards": [
+                "featured-posts"
+            ],
             "max": 1
         },
         "ad-leaderboard": {
             "label": "Advertisement: leaderboard (728 × 90)",
-            "cards": ["site-code"],
+            "cards": [
+                "site-code"
+            ],
             "max": 1
         },
         "ad-in-feed": {
             "label": "Advertisement: in the feed (970 × 250)",
-            "cards": ["site-code"],
+            "cards": [
+                "site-code"
+            ],
             "max": 1
         },
         "ad-rectangle": {
             "label": "Advertisement: rectangle beside most read (336 × 280)",
-            "cards": ["site-code"],
+            "cards": [
+                "site-code"
+            ],
             "max": 1
         },
         "ad-in-article": {
             "label": "Advertisement: in the article, first (300 × 250)",
-            "cards": ["site-code"],
+            "cards": [
+                "site-code"
+            ],
             "max": 1
         },
         "ad-in-article-2": {
             "label": "Advertisement: in the article, second (300 × 250)",
-            "cards": ["site-code"],
+            "cards": [
+                "site-code"
+            ],
             "max": 1
         },
         "ad-half-page": {
             "label": "Advertisement: half page beside the article (300 × 600)",
-            "cards": ["site-code"],
+            "cards": [
+                "site-code"
+            ],
             "max": 1
         }
     },
     "assets": {
         "manifest": "public/build/manifest.json",
-        "entries": ["assets/css/theme.css", "assets/js/theme.js"]
+        "entries": [
+            "assets/css/theme.css",
+            "assets/js/theme.js"
+        ]
     },
     "composers": [],
     "speculation": true,
-    "cards": { "replaces": [] }
+    "cards": {
+        "replaces": []
+    }
 }
