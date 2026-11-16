@@ -95,7 +95,7 @@ categories, and the kit and seed cannot make portraits or comments); the author,
 | FINDINGS.md | 24 entries (docs missing or wrong, and walls) |
 | DECISIONS.md | 36 entries |
 | Translations | 7 languages × 123 sentences |
-| Commits | 31, nothing pushed |
+| Commits | 28 (with this one), nothing pushed |
 
 ## Screenshots
 
