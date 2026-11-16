@@ -23,7 +23,8 @@
       "visibleWhen": {},
       "why": "Chooses the skin once more than one ships (strata and threads are added to the options by the update that builds them). Today there is one option, so the setting is not shown. Strata and Threads are listed as options for the structure; only fable exists in this release.",
       "readNow": true,
-      "waits": null
+      "waits": null,
+      "build": true
     },
     {
       "skin": "shared",
@@ -36,7 +37,8 @@
       "visibleWhen": {},
       "why": "Master switch that hides every ad region at once without emptying them. Used by Fable, Strata and Threads. WordPress has no master switch, only the three per-placement switches below.",
       "readNow": true,
-      "waits": null
+      "waits": null,
+      "build": true
     },
     {
       "skin": "shared",
@@ -49,7 +51,8 @@
       "visibleWhen": {},
       "why": "Turns the newsletter band on or off (Strata footer, Threads home band and Subscribe page). WordPress: egberipiribo_newsletter_enabled, default off; the drawings show the band so it defaults on.",
       "readNow": false,
-      "waits": null
+      "waits": null,
+      "build": true
     },
     {
       "skin": "shared",
@@ -79,7 +82,8 @@
       "visibleWhen": {},
       "why": "Prints \"Updated <date>\" in place of the publish date once a post was edited well after publishing (WordPress: post_display_date(), always on). Strata and Threads singles.",
       "readNow": false,
-      "waits": null
+      "waits": null,
+      "build": true
     },
     {
       "skin": "shared",
@@ -99,7 +103,8 @@
       },
       "why": "How long after publishing an edit counts as an update (the WordPress rule is a fixed seven days, App\\post_display_date()).",
       "readNow": false,
-      "waits": null
+      "waits": null,
+      "build": true
     },
     {
       "skin": "shared",
@@ -112,7 +117,8 @@
       "visibleWhen": {},
       "why": "Shows or hides the comment list and form on posts. Used by Fable, Strata and Threads (WordPress shows them whenever the post allows comments).",
       "readNow": true,
-      "waits": null
+      "waits": null,
+      "build": true
     },
     {
       "skin": "shared",
@@ -125,7 +131,8 @@
       "visibleWhen": {},
       "why": "The \"N min read\" figure (Strata byline and cards, Threads kicker, lead and rows). WordPress always prints it.",
       "readNow": true,
-      "waits": null
+      "waits": null,
+      "build": true
     },
     {
       "skin": "shared",
@@ -138,7 +145,8 @@
       "visibleWhen": {},
       "why": "The tag chips under a post. Strata and Threads (WordPress: egberipiribo_strata_tags_enabled and egberipiribo_single_tags_enabled, both default on).",
       "readNow": true,
-      "waits": null
+      "waits": null,
+      "build": true
     },
     {
       "skin": "shared",
@@ -151,7 +159,8 @@
       "visibleWhen": {},
       "why": "The author bio box under a post. Strata and Threads (WordPress: egberipiribo_strata_author_box_enabled and egberipiribo_single_author_bio_enabled, both default on).",
       "readNow": true,
-      "waits": null
+      "waits": null,
+      "build": true
     },
     {
       "skin": "fable",
@@ -182,7 +191,8 @@
       },
       "why": "The dark sign-up band above the footer (the drawing has it on every page); off removes the band and the rail and menu buttons that point to it.",
       "readNow": false,
-      "waits": null
+      "waits": null,
+      "build": true
     },
     {
       "skin": "fable",
@@ -539,7 +549,8 @@
       },
       "why": "The search overlay opened by the search buttons or \"/\" (the drawing); off makes the buttons plain links to the search page.",
       "readNow": false,
-      "waits": null
+      "waits": null,
+      "build": true
     },
     {
       "skin": "fable",
@@ -555,7 +566,8 @@
       },
       "why": "The \"/\" key hint in the rail search button and the keyboard shortcut itself.",
       "readNow": false,
-      "waits": null
+      "waits": null,
+      "build": true
     },
     {
       "skin": "fable",
@@ -815,7 +827,8 @@
       },
       "why": "The share buttons on articles, at the byline and after the tags.",
       "readNow": true,
-      "waits": null
+      "waits": null,
+      "build": true
     },
     {
       "skin": "fable",
@@ -831,7 +844,8 @@
       },
       "why": "A Facebook button (in the drawing).",
       "readNow": false,
-      "waits": null
+      "waits": null,
+      "build": true
     },
     {
       "skin": "fable",
@@ -847,7 +861,8 @@
       },
       "why": "An X button (in the drawing).",
       "readNow": false,
-      "waits": null
+      "waits": null,
+      "build": true
     },
     {
       "skin": "fable",
@@ -863,7 +878,8 @@
       },
       "why": "A share-by-email button (in the drawing).",
       "readNow": false,
-      "waits": null
+      "waits": null,
+      "build": true
     },
     {
       "skin": "fable",
@@ -879,7 +895,8 @@
       },
       "why": "The copy-link button (in the drawing).",
       "readNow": false,
-      "waits": null
+      "waits": null,
+      "build": true
     },
     {
       "skin": "fable",
@@ -895,7 +912,8 @@
       },
       "why": "A Pinterest button; the template draws it today but the drawing has none, so the default is off.",
       "readNow": false,
-      "waits": null
+      "waits": null,
+      "build": true
     },
     {
       "skin": "fable",
@@ -911,7 +929,8 @@
       },
       "why": "A LinkedIn button for a business or news audience.",
       "readNow": false,
-      "waits": null
+      "waits": null,
+      "build": true
     },
     {
       "skin": "fable",
@@ -927,7 +946,8 @@
       },
       "why": "A WhatsApp button, the main way stories travel on phones in many countries.",
       "readNow": false,
-      "waits": null
+      "waits": null,
+      "build": true
     },
     {
       "skin": "fable",
@@ -943,7 +963,8 @@
       },
       "why": "A Telegram button.",
       "readNow": false,
-      "waits": null
+      "waits": null,
+      "build": true
     },
     {
       "skin": "fable",
@@ -959,7 +980,8 @@
       },
       "why": "A Reddit button.",
       "readNow": false,
-      "waits": null
+      "waits": null,
+      "build": true
     },
     {
       "skin": "fable",
@@ -975,7 +997,8 @@
       },
       "why": "The phone's own share sheet (navigator.share), shown only on devices that offer it.",
       "readNow": false,
-      "waits": null
+      "waits": null,
+      "build": true
     },
     {
       "skin": "fable",
@@ -1003,7 +1026,8 @@
       },
       "why": "Where the buttons sit: at the byline (top), after the tags (bottom), both (the drawing) or a floating rail down the side.",
       "readNow": false,
-      "waits": null
+      "waits": null,
+      "build": true
     },
     {
       "skin": "fable",
@@ -1027,7 +1051,8 @@
       },
       "why": "Round icon buttons only (the drawing) or icons with their network name.",
       "readNow": false,
-      "waits": null
+      "waits": null,
+      "build": true
     },
     {
       "skin": "fable",
@@ -1043,7 +1068,8 @@
       },
       "why": "The line before the bottom row of buttons.",
       "readNow": false,
-      "waits": null
+      "waits": null,
+      "build": true
     },
     {
       "skin": "fable",
@@ -1065,7 +1091,8 @@
       },
       "why": "The icon pattern laid over the brand-colour areas (the pattern samples); off keeps every area solid, as the seven main drawings are.",
       "readNow": true,
-      "waits": null
+      "waits": null,
+      "build": true
     },
     {
       "skin": "fable",
@@ -1091,7 +1118,8 @@
       },
       "why": "How visible the icons are.",
       "readNow": true,
-      "waits": null
+      "waits": null,
+      "build": true
     },
     {
       "skin": "fable",
@@ -1117,7 +1145,8 @@
       },
       "why": "How tightly the icons repeat (the samples: open, even, tight).",
       "readNow": true,
-      "waits": null
+      "waits": null,
+      "build": true
     },
     {
       "skin": "fable",
@@ -1138,7 +1167,8 @@
       },
       "why": "One icon in seven takes this colour (pattern sample 2 uses #ffd23f); empty keeps every icon white.",
       "readNow": true,
-      "waits": null
+      "waits": null,
+      "build": true
     },
     {
       "skin": "fable",
@@ -1169,7 +1199,8 @@
       },
       "why": "Icon colour as in sample 2: white with one accent icon, all accent, or all white.",
       "readNow": false,
-      "waits": null
+      "waits": null,
+      "build": true
     },
     {
       "skin": "fable",
@@ -1200,7 +1231,8 @@
       },
       "why": "Scattered and turned icons, straight rows, or straight rows with dots between (sample 2).",
       "readNow": false,
-      "waits": null
+      "waits": null,
+      "build": true
     },
     {
       "skin": "fable",
@@ -1229,7 +1261,8 @@
       },
       "why": "Outline or solid icons (the samples' icon style).",
       "readNow": false,
-      "waits": null
+      "waits": null,
+      "build": true
     },
     {
       "skin": "fable",
@@ -1250,7 +1283,8 @@
       },
       "why": "The pattern on the rail (both samples do).",
       "readNow": false,
-      "waits": null
+      "waits": null,
+      "build": true
     },
     {
       "skin": "fable",
@@ -1271,7 +1305,8 @@
       },
       "why": "The pattern on the small-screen header (both samples do).",
       "readNow": false,
-      "waits": null
+      "waits": null,
+      "build": true
     },
     {
       "skin": "fable",
@@ -1292,7 +1327,8 @@
       },
       "why": "The pattern on the footer (both samples do).",
       "readNow": false,
-      "waits": null
+      "waits": null,
+      "build": true
     },
     {
       "skin": "fable",
@@ -1313,7 +1349,8 @@
       },
       "why": "The pattern on the home page's long read (built today whenever `pattern` is on; this adds only the off switch).",
       "readNow": false,
-      "waits": null
+      "waits": null,
+      "build": true
     },
     {
       "skin": "fable",
@@ -1334,7 +1371,8 @@
       },
       "why": "The pattern on section headings; not in the samples, so off.",
       "readNow": false,
-      "waits": null
+      "waits": null,
+      "build": true
     },
     {
       "skin": "fable",
@@ -1355,7 +1393,8 @@
       },
       "why": "The pattern behind the big 404 number; not in the samples, so off.",
       "readNow": false,
-      "waits": null
+      "waits": null,
+      "build": true
     },
     {
       "skin": "fable",
@@ -2070,7 +2109,8 @@
       },
       "why": "Show the h1 on the page; off keeps it for assistive technology and search engines but hides it (a page must keep one h1).",
       "readNow": false,
-      "waits": null
+      "waits": null,
+      "build": true
     },
     {
       "skin": "fable",
@@ -2085,7 +2125,8 @@
       },
       "why": "\"N stories on this page\" beside the title.",
       "readNow": true,
-      "waits": null
+      "waits": null,
+      "build": true
     },
     {
       "skin": "fable",
@@ -2100,7 +2141,8 @@
       },
       "why": "The ranked \"Top stories\" strip above the page (the drawing's first band).",
       "readNow": false,
-      "waits": null
+      "waits": null,
+      "build": true
     },
     {
       "skin": "fable",
@@ -2154,7 +2196,8 @@
       },
       "why": "The big rank numbers before each headline (1, 2, 3...).",
       "readNow": false,
-      "waits": null
+      "waits": null,
+      "build": true
     },
     {
       "skin": "fable",
@@ -2169,7 +2212,8 @@
       },
       "why": "The cover story (the lead) with its picture and overlapping headline card.",
       "readNow": false,
-      "waits": null
+      "waits": null,
+      "build": true
     },
     {
       "skin": "fable",
@@ -2185,7 +2229,8 @@
       },
       "why": "The section name above the cover headline.",
       "readNow": false,
-      "waits": null
+      "waits": null,
+      "build": true
     },
     {
       "skin": "fable",
@@ -2201,7 +2246,8 @@
       },
       "why": "The standfirst under the cover headline.",
       "readNow": false,
-      "waits": null
+      "waits": null,
+      "build": true
     },
     {
       "skin": "fable",
@@ -2217,7 +2263,8 @@
       },
       "why": "The byline under the cover story.",
       "readNow": false,
-      "waits": null
+      "waits": null,
+      "build": true
     },
     {
       "skin": "fable",
@@ -2280,7 +2327,8 @@
       },
       "why": "The \"Also today\" row of small stories under the cover.",
       "readNow": false,
-      "waits": null
+      "waits": null,
+      "build": true
     },
     {
       "skin": "fable",
@@ -2316,7 +2364,8 @@
       },
       "why": "The section name above each small headline.",
       "readNow": false,
-      "waits": null
+      "waits": null,
+      "build": true
     },
     {
       "skin": "fable",
@@ -2332,7 +2381,8 @@
       },
       "why": "The small square picture beside each headline.",
       "readNow": false,
-      "waits": null
+      "waits": null,
+      "build": true
     },
     {
       "skin": "fable",
@@ -2348,7 +2398,8 @@
       },
       "why": "The 728 x 90 leaderboard under Also today (region `ad-leaderboard`).",
       "readNow": false,
-      "waits": null
+      "waits": null,
+      "build": true
     },
     {
       "skin": "fable",
@@ -2364,7 +2415,8 @@
       },
       "why": "The wide advertisement inside the story grid (region `ad-in-feed`).",
       "readNow": false,
-      "waits": null
+      "waits": null,
+      "build": true
     },
     {
       "skin": "fable",
@@ -2402,7 +2454,8 @@
       },
       "why": "The 336 x 280 rectangle beside Most read (region `ad-rectangle`).",
       "readNow": false,
-      "waits": null
+      "waits": null,
+      "build": true
     },
     {
       "skin": "fable",
@@ -2417,7 +2470,8 @@
       },
       "why": "The brand-colour \"long read\" block (region `home-long-read`; its story and heading are the editor's).",
       "readNow": false,
-      "waits": null
+      "waits": null,
+      "build": true
     },
     {
       "skin": "fable",
@@ -2432,7 +2486,8 @@
       },
       "why": "The \"More to explore\" grid of stories with its pages.",
       "readNow": false,
-      "waits": null
+      "waits": null,
+      "build": true
     },
     {
       "skin": "fable",
@@ -2464,7 +2519,8 @@
       },
       "why": "The reader's grid / list buttons above the grid.",
       "readNow": true,
-      "waits": null
+      "waits": null,
+      "build": true
     },
     {
       "skin": "fable",
@@ -2543,7 +2599,8 @@
       },
       "why": "The \"From the sections\" band of up to four section lists (region `home-sections`).",
       "readNow": false,
-      "waits": null
+      "waits": null,
+      "build": true
     },
     {
       "skin": "fable",
@@ -2558,7 +2615,8 @@
       },
       "why": "The \"Most read\" ranked list beside its advertisement (region `home-most-read`).",
       "readNow": false,
-      "waits": null
+      "waits": null,
+      "build": true
     },
     {
       "skin": "fable",
@@ -2602,7 +2660,8 @@
       },
       "why": "The ranking numbers beside each story.",
       "readNow": false,
-      "waits": null
+      "waits": null,
+      "build": true
     },
     {
       "skin": "fable",
@@ -2617,7 +2676,8 @@
       },
       "why": "The thin reading bar across the top.",
       "readNow": true,
-      "waits": null
+      "waits": null,
+      "build": true
     },
     {
       "skin": "fable",
@@ -2632,7 +2692,8 @@
       },
       "why": "The breadcrumb above the headline (Strata has the same switch).",
       "readNow": false,
-      "waits": null
+      "waits": null,
+      "build": true
     },
     {
       "skin": "fable",
@@ -2647,7 +2708,8 @@
       },
       "why": "The section name above the headline when there is no breadcrumb.",
       "readNow": false,
-      "waits": null
+      "waits": null,
+      "build": true
     },
     {
       "skin": "fable",
@@ -2662,7 +2724,8 @@
       },
       "why": "The standfirst (deck) under the headline.",
       "readNow": false,
-      "waits": null
+      "waits": null,
+      "build": true
     },
     {
       "skin": "fable",
@@ -2677,7 +2740,8 @@
       },
       "why": "The author's initials circle beside the byline.",
       "readNow": false,
-      "waits": null
+      "waits": null,
+      "build": true
     },
     {
       "skin": "fable",
@@ -2692,7 +2756,8 @@
       },
       "why": "\"By\" and the author names.",
       "readNow": false,
-      "waits": null
+      "waits": null,
+      "build": true
     },
     {
       "skin": "fable",
@@ -2727,7 +2792,8 @@
       },
       "why": "The publication date in the byline.",
       "readNow": false,
-      "waits": null
+      "waits": null,
+      "build": true
     },
     {
       "skin": "fable",
@@ -2742,7 +2808,8 @@
       },
       "why": "The \"Updated\" date in the byline, when the article was revised at least a day later.",
       "readNow": false,
-      "waits": null
+      "waits": null,
+      "build": true
     },
     {
       "skin": "fable",
@@ -2757,7 +2824,8 @@
       },
       "why": "The large picture under the byline.",
       "readNow": false,
-      "waits": null
+      "waits": null,
+      "build": true
     },
     {
       "skin": "fable",
@@ -2773,7 +2841,8 @@
       },
       "why": "The caption and credit under the hero.",
       "readNow": false,
-      "waits": null
+      "waits": null,
+      "build": true
     },
     {
       "skin": "fable",
@@ -2808,7 +2877,8 @@
       },
       "why": "The custom fields set to show before the body (the drawing's \"Reviewed by\" line is such a field).",
       "readNow": false,
-      "waits": null
+      "waits": null,
+      "build": true
     },
     {
       "skin": "fable",
@@ -2823,7 +2893,8 @@
       },
       "why": "The \"In this story\" list in the rail, built from the body's h2 headings (articles and pages).",
       "readNow": true,
-      "waits": null
+      "waits": null,
+      "build": true
     },
     {
       "skin": "fable",
@@ -2859,7 +2930,8 @@
       },
       "why": "The first paragraph set larger, as the drawing's lede.",
       "readNow": true,
-      "waits": null
+      "waits": null,
+      "build": true
     },
     {
       "skin": "fable",
@@ -2874,7 +2946,8 @@
       },
       "why": "The small \"Related\" card inside the body (in the drawing, after the second paragraph).",
       "readNow": false,
-      "waits": null
+      "waits": null,
+      "build": true
     },
     {
       "skin": "fable",
@@ -2889,7 +2962,8 @@
       },
       "why": "The custom fields set to show after the body.",
       "readNow": false,
-      "waits": null
+      "waits": null,
+      "build": true
     },
     {
       "skin": "fable",
@@ -2904,7 +2978,8 @@
       },
       "why": "The `after-content` region (a callout, button or featured posts) under the body.",
       "readNow": false,
-      "waits": null
+      "waits": null,
+      "build": true
     },
     {
       "skin": "fable",
@@ -2920,7 +2995,8 @@
       },
       "why": "The leaderboard above the article (region `ad-leaderboard`).",
       "readNow": false,
-      "waits": null
+      "waits": null,
+      "build": true
     },
     {
       "skin": "fable",
@@ -2936,7 +3012,8 @@
       },
       "why": "The ad inside the body (region `ad-in-article`).",
       "readNow": false,
-      "waits": null
+      "waits": null,
+      "build": true
     },
     {
       "skin": "fable",
@@ -2997,7 +3074,8 @@
       },
       "why": "The second ad after the body (region `ad-in-article-2`).",
       "readNow": false,
-      "waits": null
+      "waits": null,
+      "build": true
     },
     {
       "skin": "fable",
@@ -3013,7 +3091,8 @@
       },
       "why": "The sticky half-page ad beside the article on screens from 1440px (region `ad-half-page`).",
       "readNow": false,
-      "waits": null
+      "waits": null,
+      "build": true
     },
     {
       "skin": "fable",
@@ -3028,7 +3107,8 @@
       },
       "why": "The \"Read next\" strip after the body.",
       "readNow": true,
-      "waits": null
+      "waits": null,
+      "build": true
     },
     {
       "skin": "fable",
@@ -3093,7 +3173,8 @@
       },
       "why": "The small line giving the reason or byline under the \"Read next\" headline.",
       "readNow": false,
-      "waits": null
+      "waits": null,
+      "build": true
     },
     {
       "skin": "fable",
@@ -3125,7 +3206,8 @@
       },
       "why": "The initials circle in the card.",
       "readNow": false,
-      "waits": null
+      "waits": null,
+      "build": true
     },
     {
       "skin": "fable",
@@ -3141,7 +3223,8 @@
       },
       "why": "The author's bio in the card.",
       "readNow": false,
-      "waits": null
+      "waits": null,
+      "build": true
     },
     {
       "skin": "fable",
@@ -3157,7 +3240,8 @@
       },
       "why": "The \"More from ...\" link to the author's page.",
       "readNow": false,
-      "waits": null
+      "waits": null,
+      "build": true
     },
     {
       "skin": "fable",
@@ -3172,7 +3256,8 @@
       },
       "why": "The \"Keep reading\" row of related stories under the article.",
       "readNow": true,
-      "waits": null
+      "waits": null,
+      "build": true
     },
     {
       "skin": "fable",
@@ -3226,7 +3311,8 @@
       },
       "why": "The \"All [section]\" link at the right of the heading.",
       "readNow": false,
-      "waits": null
+      "waits": null,
+      "build": true
     },
     {
       "skin": "fable",
@@ -3266,7 +3352,8 @@
       },
       "why": "The initials circle beside each comment.",
       "readNow": false,
-      "waits": null
+      "waits": null,
+      "build": true
     },
     {
       "skin": "fable",
@@ -3282,7 +3369,8 @@
       },
       "why": "The \"Author\" badge on a credited author's comment (the drawing).",
       "readNow": false,
-      "waits": null
+      "waits": null,
+      "build": true
     },
     {
       "skin": "fable",
@@ -3312,7 +3400,8 @@
       },
       "why": "The breadcrumb above a page's title.",
       "readNow": false,
-      "waits": null
+      "waits": null,
+      "build": true
     },
     {
       "skin": "fable",
@@ -3327,7 +3416,8 @@
       },
       "why": "The standfirst under a page's title.",
       "readNow": false,
-      "waits": null
+      "waits": null,
+      "build": true
     },
     {
       "skin": "fable",
@@ -3342,7 +3432,8 @@
       },
       "why": "The \"Last updated\" line under the title.",
       "readNow": true,
-      "waits": null
+      "waits": null,
+      "build": true
     },
     {
       "skin": "fable",
@@ -3357,7 +3448,8 @@
       },
       "why": "The featured picture under the title.",
       "readNow": false,
-      "waits": null
+      "waits": null,
+      "build": true
     },
     {
       "skin": "fable",
@@ -3372,7 +3464,8 @@
       },
       "why": "The custom fields set to show on a page.",
       "readNow": false,
-      "waits": null
+      "waits": null,
+      "build": true
     },
     {
       "skin": "fable",
@@ -3387,7 +3480,8 @@
       },
       "why": "The first paragraph set larger.",
       "readNow": true,
-      "waits": null
+      "waits": null,
+      "build": true
     },
     {
       "skin": "fable",
@@ -3402,7 +3496,8 @@
       },
       "why": "The list of pages under this one.",
       "readNow": true,
-      "waits": null
+      "waits": null,
+      "build": true
     },
     {
       "skin": "fable",
@@ -3433,7 +3528,8 @@
       },
       "why": "Comments under pages, when Teme gives them a thread.",
       "readNow": true,
-      "waits": null
+      "waits": null,
+      "build": true
     },
     {
       "skin": "fable",
@@ -3448,7 +3544,8 @@
       },
       "why": "The breadcrumb above the section name.",
       "readNow": false,
-      "waits": null
+      "waits": null,
+      "build": true
     },
     {
       "skin": "fable",
@@ -3463,7 +3560,8 @@
       },
       "why": "The small label (\"Section\", \"Topic\", \"Writer\") above the title.",
       "readNow": false,
-      "waits": null
+      "waits": null,
+      "build": true
     },
     {
       "skin": "fable",
@@ -3478,7 +3576,8 @@
       },
       "why": "The section's description under the title.",
       "readNow": false,
-      "waits": null
+      "waits": null,
+      "build": true
     },
     {
       "skin": "fable",
@@ -3493,7 +3592,8 @@
       },
       "why": "The section's own picture beside the header, when it has one.",
       "readNow": true,
-      "waits": null
+      "waits": null,
+      "build": true
     },
     {
       "skin": "fable",
@@ -3508,7 +3608,8 @@
       },
       "why": "The section's topics as chips under the description.",
       "readNow": true,
-      "waits": null
+      "waits": null,
+      "build": true
     },
     {
       "skin": "fable",
@@ -3524,7 +3625,8 @@
       },
       "why": "The \"All\" chip that starts the row of topics.",
       "readNow": false,
-      "waits": null
+      "waits": null,
+      "build": true
     },
     {
       "skin": "fable",
@@ -3559,7 +3661,8 @@
       },
       "why": "Both advertisement slots on listings (leaderboard and in-feed).",
       "readNow": true,
-      "waits": null
+      "waits": null,
+      "build": true
     },
     {
       "skin": "fable",
@@ -3576,7 +3679,8 @@
       },
       "why": "The leaderboard under the header.",
       "readNow": false,
-      "waits": null
+      "waits": null,
+      "build": true
     },
     {
       "skin": "fable",
@@ -3593,7 +3697,8 @@
       },
       "why": "The wide ad at the end of the grid.",
       "readNow": false,
-      "waits": null
+      "waits": null,
+      "build": true
     },
     {
       "skin": "fable",
@@ -3608,7 +3713,8 @@
       },
       "why": "The first story of page 1 set large above the grid.",
       "readNow": true,
-      "waits": null
+      "waits": null,
+      "build": true
     },
     {
       "skin": "fable",
@@ -3624,7 +3730,8 @@
       },
       "why": "The standfirst under the lead story's headline.",
       "readNow": false,
-      "waits": null
+      "waits": null,
+      "build": true
     },
     {
       "skin": "fable",
@@ -3640,7 +3747,8 @@
       },
       "why": "The byline under the lead story.",
       "readNow": false,
-      "waits": null
+      "waits": null,
+      "build": true
     },
     {
       "skin": "fable",
@@ -3670,7 +3778,8 @@
       },
       "why": "The reader's grid / list buttons.",
       "readNow": true,
-      "waits": null
+      "waits": null,
+      "build": true
     },
     {
       "skin": "fable",
@@ -3746,7 +3855,8 @@
       },
       "why": "The breadcrumb (\"Our writers / Name\") above the profile.",
       "readNow": false,
-      "waits": null
+      "waits": null,
+      "build": true
     },
     {
       "skin": "fable",
@@ -3761,7 +3871,8 @@
       },
       "why": "The writer's portrait or initials beside the name.",
       "readNow": true,
-      "waits": null
+      "waits": null,
+      "build": true
     },
     {
       "skin": "fable",
@@ -3776,7 +3887,8 @@
       },
       "why": "The small \"Writer\" label above the name.",
       "readNow": false,
-      "waits": null
+      "waits": null,
+      "build": true
     },
     {
       "skin": "fable",
@@ -3791,7 +3903,8 @@
       },
       "why": "The writer's bio under the name.",
       "readNow": false,
-      "waits": null
+      "waits": null,
+      "build": true
     },
     {
       "skin": "fable",
@@ -3863,7 +3976,8 @@
       },
       "why": "The writer's stories as rows under the profile.",
       "readNow": false,
-      "waits": null
+      "waits": null,
+      "build": true
     },
     {
       "skin": "fable",
@@ -3914,7 +4028,8 @@
       },
       "why": "The search field under the results heading.",
       "readNow": false,
-      "waits": null
+      "waits": null,
+      "build": true
     },
     {
       "skin": "fable",
@@ -3929,7 +4044,8 @@
       },
       "why": "The \"N results\" line.",
       "readNow": false,
-      "waits": null
+      "waits": null,
+      "build": true
     },
     {
       "skin": "fable",
@@ -3944,7 +4060,8 @@
       },
       "why": "The matched passage shown under each result, with the words marked.",
       "readNow": false,
-      "waits": null
+      "waits": null,
+      "build": true
     },
     {
       "skin": "fable",
@@ -3959,7 +4076,8 @@
       },
       "why": "The section chips in the empty and no-result states.",
       "readNow": true,
-      "waits": null
+      "waits": null,
+      "build": true
     },
     {
       "skin": "fable",
@@ -4032,7 +4150,8 @@
       },
       "why": "A leaderboard under the search header; the drawing has no ad here, so off.",
       "readNow": false,
-      "waits": null
+      "waits": null,
+      "build": true
     },
     {
       "skin": "fable",
@@ -4048,7 +4167,8 @@
       },
       "why": "An ad inside the results list; the drawing has no ad here, so off.",
       "readNow": false,
-      "waits": null
+      "waits": null,
+      "build": true
     },
     {
       "skin": "fable",
@@ -4063,7 +4183,8 @@
       },
       "why": "The big \"404\" beside the message.",
       "readNow": false,
-      "waits": null
+      "waits": null,
+      "build": true
     },
     {
       "skin": "fable",
@@ -4108,7 +4229,8 @@
       },
       "why": "The search field on the not-found page.",
       "readNow": false,
-      "waits": null
+      "waits": null,
+      "build": true
     },
     {
       "skin": "fable",
@@ -4123,7 +4245,8 @@
       },
       "why": "The \"Go to the home page\" button.",
       "readNow": false,
-      "waits": null
+      "waits": null,
+      "build": true
     },
     {
       "skin": "fable",
@@ -4138,7 +4261,8 @@
       },
       "why": "The section chips beside the way home.",
       "readNow": true,
-      "waits": null
+      "waits": null,
+      "build": true
     },
     {
       "skin": "fable",
@@ -4172,7 +4296,8 @@
       },
       "why": "The big status number (403, 429, 500...) beside the message.",
       "readNow": false,
-      "waits": null
+      "waits": null,
+      "build": true
     },
     {
       "skin": "fable",
@@ -4187,7 +4312,8 @@
       },
       "why": "The \"Go to the home page\" button.",
       "readNow": false,
-      "waits": null
+      "waits": null,
+      "build": true
     },
     {
       "skin": "fable",
@@ -4202,7 +4328,8 @@
       },
       "why": "A search field on error pages; the current page has none and there is no drawing, so off.",
       "readNow": false,
-      "waits": null
+      "waits": null,
+      "build": true
     },
     {
       "skin": "fable",
@@ -4217,7 +4344,8 @@
       },
       "why": "Section chips on error pages; the current page has none and there is no drawing, so off.",
       "readNow": false,
-      "waits": null
+      "waits": null,
+      "build": true
     },
     {
       "skin": "strata",
