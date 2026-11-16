@@ -6,7 +6,7 @@ skin, **Fable**, built from its nine drawings. The Strata and Threads skins and 
 
 ## Status in one paragraph
 
-The theme is built, committed (13 commits, nothing pushed) and passes `php artisan teme:theme:check egberipiribo` and its own 19
+The theme is built, committed (15 commits, nothing pushed) and passes `php artisan teme:theme:check egberipiribo` and its own 19
 tests. An axe-core, overflow and one-`h1` audit passes on six pages at 1280 and 375 pixels. **It has not been run live on the shared
 dev site**: the temecms.com theme session had that site's active theme and asked me not to switch it, so the audit and screenshots
 below come from pages the test kit rendered, and the demo content on the dev site has never been drawn by this theme. How to switch it
@@ -68,7 +68,7 @@ site; the demo seed's output as a page.
 | FINDINGS.md | 23 entries (docs missing or wrong, and walls) |
 | DECISIONS.md | 28 entries |
 | Translations | 7 languages × 123 sentences |
-| Commits | 13, nothing pushed |
+| Commits | 15, nothing pushed |
 
 ## Screenshots
 
