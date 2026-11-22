@@ -12,6 +12,10 @@ scroll, one `h1`, console errors) on six pages at 1280 and 375 pixels with the d
 pass at both widths, with the first 128 settings declared and every default as before.** A second audit of ten pages with settings changed (pattern, share placements and
 labels, blocks switched off) passes too, on kit-rendered pages. The site is back on the temecms theme; how to look at Fable again is at the end.
 
+## Teme 1.0
+
+Teme 1.0.0 was released on 17 November 2026. The manifest's range (`<1.0`) refused it, so it is now `>=0.8.0-alpha.1 <2.0`; the theme check passes as 0.8.0-alpha.1 and as 1.0.0, the suite passes with `TEME_VERSION=1.0.0` (60 tests), a nine-page browser audit of pages rendered under 1.0.0 passes, and the front page, archives, author pages and search results now call 1.0's `x-teme::between-items`. Not re-run: the live audit on teme-dev (its database was down), and an install through the admin's Add theme (Git address or ZIP), which has not been tried on a real site. DECISIONS 37 to 38, FINDINGS 26 to 27.
+
 ## The first settings (built)
 
 The owner approved building a first set from `OPTIONS.md`: **128 theme settings** (116 switches and selects of `boolean` type, 10 `select`, 1 `text`, 1 `color`), declared in
@@ -89,7 +93,7 @@ categories, and the kit and seed cannot make portraits or comments); the author,
 | Stylesheets / scripts | 4 skin CSS files, 1 fonts file, 1 entry; 1 skin script, 1 entry (776 lines of CSS and JS in the skin folders) |
 | Built size | CSS 11.8 KB of 15 KB, JS 24.2 KB of 5 KB (compressed) |
 | Manifest | 12 regions (6 for ads), 4 menus, 6 fonts, 9 image contexts, **128 settings** |
-| Tests | 13 files: 58 pass (1,456 assertions), 1 gated snapshot test skipped by default |
+| Tests | 14 files: 60 pass, 1 gated snapshot test skipped by default |
 | `teme:theme:check` | passes, 1 warning (JS budget) |
 | FEATURES.md rows | 343: 33 same, 132 different, 124 later, 54 can't yet |
 | FINDINGS.md | 24 entries (docs missing or wrong, and walls) |
