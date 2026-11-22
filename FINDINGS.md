@@ -40,3 +40,26 @@ Each has what I expected and what I did instead. Marks: **doc** = the handbook o
 | 25 | doc | **The public testing kit cannot set a theme's settings**, so a test cannot prove that a theme setting changes a page. `testing.md` lists what the kit does for a plugin (`changeSettings`) and nothing for a theme. Teme's own tests use internal helpers. | A `$this->theme(...)->changeSettings([...])` in `teme/testing`. | `tests/Support/settings.php`: the one place the theme's tests call Teme's own Operations (`SaveDesignDraft`, `PublishDesign`), the way the admin saves and publishes Design settings. Replace its body when the kit gains the method. |
 | 26 | doc | **`teme:theme:check` looks for `x-teme::between-items` and `x-teme::…` calls in the root templates only.** A theme whose root templates only include a skin's pages (as this one's do, so a later update can add skins) is warned that its lists don't call the component even though the skin's lists do. The same text scan is why nothing else about a skin folder is checked. Also: the check cannot read pages for an `<h1>` when the dev database is down, which hides a missing `h1` until the tests run. | The check to follow includes, or a way to say where the lists are. | The dispatchers carry a sentence naming the component, which the scan accepts; the skin's own tests assert the slot is drawn. |
 | 27 | doc | **A theme's `requires.teme` upper bound silently hides a major release.** `<1.0` was the natural reading of "before 1.0" while 1.0 was coming, and `teme:theme:check` reads the version from the site's `.env` (`TEME_VERSION`) on a development checkout, so it passed for months and refused the first real 1.0 site. The development-site page says to put the contracts' newest version in `.env`, not to check the theme against the next release. | A note that a theme should be checked against `TEME_VERSION` set to each release it claims. | The range was widened to `<2.0` and the check now runs with `TEME_VERSION=1.0.0` as well. |
+
+## Filed on Teme (temecms/teme)
+
+Each finding above that is a gap in Teme is on Teme's issue list; most were already there, and this port added what it saw as comments. Checked against Teme 1.3.2 where noted.
+
+| Finding | Issue |
+|---|---|
+| 1 Manifest tokens: a fixed list, not documented | [#370](https://github.com/temecms/teme/issues/370) (comment: still undocumented in 1.3.2) |
+| 2, 3, 14, 16, 18, 19, 22, 23 Handbook gaps from a theme build (assets, `teme:themes:link`, media field shape, language-key clash, region wrapper, page policy, `$page->url`, passing data to the layout) | [#379](https://github.com/temecms/teme/issues/379) |
+| 6 A skin setting that switches template set and tokens | [#371](https://github.com/temecms/teme/issues/371) |
+| 7 More setting types (number, image, list) | [#373](https://github.com/temecms/teme/issues/373) (comment added) |
+| 8, 17 Alpine's CSP build and the 5 KB script budget | [#374](https://github.com/temecms/teme/issues/374) |
+| 9 A card can't tell which region it is in | [#375](https://github.com/temecms/teme/issues/375) (comment added) |
+| 10 A template can't ask whether a region is empty | [#376](https://github.com/temecms/teme/issues/376) (comment added) |
+| 21 A region shown only from a given width | [#377](https://github.com/temecms/teme/issues/377) (comment added) |
+| 11, 13, 20, 25 The testing kit and demo content (including a theme's settings) | [#378](https://github.com/temecms/teme/issues/378) (already carries this port's comment) |
+| 12 One shared test database collides | [#367](https://github.com/temecms/teme/issues/367) (comment added) |
+| 15 No ids on headings in `bodyHtml` | [#369](https://github.com/temecms/teme/issues/369) (comment added) |
+| 24 No grouping of a long settings list | [#685](https://github.com/temecms/teme/issues/685) (new) |
+| 26 `teme:theme:check` looks for `between-items` in root templates only | [#686](https://github.com/temecms/teme/issues/686) (new) |
+| 27 A `<1.0` upper bound and `TEME_VERSION` | [#389](https://github.com/temecms/teme/issues/389) (comment added) |
+
+This theme's own issues are on its repository: [#1](https://github.com/Krafty-Sprouts-Media-LLC/egberipiribo/issues/1) the next settings, [#2](https://github.com/Krafty-Sprouts-Media-LLC/egberipiribo/issues/2) dropping the two `App\` exceptions, [#3](https://github.com/Krafty-Sprouts-Media-LLC/egberipiribo/issues/3) checking the settings in Settings > Design, [#4](https://github.com/Krafty-Sprouts-Media-LLC/egberipiribo/issues/4) the icon pattern under the real page policy.
