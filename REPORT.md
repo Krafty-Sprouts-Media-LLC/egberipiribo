@@ -119,14 +119,22 @@ floating or labelled share, blocks switched off) and come from kit-rendered page
 
 The audit results are `docs/audit.json` (live, defaults) and `docs/audit-variants.json` (ten pages with settings changed): every page one `h1`, 0 px sideways overflow, 0 axe violations (the 404 page's one console line is the browser noting the 404 status). Author, error and index pages and the three comment pages are covered by their tests but not by screenshots, because the demo site has no authors with pages or comments. The snapshot tooling (`scripts/serve-snapshots.mjs`, `tests/SnapshotTest.php`) remains for when the shared site is busy.
 
-## How to see it on teme-dev
+## Where it lives now, and how to see it on balafama
+
+On 22 November 2026 the theme folder moved from `teme-plugins/teme-themes/egberipiribo` to `C:\Users\kings\Herd\balafama\workshop\themes\egberipiribo`: balafama is the Teme 1.3.2 workshop site, which already holds the zenith theme. Its remote is `https://github.com/Krafty-Sprouts-Media-LLC/egberipiribo.git` (the WordPress version is `egberipiribo-wp`). Its range (`>=0.8.0-alpha.1 <2.0`) accepts 1.3.2.
+
+To see it on balafama, ask the person to add `workshop/themes/egberipiribo` to `TEME_THEME_PATHS` in balafama's `.env` (after zenith, comma-separated), then, from balafama: `php artisan teme:theme:check egberipiribo`, `php artisan teme:themes:link`, and activate it under Site › Themes. The demo content (stories, menus, regions) was made on teme-dev and is not on balafama; `seed/seed.php` must not be run there. Tests run from balafama with `php artisan test workshop/themes/egberipiribo/tests --compact`.
+
+## How it was seen on teme-dev (before the move)
+
+teme-dev's `.env` entry for this theme now points at the new folder.
 
 teme-dev already knows the theme: its folder is in `TEME_THEME_PATHS` in `.env` after the temecms theme, and `php artisan teme:themes:link` has linked its `public` folder.
 
 1. **Demo content is already there**: 16 stories (slugs `fable-demo-*`, four pinned), 8 pictures, menus bound to this theme's `primary`, `footer`, `network` and `social` slots,
    and two regions (`home-most-read`, `home-sections`). They show only when this theme is active. `seed/seed.php` is the dev-only script that made them; it uses Teme's own
    Operations (FINDINGS 13). To remove the stories, trash the posts whose address starts `fable-demo-` in the admin.
-2. **Activate it** under Site, Themes, or `php ../teme-themes/egberipiribo/seed/seed.php activate` from `teme-dev` (it acts as the site's administrator;
+2. **Activate it** under Site, Themes, or `php C:/Users/kings/Herd/balafama/workshop/themes/egberipiribo/seed/seed.php activate` from `teme-dev` (it acts as the site's administrator;
    `restore <code>` puts another theme back). **The temecms theme is active now**, and the temecms.com session's home page and `/blog/` are the site's front and posts
    pages: check with that session first and take the lock file `teme-plugins/.teme-dev.lock`; Fable draws them too. Do not change the front or posts page for a look.
 3. **Run the audit on the live site**, from the theme folder:
@@ -137,7 +145,7 @@ teme-dev already knows the theme: its folder is in `TEME_THEME_PATHS` in `.env` 
 4. **Tests and check** (from `teme-dev`, needs its PostgreSQL test database; do not run two test runs at once, FINDINGS 12):
    ```bash
    php artisan teme:theme:check egberipiribo
-   php artisan test ../teme-themes/egberipiribo/tests --compact
+   php artisan test C:/Users/kings/Herd/balafama/workshop/themes/egberipiribo/tests --compact
    ```
 5. **Rebuild** after changing CSS, JS or the icon list: `npm install`, then `npm run build` (and `npm run icons`).
 

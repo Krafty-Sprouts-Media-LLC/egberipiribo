@@ -9,11 +9,12 @@ declare(strict_types=1);
  * management API (which needs a key); that is recorded as finding #13 in FINDINGS.md. The Operations and their
  * inputs are used exactly as the temecms theme's seed script uses them.
  *
- * Run from the teme-dev folder, and only while holding the dev-site lock (teme-plugins/.teme-dev.lock):
+ * TEME-DEV ONLY. Never run it on balafama (the workshop forbids `App\` classes, and its content is not demo data). Run from the
+ * teme-dev folder, and only while holding the dev-site lock (teme-plugins/.teme-dev.lock):
  *
- *   php ../teme-themes/egberipiribo/seed/seed.php media content menus regions
- *   php ../teme-themes/egberipiribo/seed/seed.php activate        (makes egberipiribo the site's theme)
- *   php ../teme-themes/egberipiribo/seed/seed.php restore temecms (puts another theme back)
+ *   php C:/Users/kings/Herd/balafama/workshop/themes/egberipiribo/seed/seed.php media content menus regions
+ *   php C:/Users/kings/Herd/balafama/workshop/themes/egberipiribo/seed/seed.php activate        (makes egberipiribo the site's theme)
+ *   php C:/Users/kings/Herd/balafama/workshop/themes/egberipiribo/seed/seed.php restore temecms (puts another theme back)
  *
  * Everything it makes has a slug starting `fable-demo-`, and what it made is listed in seed/.state.json. To take
  * the demo content away, trash the posts whose address starts `fable-demo-` in the admin (Posts, search `fable-demo`).

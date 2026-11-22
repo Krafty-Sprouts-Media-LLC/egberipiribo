@@ -177,3 +177,15 @@ choice that could have gone another way is written here. Newest at the bottom of
     through `partials/between`; the slot spans a whole grid row and hides itself while nothing is placed there, so a site with no such plugin
     looks as before. The check is a text scan of the root templates, so the four dispatchers that include the skin's lists carry a sentence
     saying so (FINDINGS 26).
+
+## Moving to the workshop
+
+39. **The folder moved to balafama's workshop** (`C:\Users\kings\Herd\balafama\workshop\themes\egberipiribo`, beside zenith) on
+    22 November 2026, with its git history, `node_modules` and ignored files. The remote is now
+    `Krafty-Sprouts-Media-LLC/egberipiribo` (the WordPress version was renamed `egberipiribo-wp`). To match the workshop's
+    conventions the package gained `CLAUDE.md`, `README.md` and `CHANGELOG.md` (0.1.0, dated dd/MM/yyyy) and `AGENTS.md` now names the
+    workshop rules, the remote and the commands to run from balafama. The manifest's `$schema` points at balafama's schema, and
+    `teme-dev`'s `.env` entry and `public/themes` link were repointed at the new folder so the old dev site still loads it. The range
+    `>=0.8.0-alpha.1 <2.0` already accepts balafama's 1.3.2, so no version bump was needed. balafama's `.env` was not touched: the person adds
+    `workshop/themes/egberipiribo` to its `TEME_THEME_PATHS`. Two known exceptions to the workshop's "never `App\\`" rule remain, both Teme
+    gaps (FINDINGS 13 and 25): `seed/seed.php` (teme-dev only) and `tests/Support/settings.php`.
