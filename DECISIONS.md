@@ -164,3 +164,16 @@ choice that could have gone another way is written here. Newest at the bottom of
 36. **Tests reach into Teme once.** Proving that a setting changes a page needs a way to set a theme setting, which the public kit does not
     have (FINDINGS 25). `tests/Support/settings.php` calls the two Operations the admin uses to save and publish design settings; it is the
     only place the tests name Teme's own classes, and the only thing to replace when the kit gains a method.
+
+## Teme 1.0
+
+37. **The Teme range now covers 1.x.** The manifest said `>=0.8.0-alpha.1 <1.0`, which refuses Teme 1.0.0 (released 17 November 2026):
+    `teme:theme:check` with `TEME_VERSION=1.0.0` failed with "The theme requires Teme >=0.8.0-alpha.1 <1.0, but this is Teme 1.0.0". It
+    passed on the dev site only because that site's `.env` says 0.8.0-alpha.1. The range is now `>=0.8.0-alpha.1 <2.0`: the lower bound
+    stays so the shared dev site still loads the theme, and the upper bound is the next major. Verified on the Teme 1.0.0 checkout: theme check
+    passes under both versions, the whole suite passes with `TEME_VERSION=1.0.0` (60 tests), and a browser audit of nine rendered pages passes.
+38. **Between items.** Teme 1.0 adds `<x-teme::between-items>` so plugins can place content between a list's items, and `teme:theme:check`
+    warns when lists don't call it. The front page's grid, an archive, an author's stories and the search results now call it after each item
+    through `partials/between`; the slot spans a whole grid row and hides itself while nothing is placed there, so a site with no such plugin
+    looks as before. The check is a text scan of the root templates, so the four dispatchers that include the skin's lists carry a sentence
+    saying so (FINDINGS 26).

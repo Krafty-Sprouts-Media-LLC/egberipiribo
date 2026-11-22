@@ -10,7 +10,7 @@
     "homepage": "https://kraftysprouts.com",
     "license": "MIT",
     "requires": {
-        "teme": ">=0.8.0-alpha.1 <1.0"
+        "teme": ">=0.8.0-alpha.1 <2.0"
     },
     "title_separator": "·",
     "per_page": 12,

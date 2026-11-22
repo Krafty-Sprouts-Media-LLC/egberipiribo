@@ -82,6 +82,7 @@
             <div class="listing-rows mt-4">
                 @foreach ($items as $item)
                     @include('theme::skins.fable.partials.card', ['item' => $item])
+                    @include('theme::skins.fable.partials.between', ['after' => $loop->iteration, 'last' => $loop->last])
                 @endforeach
             </div>
 

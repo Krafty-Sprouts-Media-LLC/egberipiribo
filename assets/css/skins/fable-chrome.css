@@ -9,6 +9,9 @@
  */
 
 @layer teme.theme.components {
+  /* What a plugin places between a list's items: a whole row in a grid, and nothing at all while nothing is placed. */
+  .between-slot { grid-column: 1 / -1; }
+  .between-slot:not(:has(*)) { display: none; }
   /* A decorative brand-colour strip that carries the icon pattern: the section headers and the 404 draw it when their pattern switch is on. */
   .pattern-band { height: 4.5rem; margin-bottom: 1.25rem; border-radius: var(--radius-box); background-color: var(--color-rail); background-size: auto; }
   /* On the front page the strip belongs to the sections region: no region content, no strip. */

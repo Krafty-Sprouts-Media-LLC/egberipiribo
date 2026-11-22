@@ -242,6 +242,7 @@
             <div class="home-feed mt-7" :class="listClass">
                 @foreach ($gridItems as $item)
                     @include('theme::skins.fable.partials.card', ['item' => $item, 'level' => 3, 'bind' => ':class="rowClass"'])
+                    @include('theme::skins.fable.partials.between', ['after' => $loop->iteration, 'last' => $loop->last])
                     @if ($showAdInFeed && ($loop->iteration === $feedAdAfter || ($loop->last && $loop->count < $feedAdAfter)))
                         {{-- Advertisement: in the feed, across the row in both layouts --}}
                         @include('theme::skins.fable.partials.ad', ['region' => 'ad-in-feed', 'class' => 'home-feed-ad col-span-full'])

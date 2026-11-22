@@ -87,6 +87,7 @@
             <div class="listing-rows">
                 @foreach ($results as $result)
                     @include('theme::skins.fable.partials.card', ['item' => $result->item, 'level' => 2, 'snippetHtml' => ($showSnippets && $result->snippetHtml !== '') ? $result->snippetHtml : null])
+                    @include('theme::skins.fable.partials.between', ['after' => $loop->iteration, 'last' => $loop->last])
                 @endforeach
 
                 @if ($showAdInFeed)

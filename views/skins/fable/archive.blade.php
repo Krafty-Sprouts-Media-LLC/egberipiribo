@@ -139,6 +139,7 @@
             <div class="listing-feed mt-7" :class="listClass">
                 @foreach ($rest as $item)
                     @include('theme::skins.fable.partials.card', ['item' => $item, 'bind' => ':class="rowClass"'])
+                    @include('theme::skins.fable.partials.between', ['after' => $loop->iteration, 'last' => $loop->last])
                 @endforeach
 
                 @if ($showAdInFeed)
